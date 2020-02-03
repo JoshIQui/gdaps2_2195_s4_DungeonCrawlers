@@ -6,7 +6,7 @@ _This README contains basic information about the project and its artifacts. If 
 ## Team
 
 - MEMBER1
-- MEMBER2
+- Kevin Iskandar
 - MEMBER3
 - MEMBER4
 - MEMBER5
