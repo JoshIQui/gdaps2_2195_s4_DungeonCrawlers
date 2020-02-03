@@ -5,9 +5,9 @@ _This README contains basic information about the project and its artifacts. If 
 
 ## Team
 
-- MEMBER1
-- MEMBER2
-- MEMBER3
+- Joshua Quinones
+- Kevin Iskandar
+- Nathan Wildofsky
 - Robert Reddick
 
 ## Goals
