@@ -7,7 +7,7 @@ _This README contains basic information about the project and its artifacts. If 
 
 - MEMBER1
 - MEMBER2
-- MEMBER3
+- Nathan Wildofsky
 - MEMBER4
 - MEMBER5
 
