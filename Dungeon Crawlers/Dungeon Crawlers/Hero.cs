@@ -8,5 +8,9 @@ namespace Dungeon_Crawlers
 {
     class Hero : GameObject, IHaveAI
     {
+        protected override bool CheckCollision(List<Hitbox> objects)
+        {
+            return false;
+        }
     }
 }

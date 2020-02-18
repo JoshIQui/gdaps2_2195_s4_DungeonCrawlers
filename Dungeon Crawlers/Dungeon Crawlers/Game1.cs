@@ -11,11 +11,18 @@ namespace Dungeon_Crawlers
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        StateManager stateManager;
+        SpriteFont titleFont;
+        Vector2 titlePosition;
+        int screenWidth;
+        int screenHeight;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 1000;
         }
 
         /// <summary>
@@ -27,6 +34,12 @@ namespace Dungeon_Crawlers
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            stateManager = new StateManager();
+            screenWidth = graphics.GraphicsDevice.Viewport.Width;
+            screenHeight = graphics.GraphicsDevice.Viewport.Height;
+
+            //Sets up the positions for text
+            titlePosition = new Vector2((screenWidth / 2), (screenHeight / 2));
 
             base.Initialize();
         }
@@ -41,6 +54,8 @@ namespace Dungeon_Crawlers
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            //Loads the title text
+            titleFont = Content.Load<SpriteFont>("fonts/titleFont");
         }
 
         /// <summary>
@@ -73,9 +88,14 @@ namespace Dungeon_Crawlers
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            spriteBatch.DrawString(titleFont, "Dungeon Crawlers", titlePosition, Color.OrangeRed);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

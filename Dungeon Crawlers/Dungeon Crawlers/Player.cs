@@ -19,5 +19,9 @@ namespace Dungeon_Crawlers
         }
 
         // Methods
+        protected override bool CheckCollision(List<Hitbox> objects)
+        {
+            return false;
+        }
     }
 }
