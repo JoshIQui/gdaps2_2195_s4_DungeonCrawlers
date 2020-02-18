@@ -12,6 +12,8 @@ namespace Dungeon_Crawlers
         Title,
         Instructions,
         Game,
+        Pause,
+        Help,
         GameOver,
         Win
     }
@@ -62,6 +64,14 @@ namespace Dungeon_Crawlers
                     currentState = GameState.Game;
                     break;
 
+                case GameState.Pause:
+                    currentState = GameState.Pause;
+                    break;
+
+                case GameState.Help:
+                    currentState = GameState.Help;
+                    break;
+
                 case GameState.GameOver:
                     currentState = GameState.GameOver;
                     break;
@@ -81,4 +91,3 @@ namespace Dungeon_Crawlers
         }
     }
 }
- 
