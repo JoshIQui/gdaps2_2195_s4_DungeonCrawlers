@@ -45,11 +45,23 @@ namespace Dungeon_Crawlers
         // Method for Player Updates in game
         public override void Update(GameTime gametime)
         {
-            // Update Keyboard State
-            kbState = Keyboard.GetState();
-
-
-
+            // Logic for Player Movement
+            if(kbState.IsKeyDown(Keys.D)) // Right
+            {
+                position.BoxX += 2;
+            }
+            if(kbState.IsKeyDown(Keys.A)) // Left
+            {
+                position.BoxX -= 2;
+            }
+            if (kbState.IsKeyDown(Keys.W)) // Up
+            {
+                position.BoxY -= 2;
+            }
+            if (kbState.IsKeyDown(Keys.S)) // Crouch
+            {
+                
+            }
 
             // Update previous Keyboard State
             prevKbState = kbState;

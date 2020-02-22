@@ -31,6 +31,18 @@ namespace Dungeon_Crawlers
             set { this.box = value; }
         }
 
+        public int BoxX
+        {
+            get { return box.X; }
+            set { box.X = value; }
+        }
+
+        public int BoxY
+        {
+            get { return box.Y; }
+            set { box.Y = value; }
+        }
+
         public BoxType BoxType
         {
             get { return this.boxType; }
