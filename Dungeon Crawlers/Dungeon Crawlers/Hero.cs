@@ -28,13 +28,13 @@ namespace Dungeon_Crawlers
         {
             this.health = health;
             this.width = screenWidth;
-            this.health = screenHeight;
+            this.height = screenHeight;
         }
         public override void Update(GameTime gametime)
         {
 
         }
-        // Method for Drawing the Player
+        // Method for Drawing the hero
         public override void Draw(SpriteBatch sb)
         {
 
