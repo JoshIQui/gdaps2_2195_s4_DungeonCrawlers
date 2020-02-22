@@ -10,27 +10,36 @@ namespace Dungeon_Crawlers
 {
     class Hero : GameObject, IHaveAI
     {
-        // Fields
-        Texture2D asset;
-        Rectangle position;
+        // Fields     
+        private int speed;
         private int health;
         private int width;
         private int height;
+
         public int Health
         {
             get { return health; }
         }
-
-        public Hero(Texture2D asset, Rectangle position, GraphicsDeviceManager graphics, int screenWidth, int screenHeight, int health = 100)
-            :base (asset,position,graphics)
+       
+        public Hero(Texture2D asset, Hitbox position, int screenWidth, int screenHeight, int health = 100)
+            :base (asset,position)
         {
             this.health = health;
             this.width = screenWidth;
             this.health = screenHeight;
         }
-        protected override bool CheckCollision(List<Hitbox> objects)
+        public override void Update(GameTime gametime)
         {
 
+        }
+        // Method for Drawing the Player
+        public override void Draw(SpriteBatch sb)
+        {
+
+        }
+
+        protected override bool CheckCollision(List<Hitbox> objects)
+        {
             return false;
         }
     }
