@@ -15,14 +15,23 @@ namespace Dungeon_Crawlers
         protected bool isDamageable;
         protected Texture2D asset;
         protected Hitbox position;
-        protected GraphicsDeviceManager graphics;
 
         // Properties
+        public Texture2D Asset
+        {
+            get { return asset; }
+        }
+
+        public Hitbox Position
+        {
+            get { return position; }
+        }
 
         // Constructor
-        public GameObject(Texture2D asset, Hitbox position, GraphicsDeviceManager graphics)
+        public GameObject(Texture2D asset, Hitbox position)
         {
-
+            this.asset = asset;
+            this.position = position;
         }
         // Methods
         abstract protected bool CheckCollision(List<Hitbox> objects);
@@ -30,8 +39,9 @@ namespace Dungeon_Crawlers
         // Method that draws the asset
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(asset, position, Color.White);
+            sb.Draw(asset, position.Box, Color.White);
         }
+
         // Method that updates object
         public abstract void Update(GameTime gameTime);
 

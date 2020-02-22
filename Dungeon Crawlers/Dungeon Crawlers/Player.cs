@@ -14,6 +14,8 @@ namespace Dungeon_Crawlers
         // Fields
         private int health;
         private int numEnemies;
+        private KeyboardState kbState;
+        private KeyboardState prevKbState;
 
         // Properties
         public int Health
@@ -30,11 +32,10 @@ namespace Dungeon_Crawlers
 
         // Constructor
         public Player(Texture2D asset, Hitbox position, int screenWidth, int screenHeight, int health = 100, int numEnemies = 0)
-            : base(asset, position, graphics)
+            : base(asset, position)
         {
             this.asset = asset;
             this.position = position;
-            this.graphics = graphics;
             this.health = health;
             this.numEnemies = numEnemies;
         }
@@ -44,7 +45,14 @@ namespace Dungeon_Crawlers
         // Method for Player Updates in game
         public override void Update(GameTime gametime)
         {
+            // Update Keyboard State
+            kbState = Keyboard.GetState();
 
+
+
+
+            // Update previous Keyboard State
+            prevKbState = kbState;
         }
 
         // Method for Drawing the Player
