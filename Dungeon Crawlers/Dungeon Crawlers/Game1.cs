@@ -121,11 +121,6 @@ namespace Dungeon_Crawlers
                     break;
 
                 case GameState.Game:
-                    //Draws the player
-                    spriteBatch.Draw(player.Asset, player.Position.Box, Color.White);
-
-                    //Draws the hero
-                    spriteBatch.Draw(hero.Asset, hero.Position.Box, Color.White);
                     break;
 
                 case GameState.Pause:
