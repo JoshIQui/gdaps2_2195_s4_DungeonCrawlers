@@ -68,7 +68,7 @@ namespace Dungeon_Crawlers
 
             // TODO: use this.Content to load your game content here
             //Loads the title text
-            titleFont = Content.Load<SpriteFont>("fonts/titleFont");
+            titleFont = Content.Load<SpriteFont>("titleFont");
 
             //Loads the monster textures
             goblinTextures = Content.Load<Texture2D>("Images/Sprites/Goblin-Spritesheet");
@@ -76,7 +76,7 @@ namespace Dungeon_Crawlers
             wizardTextures = Content.Load<Texture2D>("Images/Sprites/Wizard-Spritesheet");
 
             //Loads the hero and his textures
-            heroTextures = Content.Load<Texture2D>("Images/Sprites/Hero-Spritesheet");
+            heroTextures = Content.Load<Texture2D>("Hero-Spritesheet");
             hero = new Hero(heroTextures, new Hitbox(new Rectangle(100, 100, heroTextures.Width, heroTextures.Height), BoxType.Hitbox)
                 , screenWidth, screenHeight);
 
