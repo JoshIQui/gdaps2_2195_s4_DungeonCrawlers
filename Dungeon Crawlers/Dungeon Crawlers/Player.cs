@@ -40,8 +40,8 @@ namespace Dungeon_Crawlers
 
         // Constants for rectangle in the spritesheet
         const int WalkFrameCount = 7;       // The number of frames in the animation
-        const int PlayerRectOffsetWalk = 49;   // How far down in the image are the frames? FOR THE RUN
-        const int PlayerRectHeight = 44;     // The height of a single frame
+        const int PlayerRectOffsetWalk = 48;   // How far down in the image are the frames? FOR THE RUN
+        const int PlayerRectHeight = 48;     // The height of a single frame
         const int PlayerRectWidth = 48;     // The width of a single frame
 
         // Properties
@@ -78,6 +78,7 @@ namespace Dungeon_Crawlers
         // Method for Player Updates in game
         public override void Update(GameTime gametime)
         {
+            KeyboardState kbState = Keyboard.GetState();
             // Logic for Player Movement
             if(kbState.IsKeyDown(Keys.D)) // Right
             {
@@ -93,7 +94,7 @@ namespace Dungeon_Crawlers
             }
             if (kbState.IsKeyDown(Keys.S)) // Crouch
             {
-                
+                position.BoxY += 2;
             }
 
             // Update previous Keyboard State
@@ -139,10 +140,10 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(100, 100),                       // - The location to draw on the screen
+                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
-                    PlayerRectOffsetWalk,           //	   where "inside" the texture
+                    PlayerRectOffsetWalk * 5,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.White,                    // - The color
