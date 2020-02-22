@@ -14,13 +14,13 @@ namespace Dungeon_Crawlers
         // Fields
         protected bool isDamageable;
         protected Texture2D asset;
-        protected Rectangle position;
+        protected Hitbox position;
         protected GraphicsDeviceManager graphics;
 
         // Properties
 
         // Constructor
-        public GameObject(Texture2D asset, Rectangle position, GraphicsDeviceManager graphics)
+        public GameObject(Texture2D asset, Hitbox position, GraphicsDeviceManager graphics)
         {
 
         }
