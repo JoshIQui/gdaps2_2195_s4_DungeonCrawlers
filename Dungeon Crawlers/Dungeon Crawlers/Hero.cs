@@ -15,6 +15,8 @@ namespace Dungeon_Crawlers
         private int health;
         private int width;
         private int height;
+        private const int HeroPixelWidth = 38;
+        private const int HeroPixelHeight = 44;
 
         public int Health
         {
