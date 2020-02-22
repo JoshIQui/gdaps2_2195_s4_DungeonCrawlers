@@ -11,7 +11,7 @@ namespace Dungeon_Crawlers
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        StateManager stateManager;
+        StateManager stateManager;      // The object that manages all states of the game
         SpriteFont titleFont;
         Vector2 titlePosition;
         int screenWidth;
@@ -23,6 +23,8 @@ namespace Dungeon_Crawlers
         Texture2D goblinTextures;       // The textures for the goblin
         Texture2D slimeTextures;        // The textures for the slime
         Texture2D wizardTextures;       // The textures for the wizard
+        KeyboardState kbState;          // Tracks the current state of the keyboard
+        KeyboardState prevKbState;      // Tracks the state of the keyboard from the last frame
         
 
         public Game1()
@@ -48,6 +50,9 @@ namespace Dungeon_Crawlers
 
             //Sets up the positions for text
             titlePosition = new Vector2((screenWidth / 2), (screenHeight / 2));
+
+            //Sets up the state manager
+            stateManager = new StateManager();
 
             base.Initialize();
         }
@@ -91,7 +96,54 @@ namespace Dungeon_Crawlers
                 Exit();
 
             // TODO: Add your update logic here
-            hero.UpdateAnimation(gameTime);
+            //Gets the current keyboard state
+            kbState = Keyboard.GetState();
+
+            //Checks the state and updates accordingly
+            switch (stateManager.CurrentState)
+            {
+                case GameState.Title:
+                    //If enter is pressed
+                    if (kbState.IsKeyDown(Keys.Enter))
+                    {
+                        //Start the game
+                        stateManager.ChangeState(GameState.Game);
+                    }
+                    //If I is pressed
+                    if (kbState.IsKeyDown(Keys.I))
+                    {
+                        //Show the instructions
+                        stateManager.ChangeState(GameState.Instructions);
+                    }
+                    break;
+
+                case GameState.Instructions:
+                    break;
+
+                case GameState.Game:
+                    //Draws the player
+                    spriteBatch.Draw(player.Asset, player.Position.Box, Color.White);
+
+                    //Draws the hero
+                    spriteBatch.Draw(hero.Asset, hero.Position.Box, Color.White);
+                    break;
+
+                case GameState.Pause:
+                    break;
+
+                case GameState.Help:
+                    break;
+
+                case GameState.GameOver:
+                    break;
+
+                case GameState.Win:
+                    break;
+            }
+
+            //Sets the previous keyboard state to the current keyboard state now that the frame is done
+            prevKbState = kbState;
+
             base.Update(gameTime);
         }
 
@@ -106,8 +158,40 @@ namespace Dungeon_Crawlers
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(titleFont, "Dungeon Crawlers", titlePosition, Color.OrangeRed);
-            hero.Draw(spriteBatch);
+            //Checks the state and draws accordingly
+            switch (stateManager.CurrentState)
+            {
+                case GameState.Title:
+                    //Draws the title text
+                    spriteBatch.DrawString(titleFont, "Dungeon Crawlers", titlePosition, Color.OrangeRed);
+
+                    //Draws the instructions for starting the game
+                    spriteBatch.DrawString(titleFont, "Press ENTER to Start", new Vector2(500, 500), Color.OrangeRed);
+                    break;
+
+                case GameState.Instructions:
+                    break;
+
+                case GameState.Game:
+                    //Draws the player
+                    spriteBatch.Draw(player.Asset, player.Position.Box, Color.White);
+
+                    //Draws the hero
+                    spriteBatch.Draw(hero.Asset, hero.Position.Box, Color.White);
+                    break;
+
+                case GameState.Pause:
+                    break;
+
+                case GameState.Help:
+                    break;
+
+                case GameState.GameOver:
+                    break;
+
+                case GameState.Win:
+                    break;
+            }
 
             spriteBatch.End();
 
