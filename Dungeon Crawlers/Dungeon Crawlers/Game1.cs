@@ -71,7 +71,7 @@ namespace Dungeon_Crawlers
             titleFont = Content.Load<SpriteFont>("fonts/titleFont");
 
             //Loads the hero and his textures
-            heroTextures = Content.Load<Texture2D>("Hero-Spritesheet");
+            heroTextures = Content.Load<Texture2D>("Character-Spritesheet");
             Hitbox heroBox = new Hitbox(new Rectangle(0,0,heroTextures.Width,heroTextures.Height),BoxType.Hitbox);
             hero = new Hero(heroTextures, heroBox, screenWidth, screenHeight);
         }

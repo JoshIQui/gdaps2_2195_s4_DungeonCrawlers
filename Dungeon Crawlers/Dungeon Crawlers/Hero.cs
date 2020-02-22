@@ -32,8 +32,8 @@ namespace Dungeon_Crawlers
 
         // Constants for "source" rectangle(inside the image)
         const int WalkFrameCount = 7;       // The number of frames in the animation
-        const int HeroRectOffset = 49;   // How far down in the image are the frames?
-        const int HeroRectHeight = 44;     // The height of a single frame
+        const int HeroRectOffset = 48;   // How far down in the image are the frames?
+        const int HeroRectHeight = 48;     // The height of a single frame
         const int HeroRectWidth = 48;
 
         HeroState currentState = HeroState.FaceLeft;
