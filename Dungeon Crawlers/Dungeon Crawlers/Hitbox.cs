@@ -19,6 +19,8 @@ namespace Dungeon_Crawlers
         private BoxType boxType;
         private bool hasDuration;
 
+        //IMPLEMENT ANIMATION FIELDS HERE
+
         // ---------------------
         // Properties
         // ---------------------
