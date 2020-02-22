@@ -39,10 +39,10 @@ namespace Dungeon_Crawlers
         double timePerFrame;    // The amount of time (in fractional seconds) per frame
 
         // Constants for rectangle in the spritesheet
-        const int WalkFrameCount = 3;       // The number of frames in the animation
-        const int PlayerRectOffsetY = 116;   // How far down in the image are the frames?
-        const int PlayerRectHeight = 72;     // The height of a single frame
-        const int PlayerRectWidth = 44;      // The width of a single frame
+        const int WalkFrameCount = 7;       // The number of frames in the animation
+        const int PlayerRectOffsetWalk = 49;   // How far down in the image are the frames? FOR THE RUN
+        const int PlayerRectHeight = 44;     // The height of a single frame
+        const int PlayerRectWidth = 48;     // The width of a single frame
 
         // Properties
         public int Health
@@ -57,6 +57,8 @@ namespace Dungeon_Crawlers
             set { numEnemies = value; }
         }
 
+
+
         // Constructor
         public Player(Texture2D asset, Hitbox position, int screenWidth, int screenHeight, int health = 100, int numEnemies = 0)
             : base(asset, position)
@@ -65,6 +67,10 @@ namespace Dungeon_Crawlers
             this.position = position;
             this.health = health;
             this.numEnemies = numEnemies;
+
+            // Initialize
+            fps = 10.0;                     // Will cycle through 10 walk frames per second
+            timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
         }
 
         // Methods
@@ -97,7 +103,7 @@ namespace Dungeon_Crawlers
         // Method for Drawing the Player
         public override void Draw(SpriteBatch sb)
         {
-            
+            DrawWalking(SpriteEffects.None, sb);
         }
 
         // Method for Collision Checks for player
@@ -129,6 +135,23 @@ namespace Dungeon_Crawlers
             }
         }
 
-
+        private void DrawWalking(SpriteEffects flipSprite, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                asset,                    // - The texture to draw
+                new Vector2(100, 100),                       // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    frame * PlayerRectWidth,     //   - This rectangle specifies
+                    PlayerRectOffsetWalk,           //	   where "inside" the texture
+                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    PlayerRectHeight),           //     draw the whole thing)
+                Color.White,                    // - The color
+                0,                              // - Rotation (none currently)
+                Vector2.Zero,                   // - Origin inside the image (top left)
+                2.0f,                           // - Scale (100% - no change)
+                flipSprite,                     // - Can be used to flip the image
+                0);                             // - Layer depth (unused)
+        }
+        
     }
 }
