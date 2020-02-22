@@ -16,6 +16,14 @@ namespace Dungeon_Crawlers
         Vector2 titlePosition;
         int screenWidth;
         int screenHeight;
+        Player player;                  // The player object for the main character
+        Hero hero;                      // The hero object for the enemy of the game
+        Texture2D heroTextures;         // The textures for the hero
+        Enemy enemy;                    // The ally object for the other monsters who help you
+        Texture2D goblinTextures;       // The textures for the goblin
+        Texture2D slimeTextures;        // The textures for the slime
+        Texture2D wizardTextures;       // The textures for the wizard
+        
 
         public Game1()
         {
@@ -56,6 +64,9 @@ namespace Dungeon_Crawlers
             // TODO: use this.Content to load your game content here
             //Loads the title text
             titleFont = Content.Load<SpriteFont>("fonts/titleFont");
+
+            //Loads the hero and his textures
+            heroTextures = Content.Load<Texture2D>("Images/Sprites/hero");
         }
 
         /// <summary>
