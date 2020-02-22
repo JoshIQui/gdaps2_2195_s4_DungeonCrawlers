@@ -14,7 +14,7 @@ namespace Dungeon_Crawlers
         private int width;
         private int height;
 
-        public Item(Texture2D asset, Hitbox position, int screenWidth, int screenHeight,)
+        public Item(Texture2D asset, Hitbox position, int screenWidth, int screenHeight)
             : base(asset, position)
         {
 

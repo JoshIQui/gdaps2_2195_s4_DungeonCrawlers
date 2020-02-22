@@ -66,7 +66,9 @@ namespace Dungeon_Crawlers
             titleFont = Content.Load<SpriteFont>("fonts/titleFont");
 
             //Loads the hero and his textures
-            heroTextures = Content.Load<Texture2D>("Images/Sprites/hero");
+            heroTextures = Content.Load<Texture2D>("Hero-Spritesheet");
+            Hitbox heroBox = new Hitbox(new Rectangle(0,0,heroTextures.Width,heroTextures.Height),BoxType.Hitbox);
+            hero = new Hero(heroTextures, heroBox, screenWidth, screenHeight);
         }
 
         /// <summary>
@@ -89,7 +91,7 @@ namespace Dungeon_Crawlers
                 Exit();
 
             // TODO: Add your update logic here
-
+            hero.UpdateAnimation(gameTime);
             base.Update(gameTime);
         }
 
@@ -105,6 +107,7 @@ namespace Dungeon_Crawlers
             spriteBatch.Begin();
 
             spriteBatch.DrawString(titleFont, "Dungeon Crawlers", titlePosition, Color.OrangeRed);
+            hero.Draw(spriteBatch);
 
             spriteBatch.End();
 
