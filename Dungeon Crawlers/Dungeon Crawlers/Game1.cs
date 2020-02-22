@@ -166,7 +166,7 @@ namespace Dungeon_Crawlers
                     spriteBatch.DrawString(titleFont, "Dungeon Crawlers", titlePosition, Color.OrangeRed);
 
                     //Draws the instructions for starting the game
-                    spriteBatch.DrawString(titleFont, "Press ENTER to Start", new Vector2(500, 500), Color.OrangeRed);
+                    spriteBatch.DrawString(titleFont, "Press ENTER to Start", new Vector2(500, 700), Color.OrangeRed);
                     break;
 
                 case GameState.Instructions:
