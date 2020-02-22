@@ -95,7 +95,8 @@ namespace Dungeon_Crawlers
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            // TODO: Add your update logic here'
+            hero.UpdateAnimation(gameTime);
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
 
@@ -157,7 +158,7 @@ namespace Dungeon_Crawlers
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-
+            hero.Draw(spriteBatch);
             //Checks the state and draws accordingly
             switch (stateManager.CurrentState)
             {
