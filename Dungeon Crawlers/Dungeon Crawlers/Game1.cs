@@ -102,36 +102,85 @@ namespace Dungeon_Crawlers
             //Checks the state and updates accordingly
             switch (stateManager.CurrentState)
             {
+                //Title updates
                 case GameState.Title:
                     //If enter is pressed
-                    if (kbState.IsKeyDown(Keys.Enter))
+                    if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
                     {
                         //Start the game
                         stateManager.ChangeState(GameState.Game);
                     }
                     //If I is pressed
-                    if (kbState.IsKeyDown(Keys.I))
+                    if (kbState.IsKeyDown(Keys.I) && kbState != prevKbState)
                     {
                         //Show the instructions
                         stateManager.ChangeState(GameState.Instructions);
                     }
                     break;
 
+                //Instructions updates
                 case GameState.Instructions:
+                    //If enter is pressed
+                    if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
+                    {
+                        //Start the game
+                        stateManager.ChangeState(GameState.Game);
+                    }
+                    //If M is pressed
+                    if (kbState.IsKeyDown(Keys.M) && kbState != prevKbState)
+                    {
+                        //Go back to the main menu
+                        stateManager.ChangeState(GameState.Title);
+                    }
                     break;
 
+                //Game updates
                 case GameState.Game:
+                    //If esc is pressed
+                    if (kbState.IsKeyDown(Keys.Escape) && kbState != prevKbState)
+                    {
+                        //Pause the game
+                        stateManager.ChangeState(GameState.Pause);
+                    }
                     break;
 
+                //Pause updates
                 case GameState.Pause:
+                    //If esc is pressed
+                    if (kbState.IsKeyDown(Keys.Escape) && kbState != prevKbState)
+                    {
+                        //Unpause the game
+                        stateManager.ChangeState(GameState.Game);
+                    }
+                    //If H is pressed
+                    if (kbState.IsKeyDown(Keys.H) && kbState != prevKbState)
+                    {
+                        //Display the help screen
+                        stateManager.ChangeState(GameState.Help);
+                    }
                     break;
 
+                //Help updates
                 case GameState.Help:
+                    //If esc is pressed
+                    if (kbState.IsKeyDown(Keys.Escape) && kbState != prevKbState)
+                    {
+                        //Go back to the pause menu
+                        stateManager.ChangeState(GameState.Pause);
+                    }
                     break;
 
+                //Game over updates
                 case GameState.GameOver:
+                    //If enter is pressed
+                    if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
+                    {
+                        //Return to the title screen
+                        stateManager.ChangeState(GameState.Title);
+                    }
                     break;
 
+                //Win updates
                 case GameState.Win:
                     break;
             }
