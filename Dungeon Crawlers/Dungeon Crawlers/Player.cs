@@ -41,8 +41,8 @@ namespace Dungeon_Crawlers
         // Constants for rectangle in the spritesheet
         const int WalkFrameCount = 7;       // The number of frames in the animation
         const int PlayerRectOffsetWalk = 48;   // How far down in the image are the frames? FOR THE RUN
-        const int PlayerRectHeight = 48;     // The height of a single frame
-        const int PlayerRectWidth = 48;     // The width of a single frame
+        const int PlayerRectHeight = 45;     // The height of a single frame
+        const int PlayerRectWidth = 88;     // The width of a single frame
 
         // Properties
         public int Health
