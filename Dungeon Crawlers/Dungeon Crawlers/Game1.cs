@@ -100,6 +100,7 @@ namespace Dungeon_Crawlers
 
             // TODO: Add your update logic here'
             hero.UpdateAnimation(gameTime);
+            player.UpdateAnimation(gameTime);
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
 
