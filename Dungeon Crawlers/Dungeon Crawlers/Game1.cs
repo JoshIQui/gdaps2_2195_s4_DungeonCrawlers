@@ -25,7 +25,7 @@ namespace Dungeon_Crawlers
         Texture2D wizardTextures;       // The textures for the wizard
         KeyboardState kbState;          // Tracks the current state of the keyboard
         KeyboardState prevKbState;      // Tracks the state of the keyboard from the last frame
-        
+        MouseState mState;
 
         public Game1()
         {
@@ -50,7 +50,7 @@ namespace Dungeon_Crawlers
 
             //Sets up the positions for text
             titlePosition = new Vector2((screenWidth / 2), (screenHeight / 2));
-
+            IsMouseVisible = true;
             //Sets up the state manager
             stateManager = new StateManager();
 
@@ -72,7 +72,7 @@ namespace Dungeon_Crawlers
 
             //Loads the hero and his textures
             charTextures = Content.Load<Texture2D>("Character-Spritesheet");
-            Hitbox heroBox = new Hitbox(new Rectangle(0,0,charTextures.Width,charTextures.Height),BoxType.Hitbox);
+            Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hitbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
             Hitbox playerBox = new Hitbox(new Rectangle(100, 200, charTextures.Width, charTextures.Height), BoxType.Hitbox);
@@ -103,7 +103,8 @@ namespace Dungeon_Crawlers
             player.UpdateAnimation(gameTime);
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
-
+            mState = Mouse.GetState();
+            hero.logic(mState);
             //Checks the state and updates accordingly
             switch (stateManager.CurrentState)
             {

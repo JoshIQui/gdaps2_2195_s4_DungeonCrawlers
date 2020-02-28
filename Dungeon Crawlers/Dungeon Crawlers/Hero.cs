@@ -14,6 +14,7 @@ namespace Dungeon_Crawlers
         WalkLeft,     
         FaceRight,
         WalkRight,
+        Attack
         // Add state(s) to support crouching
     }
     class Hero : GameObject, IHaveAI
@@ -35,8 +36,11 @@ namespace Dungeon_Crawlers
         const int HeroRectOffset = 48;   // How far down in the image are the frames?
         const int HeroRectHeight = 48;     // The height of a single frame
         const int HeroRectWidth = 48;
+        Rectangle debug;
 
-        HeroState currentState = HeroState.FaceLeft;
+        HeroState currentState = HeroState.WalkRight;
+        int moveSpd = 5;
+        bool[,] obstacle;
 
         public int Health
         {
@@ -50,9 +54,52 @@ namespace Dungeon_Crawlers
             this.width = screenWidth;
             this.height = screenHeight;
 
+            obstacle = new bool[height+1, width+1];
             // Initialize
             fps = 10.0;                     // Will cycle through 10 walk frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
+        }
+        public int logic(MouseState mouse)
+        {
+            debug.X = mouse.X;
+            debug.Y = mouse.Y;
+            debug.Width = 1;
+            debug.Height = 1;
+
+            while (speed > 0)
+            {
+                if (position.Box.Intersects(debug))
+                {
+                    currentState = HeroState.Attack;
+                    break;
+                }
+
+                if (position.BoxX < mouse.X)
+                {
+                    position.BoxX += 1;
+                    speed -= 1;
+                    currentState = HeroState.WalkRight;
+                }
+                if (position.BoxX > mouse.X)
+                {
+                    position.BoxX -= 1;
+                    speed -= 1;
+                    currentState = HeroState.WalkLeft;
+                }
+                if (position.BoxY < mouse.Y)
+                {
+                    position.BoxY += 1;
+                    speed -= 1;
+                }
+                if (position.BoxY > mouse.Y)
+                {
+                    position.BoxY -= 1;
+                    speed -= 1;
+                }    
+                
+            }
+            speed = 5;
+            return 1;
         }
         public override void Update(GameTime gametime)
         {
@@ -83,7 +130,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(100, 100),                       // - The location to draw on the screen
+                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset * 0,           //	   where "inside" the texture
@@ -100,7 +147,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(200,100),                       // - The location to draw on the screen
+                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset*1,           //	   where "inside" the texture
@@ -117,7 +164,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(300, 100),                       // - The location to draw on the screen
+                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset*2,           //	   where "inside" the texture
@@ -134,7 +181,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(400, 100),                       // - The location to draw on the screen
+                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset * 3,           //	   where "inside" the texture
@@ -151,10 +198,29 @@ namespace Dungeon_Crawlers
         // Method for Drawing the hero
         public override void Draw(SpriteBatch sb)
         {
-            DrawIdle(SpriteEffects.None, sb);
-            DrawWalking(SpriteEffects.None, sb);
-            DrawAttack(SpriteEffects.None, sb);
-            DrawGetUp(SpriteEffects.None, sb);
+            switch (currentState)
+            {
+                case HeroState.WalkRight:
+                {
+                        DrawWalking(SpriteEffects.FlipHorizontally, sb);
+                        break;
+                }
+                case HeroState.WalkLeft:
+                {
+                        DrawWalking(SpriteEffects.None, sb);
+                        break;
+                }
+                case HeroState.Attack:
+                {
+                       DrawAttack(SpriteEffects.None, sb);
+                       break;
+                }
+
+            }
+            //DrawIdle(SpriteEffects.None, sb);
+            //DrawWalking(SpriteEffects.None, sb);
+            //DrawAttack(SpriteEffects.None, sb);
+            //DrawGetUp(SpriteEffects.None, sb);
         }
 
         protected override bool CheckCollision(List<Hitbox> objects)
