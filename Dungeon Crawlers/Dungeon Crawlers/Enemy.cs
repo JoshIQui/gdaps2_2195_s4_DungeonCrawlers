@@ -38,9 +38,9 @@ namespace Dungeon_Crawlers
             
         }
 
-        protected override bool CheckCollision(List<Hitbox> objects)
+        public override void CheckCollision(List<Hitbox> objects)
         {
-            return false;
+            
         }
     }
 }

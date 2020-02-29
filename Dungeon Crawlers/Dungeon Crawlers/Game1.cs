@@ -29,6 +29,7 @@ namespace Dungeon_Crawlers
         KeyboardState prevKbState;      // Tracks the state of the keyboard from the last frame
         MouseState mState;              // use only for debug
         MouseState prevmsState;         // use only for debug
+        List<Hitbox> hitBoxes;
 
         List<Item> squareCollection = new List<Item>();
 
@@ -58,6 +59,9 @@ namespace Dungeon_Crawlers
             IsMouseVisible = true;
             //Sets up the state manager
             stateManager = new StateManager();
+
+            // Initializes collection of hitboxes
+            hitBoxes = new List<Hitbox>();
 
             base.Initialize();
         }
@@ -108,6 +112,8 @@ namespace Dungeon_Crawlers
             // TODO: Add your update logic here'
             hero.UpdateAnimation(gameTime);
             player.UpdateAnimation(gameTime);
+            player.CheckCollision(hitBoxes);
+            
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
@@ -120,9 +126,11 @@ namespace Dungeon_Crawlers
                 Item square = new Item(squareObject, squareBox, screenWidth, screenHeight);
 
                 squareCollection.Add(square);
+                hitBoxes.Add(squareBox);
             }
             prevmsState = mState;
 
+            
             //Checks the state and updates accordingly
             switch (stateManager.CurrentState)
             {

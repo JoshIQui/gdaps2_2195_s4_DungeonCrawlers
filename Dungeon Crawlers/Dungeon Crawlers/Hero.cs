@@ -256,9 +256,9 @@ namespace Dungeon_Crawlers
             //DrawGetUp(SpriteEffects.None, sb);
         }
 
-        protected override bool CheckCollision(List<Hitbox> objects)
+        public override void CheckCollision(List<Hitbox> objects)
         {
-            return false;
+            
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Dungeon_Crawlers
         public override void Update(GameTime gametime)
         {
             KeyboardState kbState = Keyboard.GetState();
-
+            position.BoxY += 5;
             // Logic for switching player states and player movement
             switch(playerState)
             {
@@ -149,6 +149,7 @@ namespace Dungeon_Crawlers
                     }
                     break;
                 case PlayerState.JumpingRight:
+                    position.BoxY -= 10;
                     if (kbState.IsKeyUp(Keys.W) && playerState == PlayerState.JumpingRight)
                     {
                         playerState = PlayerState.FacingRight;
@@ -156,6 +157,7 @@ namespace Dungeon_Crawlers
                     break;
 
                 case PlayerState.JumpingLeft:
+                    position.BoxY -= 10;
                     if (kbState.IsKeyUp(Keys.W) && playerState == PlayerState.JumpingLeft)
                     {
                         playerState = PlayerState.FacingLeft;
@@ -201,9 +203,18 @@ namespace Dungeon_Crawlers
         }
 
         // Method for Collision Checks for player
-        protected override bool CheckCollision(List<Hitbox> objects)
+        public override void CheckCollision(List<Hitbox> objects)
         {
-            return false;
+            for(int i = 0; i < objects.Count; i++)
+            {
+                if(objects[i].BoxType == BoxType.Hitbox)
+                {
+                    if(position.Box.Intersects(objects[i].Box))
+                    {
+                        position.BoxY -= 5;
+                    }
+                }
+            }
         }
 
         // Method for updating Player animations
