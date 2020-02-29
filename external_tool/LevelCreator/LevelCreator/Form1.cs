@@ -16,14 +16,11 @@ namespace LevelCreator
         // Fields
         // --------------------
 
-        List<Button> buttons;
+        Color clickColor;
 
         public Form1()
         {
             InitializeComponent();
-
-            //Creates a list of buttons
-            buttons = new List<Button>();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -43,17 +40,80 @@ namespace LevelCreator
                     string buttonName = String.Format("{0}, {1}", column, row);
                     b.Name = buttonName;
 
-                    //Adds the button to the list of buttons
-                    buttons.Add(b);
-
                     //Makes them appear
                     base.Controls.Add(b);
 
-                    foreach (Button button in buttons)
-                    {
-                        b.Click += ButtonClicked;
-                    }
+                    //Subscribes to the event
+                    b.Click += ButtonClicked;
                 }
+            }
+
+            //Creates a toolbar of buttons that allow the user to change the color of the wall of buttons
+            for (int column = 0; column < 10; column++)
+            {
+                //Creates a new button and gives it a location and size
+                Button b = new Button();
+                b.Location = new Point(100 * (column + 1), 20);
+                b.Width = 80;
+                b.Height = 20;
+
+                //Gives the button a name
+                string buttonName = String.Format("Hotbar {0}", column + 1);
+                b.Name = buttonName;
+
+                //Makes the button appear
+                base.Controls.Add(b);
+
+                //Subscribes to the event
+
+                //Creates a label to go with the button
+                Label label = new Label();
+
+                //Location and size of the label
+                label.Location = new Point(100 * (column + 1), 5);
+                label.Width = 80;
+                label.Height = 20;
+
+                //Gives the label a name
+                string labelName = String.Format("Button {0} label", column + 1);
+                label.Name = labelName;
+
+                switch (column)
+                {
+                    case 0:
+                        label.Text = labelName;
+                        break;
+                    case 1:
+                        label.Text = labelName;
+                        break;
+                    case 2:
+                        label.Text = labelName;
+                        break;
+                    case 3:
+                        label.Text = labelName;
+                        break;
+                    case 4:
+                        label.Text = labelName;
+                        break;
+                    case 5:
+                        label.Text = labelName;
+                        break;
+                    case 6:
+                        label.Text = labelName;
+                        break;
+                    case 7:
+                        label.Text = labelName;
+                        break;
+                    case 8:
+                        label.Text = labelName;
+                        break;
+                    case 9:
+                        label.Text = labelName;
+                        break;
+                }
+
+                //Makes the label appear
+                base.Controls.Add(label);
             }
         }
 
@@ -63,8 +123,21 @@ namespace LevelCreator
             if (sender is Button)
             {
                 Button tempButton = (Button)sender;
+                
+                //Sets the color of the button to the color type
+                tempButton.BackColor = clickColor;
+            }
+        }
 
-                tempButton.BackColor = Color.Red;
+        private void TemplateClicked(object sender, EventArgs e)
+        {
+            //Gets the button clicked (CODE USED FROM "Hand-coded & Multiple Forms" PE Writeup)
+            if (sender is Button)
+            {
+                Button tempButton = (Button)sender;
+
+                //Sets the color type to the type described in the button
+                clickColor = tempButton.BackColor;
             }
         }
     }
