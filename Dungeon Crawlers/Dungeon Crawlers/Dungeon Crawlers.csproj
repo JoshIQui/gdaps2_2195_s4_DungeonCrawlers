@@ -48,12 +48,6 @@
     <Compile Include="Hitbox.cs" />
     <Compile Include="IHaveAI.cs" />
     <Compile Include="Item.cs" />
-    <Compile Include="LevelCreator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LevelCreator.Designer.cs">
-      <DependentUpon>LevelCreator.cs</DependentUpon>
-    </Compile>
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
