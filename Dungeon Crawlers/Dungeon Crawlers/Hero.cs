@@ -14,7 +14,8 @@ namespace Dungeon_Crawlers
         WalkLeft,     
         FaceRight,
         WalkRight,
-        Attack
+        Attack,
+        Jumping
         // Add state(s) to support crouching
     }
     class Hero : GameObject, IHaveAI
@@ -40,6 +41,7 @@ namespace Dungeon_Crawlers
 
         HeroState currentState = HeroState.WalkRight;
         int moveSpd = 5;
+        int gravity = 9;
         bool[,] obstacle;
 
         public int Health
@@ -59,12 +61,13 @@ namespace Dungeon_Crawlers
             fps = 10.0;                     // Will cycle through 10 walk frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
         }
-        public int logic(MouseState mouse)
+        public void logic(MouseState mouse,List<Item> square)
         {
             debug.X = mouse.X;
             debug.Y = mouse.Y;
             debug.Width = 1;
             debug.Height = 1;
+
 
             while (speed > 0)
             {
@@ -90,16 +93,24 @@ namespace Dungeon_Crawlers
                 {
                     position.BoxY += 1;
                     speed -= 1;
+                    for(int a=0;a<square.Count;a++)
+                    {
+                        if(square[a].Intersect(position.Box))
+                        {
+                            position.BoxY = square[a].Position.BoxY - HeroRectHeight*2;// *2 because i use 200% scaling
+                        }
+                    }
                 }
                 if (position.BoxY > mouse.Y)
                 {
                     position.BoxY -= 1;
                     speed -= 1;
-                }    
-                
+                    currentState = HeroState.Jumping;
+                }
+
             }
             speed = 5;
-            return 1;
+
         }
         public override void Update(GameTime gametime)
         {
@@ -194,6 +205,23 @@ namespace Dungeon_Crawlers
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
+        private void DrawJumping(SpriteEffects flipSprite, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                asset,                    // - The texture to draw
+                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    5 * HeroRectWidth,     //   - This rectangle specifies
+                    HeroRectOffset * 4,           //	   where "inside" the texture
+                    HeroRectWidth,             //     to get pixels (We don't want to
+                    HeroRectHeight),           //     draw the whole thing)
+                Color.White,                    // - The color
+                0,                              // - Rotation (none currently)
+                Vector2.Zero,                   // - Origin inside the image (top left)
+                2.0f,                           // - Scale (100% - no change)
+                flipSprite,                     // - Can be used to flip the image
+                0);                             // - Layer depth (unused)
+        }
 
         // Method for Drawing the hero
         public override void Draw(SpriteBatch sb)
@@ -213,6 +241,11 @@ namespace Dungeon_Crawlers
                 case HeroState.Attack:
                 {
                        DrawAttack(SpriteEffects.None, sb);
+                       break;
+                }
+                case HeroState.Jumping:
+                {
+                        DrawJumping(SpriteEffects.None, sb);
                        break;
                 }
 
