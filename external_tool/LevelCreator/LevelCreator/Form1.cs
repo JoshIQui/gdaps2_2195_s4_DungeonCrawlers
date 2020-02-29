@@ -26,7 +26,7 @@ namespace LevelCreator
         private void Form1_Load(object sender, EventArgs e)
         {
             //Loads a wall of buttons to interact with
-            for (int row = 0; row < 30; row++)
+            for (int row = 0; row < 28; row++)
             {
                 for (int column = 0; column < 57; column++)
                 {
@@ -65,6 +65,7 @@ namespace LevelCreator
                 base.Controls.Add(b);
 
                 //Subscribes to the event
+                b.Click += TemplateClicked;
 
                 //Creates a label to go with the button
                 Label label = new Label();
@@ -82,33 +83,43 @@ namespace LevelCreator
                 {
                     case 0:
                         label.Text = labelName;
+                        b.BackColor = Color.Red;
                         break;
                     case 1:
                         label.Text = labelName;
+                        b.BackColor = Color.Blue;
                         break;
                     case 2:
                         label.Text = labelName;
+                        b.BackColor = Color.Green;
                         break;
                     case 3:
                         label.Text = labelName;
+                        b.BackColor = Color.Yellow;
                         break;
                     case 4:
                         label.Text = labelName;
+                        b.BackColor = Color.Orange;
                         break;
                     case 5:
                         label.Text = labelName;
+                        b.BackColor = Color.Purple;
                         break;
                     case 6:
                         label.Text = labelName;
+                        b.BackColor = Color.Teal;
                         break;
                     case 7:
                         label.Text = labelName;
+                        b.BackColor = Color.Black;
                         break;
                     case 8:
                         label.Text = labelName;
+                        b.BackColor = Color.Brown;
                         break;
                     case 9:
                         label.Text = labelName;
+                        b.BackColor = Color.Pink;
                         break;
                 }
 
