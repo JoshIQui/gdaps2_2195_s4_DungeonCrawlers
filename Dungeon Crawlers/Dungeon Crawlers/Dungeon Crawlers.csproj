@@ -48,6 +48,12 @@
     <Compile Include="Hitbox.cs" />
     <Compile Include="IHaveAI.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="LevelCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LevelCreator.Designer.cs">
+      <DependentUpon>LevelCreator.cs</DependentUpon>
+    </Compile>
     <Compile Include="LevelEditor.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
@@ -59,6 +65,9 @@
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
