@@ -76,38 +76,73 @@ namespace Dungeon_Crawlers
                     currentState = HeroState.Attack;
                     break;
                 }
-
-                if (position.BoxX < mouse.X)
-                {
-                    position.BoxX += 1;
-                    speed -= 1;
-                    currentState = HeroState.WalkRight;
-                }
-                if (position.BoxX > mouse.X)
-                {
-                    position.BoxX -= 1;
-                    speed -= 1;
-                    currentState = HeroState.WalkLeft;
-                }
-                if (position.BoxY < mouse.Y)
+                if (position.BoxY < mouse.Y) //going down
                 {
                     position.BoxY += 1;
                     speed -= 1;
-                    for(int a=0;a<square.Count;a++)
+                    for (int a = 0; a < square.Count; a++)
                     {
-                        if(square[a].Intersect(position.Box))
+                        if (square[a].Intersect(position.Box))
                         {
-                            position.BoxY = square[a].Position.BoxY - HeroRectHeight*2;// *2 because i use 200% scaling
+                            position.BoxY = square[a].Position.BoxY - HeroRectHeight * 2;// *2 because i use 200% scaling
                         }
                     }
                 }
-                if (position.BoxY > mouse.Y)
+                if (position.BoxY > mouse.Y) //going up
                 {
                     position.BoxY -= 1;
                     speed -= 1;
                     currentState = HeroState.Jumping;
+                    for (int a = 0; a < square.Count; a++)
+                    {
+                        if (square[a].Intersect(position.Box))
+                        {
+                            position.BoxY = square[a].Position.BoxY + square[a].Position.Box.Height;// *2 because i use 200% scaling
+                        }
+                    }
                 }
+                if (position.BoxX < mouse.X) //GO RIGHT 
+                {
+                    position.BoxX += 1;
+                    speed -= 1;
+                    currentState = HeroState.WalkRight;                   
+                    for (int a = 0; a < square.Count; a++)
+                    {
 
+                        if (square[a].Intersect(position.Box))
+                        {
+                            if ((position.BoxY + HeroRectHeight * 2)- square[a].Position.BoxY < square[a].Position.Box.Height)
+                            {
+                                position.BoxY = square[a].Position.BoxY - HeroRectHeight*2;
+                            }
+                            else
+                            {
+                                position.BoxX = square[a].Position.BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
+                            }
+                        }
+                    }
+                }
+                if (position.BoxX > mouse.X) //GO LEFT
+                {
+                    position.BoxX -= 1;
+                    speed -= 1;
+                    currentState = HeroState.WalkLeft;
+                    for (int a = 0; a < square.Count; a++)
+                    {
+                        if (square[a].Intersect(position.Box))
+                        {
+                            if ((position.BoxY + HeroRectHeight * 2) - square[a].Position.BoxY < square[a].Position.Box.Height)
+                            {
+                                position.BoxY = square[a].Position.BoxY - HeroRectHeight * 2;
+                            }
+                            else
+                            {
+                                position.BoxX = square[a].Position.BoxX + square[a].Position.Box.Width;// *2 because i use 200% scaling
+                            }
+                        }
+                    }
+                }
+                
             }
             speed = 5;
 
