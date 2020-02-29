@@ -90,6 +90,10 @@ namespace Dungeon_Crawlers
                     {
                         playerState = PlayerState.FacingLeft;
                     }
+                    if (kbState.IsKeyDown(Keys.W))
+                    {
+                        playerState = PlayerState.JumpingRight;
+                    }
                     if (kbState.IsKeyDown(Keys.Space))
                     {
                         playerState = PlayerState.AttackingRight;
@@ -104,6 +108,10 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.D))
                     {
                         playerState = PlayerState.FacingRight;
+                    }
+                    if (kbState.IsKeyDown(Keys.W))
+                    {
+                        playerState = PlayerState.JumpingLeft;
                     }
                     if (kbState.IsKeyDown(Keys.Space))
                     {
@@ -140,6 +148,19 @@ namespace Dungeon_Crawlers
                         playerState = PlayerState.FacingLeft;
                     }
                     break;
+                case PlayerState.JumpingRight:
+                    if (kbState.IsKeyUp(Keys.W) && playerState == PlayerState.JumpingRight)
+                    {
+                        playerState = PlayerState.FacingRight;
+                    }
+                    break;
+
+                case PlayerState.JumpingLeft:
+                    if (kbState.IsKeyUp(Keys.W) && playerState == PlayerState.JumpingLeft)
+                    {
+                        playerState = PlayerState.FacingLeft;
+                    }
+                    break;
             }
 
             // Update previous Keyboard State
@@ -169,6 +190,12 @@ namespace Dungeon_Crawlers
                     break;
                 case PlayerState.AttackingLeft:
                     DrawAttacking(SpriteEffects.FlipHorizontally, sb);
+                    break;
+                case PlayerState.JumpingRight:
+                    DrawJumping(SpriteEffects.None, sb);
+                    break;
+                case PlayerState.JumpingLeft:
+                    DrawJumping(SpriteEffects.FlipHorizontally, sb);
                     break;
             }
         }
@@ -248,6 +275,25 @@ namespace Dungeon_Crawlers
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
                     PlayerRectOffsetWalk * 7,           //	   where "inside" the texture
+                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    PlayerRectHeight),           //     draw the whole thing)
+                Color.White,                    // - The color
+                0,                              // - Rotation (none currently)
+                Vector2.Zero,                   // - Origin inside the image (top left)
+                2.0f,                           // - Scale (100% - no change)
+                flipSprite,                     // - Can be used to flip the image
+                0);                             // - Layer depth (unused)
+        }
+
+        // Method for Drawing the Player Jump Animation
+        private void DrawJumping(SpriteEffects flipSprite, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                asset,                    // - The texture to draw
+                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    3 * PlayerRectWidth,     //   - This rectangle specifies
+                    PlayerRectOffsetWalk * 6,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.White,                    // - The color
