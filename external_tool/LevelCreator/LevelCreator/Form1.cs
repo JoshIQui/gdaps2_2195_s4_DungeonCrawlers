@@ -40,7 +40,7 @@ namespace LevelCreator
                     b.Height = 20;
 
                     //Gives the button a name based on its coordinates
-                    string buttonName = String.Format("{0}, {1}", row, column);
+                    string buttonName = String.Format("{0}, {1}", column, row);
                     b.Name = buttonName;
 
                     //Adds the button to the list of buttons
