@@ -54,7 +54,6 @@
     <Compile Include="LevelCreator.Designer.cs">
       <DependentUpon>LevelCreator.cs</DependentUpon>
     </Compile>
-    <Compile Include="LevelEditor.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
