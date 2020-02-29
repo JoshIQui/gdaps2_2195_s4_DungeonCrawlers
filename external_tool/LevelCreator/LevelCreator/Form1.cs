@@ -21,6 +21,9 @@ namespace LevelCreator
         public Form1()
         {
             InitializeComponent();
+
+            //Sets the default click color to empty
+            clickColor = Color.Empty;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -119,7 +122,7 @@ namespace LevelCreator
                         break;
                     case 9:
                         label.Text = labelName;
-                        b.BackColor = Color.Pink;
+                        b.BackColor = Color.Empty;
                         break;
                 }
 
@@ -134,9 +137,17 @@ namespace LevelCreator
             if (sender is Button)
             {
                 Button tempButton = (Button)sender;
-                
-                //Sets the color of the button to the color type
-                tempButton.BackColor = clickColor;
+
+                //Gets rid of the color if the button is clicked with the same color as the click color
+                if (tempButton.BackColor == clickColor)
+                {
+                    tempButton.BackColor = Color.Empty;
+                }
+                else
+                {
+                    //Sets the color of the button to the color type
+                    tempButton.BackColor = clickColor;
+                }
             }
         }
 
