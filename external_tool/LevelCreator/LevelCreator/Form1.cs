@@ -86,7 +86,7 @@ namespace LevelCreator
                 {
                     case 0:
                         label.Text = labelName;
-                        b.BackColor = Color.Red;
+                        b.BackgroundImage = Image.FromFile("Properties/exit_ovr");
                         break;
                     case 1:
                         label.Text = labelName;
