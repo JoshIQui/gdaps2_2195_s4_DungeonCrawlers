@@ -19,16 +19,24 @@ The primary goals of this project are the following:
 5. To have fun making a game
 
 ## Mission Statement
-_Replace this with the overall objectives that your team has agreed upon._
-_What is the goal of the project (from a learning and product perspective)? Who is your target audience? How will you define success?_
+Gain the valuable experience of working with a team to build something with each individual’s coding skills being improved upon 
+and create something to be proud of but not something totally perfect.
 
 ## Communications
+Skildofwhy#1405 - Nathan
+Mythgames#2270 - Robert
+MrRhEzZzA#4097 - Kevin
+Deity#5709 - Joshua
 
 ### Discord
-_Add info about how to join/use your team's Discord channel. What is it?_
+We will use the discord server to further discuss any questions that come up while we are outside of our meeting times. Also use the server to point out 
+any problems that come up while you are working and if you need to show us some code then take a snippet of it and send it to the chat so we can take a better look at it.
 
 ### Meeting Times
-_Set at least 1 out-of-class meeting time and note times when the entire group is usually free for additional meetings as needed._
+Mondays ~6:00p.m.
+Saturdays ~1:00p.m.
+We will run meetings by discussing where we are in the project and what 
+we need to be done by what time. From there we will talk about who needs to do what by that time.
 
 ## Repository Overview
 _As the project progresses, add notes here about how the repository is organized, how branches are being used, etc._
