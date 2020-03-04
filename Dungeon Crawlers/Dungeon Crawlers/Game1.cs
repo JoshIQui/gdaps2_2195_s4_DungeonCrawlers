@@ -25,6 +25,7 @@ namespace Dungeon_Crawlers
         Texture2D goblinTextures;       // The textures for the goblin
         Texture2D slimeTextures;        // The textures for the slime
         Texture2D wizardTextures;       // The textures for the wizard
+        Texture2D tileTextures;         // The textures for the level tiles
         KeyboardState kbState;          // Tracks the current state of the keyboard
         KeyboardState prevKbState;      // Tracks the state of the keyboard from the last frame
         MouseState mState;              // use only for debug
@@ -88,6 +89,10 @@ namespace Dungeon_Crawlers
             player = new Player(charTextures, playerBox, screenWidth, screenHeight);
 
             squareObject = Content.Load<Texture2D>("Square");
+
+            tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
+            Hitbox tileBox = new Hitbox(new Rectangle (100, 100, tileTextures.Width, tileTextures.Height), BoxType.Hitbox);
+            Tile tile = new Tile(tileTextures, tileBox);
         }
 
         /// <summary>
