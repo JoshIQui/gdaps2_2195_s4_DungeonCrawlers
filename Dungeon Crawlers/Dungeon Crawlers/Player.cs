@@ -41,7 +41,7 @@ namespace Dungeon_Crawlers
         const int WalkFrameCount = 3;       // The number of frames in the animation
         const int PlayerRectOffsetWalk = 48;   // How far down in the image are the frames? FOR THE RUN
         const int PlayerRectHeight = 45;     // The height of a single frame
-        const int PlayerRectWidth = 84;     // The width of a single frame
+        const int PlayerRectWidth = 88;     // The width of a single frame
 
         // Properties
         public int Health
