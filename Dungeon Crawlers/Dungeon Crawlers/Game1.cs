@@ -34,7 +34,7 @@ namespace Dungeon_Crawlers
         Tile tile;
 
         List<Item> squareCollection = new List<Item>();
-
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -86,7 +86,7 @@ namespace Dungeon_Crawlers
             Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hitbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
-            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 45, 84), BoxType.Hitbox);
+            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 45, 89), BoxType.Hitbox);
             player = new Player(charTextures, playerBox, screenWidth, screenHeight);
 
             squareObject = Content.Load<Texture2D>("Square");

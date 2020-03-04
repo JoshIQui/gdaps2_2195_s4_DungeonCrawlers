@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace LevelCreator
 {
@@ -16,6 +17,9 @@ namespace LevelCreator
         // Fields
         // --------------------
 
+        List<Button> buttons;
+        Button saveButton;
+        TextBox fileName;
         Color clickColor;
 
         public Form1()
@@ -24,12 +28,15 @@ namespace LevelCreator
 
             //Sets the default click color to empty
             clickColor = Color.Empty;
+
+            //Initializes the list of buttons
+            buttons = new List<Button>();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             //Loads a wall of buttons to interact with
-            for (int row = 0; row < 28; row++)
+            for (int row = 0; row < 27; row++)
             {
                 for (int column = 0; column < 57; column++)
                 {
@@ -40,14 +47,43 @@ namespace LevelCreator
                     b.Height = 20;
 
                     //Gives the button a name based on its coordinates
-                    string buttonName = String.Format("{0}, {1}", column, row);
+                    string buttonName = String.Format("{0},{1}", column, row);
                     b.Name = buttonName;
+
+                    //Adds the button to the list
+                    buttons.Add(b);
 
                     //Makes them appear
                     base.Controls.Add(b);
 
                     //Subscribes to the event
                     b.Click += ButtonClicked;
+
+                    if (row == 26)
+                    {
+                        //Creates a button for saving
+                        saveButton = new Button();
+                        saveButton.Location = new Point(700, b.Location.Y + 20);
+                        saveButton.Width = 50;
+                        saveButton.Height = 20;
+
+                        //Creates a text box to name the file
+                        fileName = new TextBox();
+                        fileName.Location = new Point(500, b.Location.Y + 20);
+                        fileName.Width = 80;
+                        fileName.Height = 20;
+
+                        //Names the text box and the save button
+                        fileName.Name = "FileNameTextBox";
+                        saveButton.Name = "SaveButton";
+
+                        //Adds the button and text box to the controls
+                        base.Controls.Add(saveButton);
+                        base.Controls.Add(fileName);
+
+                        //Subscribes to the event
+                        saveButton.Click += SaveButtonClicked;
+                    }
                 }
             }
 
@@ -161,6 +197,79 @@ namespace LevelCreator
                 //Sets the color type to the type described in the button
                 clickColor = tempButton.BackColor;
             }
+        }
+
+        private void SaveButtonClicked(object sender, EventArgs e)
+        {
+            //Sets the streamwriter to null first
+            StreamWriter writer = null;
+
+            try
+            {
+                //Writes to the file name specified in the text box
+                writer = new StreamWriter(fileName.Text + ".txt");
+
+                foreach (Button button in buttons)
+                {
+                    if(button.BackColor == Color.Red)
+                    {
+                        writer.Write("R");
+                    }
+                    else if (button.BackColor == Color.Blue)
+                    {
+                        writer.Write("B");
+                    }
+                    else if (button.BackColor == Color.Green)
+                    {
+                        writer.Write("G");
+                    }
+                    else if (button.BackColor == Color.Yellow)
+                    {
+                        writer.Write("Y");
+                    }
+                    else if (button.BackColor == Color.Orange)
+                    {
+                        writer.Write("Q");
+                    }
+                    else if (button.BackColor == Color.Purple)
+                    {
+                        writer.Write("P");
+                    }
+                    else if (button.BackColor == Color.Teal)
+                    {
+                        writer.Write("T");
+                    }
+                    else if (button.BackColor == Color.Black)
+                    {
+                        writer.Write("L");
+                    }
+                    else if (button.BackColor == Color.Brown)
+                    {
+                        writer.Write("K");
+                    }
+                    else if (button.BackColor == Color.Empty)
+                    {
+                        writer.Write("O");
+                    }
+
+                    //Splits the name into the two coordinates
+                    string[] coordinates = button.Name.Split();
+
+                    //Skips a line for the last column in the row
+                    if (int.Parse(coordinates[0]) == 56)
+                    {
+                        writer.WriteLine();
+                    }
+                }
+            }
+            //Prints an error message in console if an error is reached
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+
+            //Closes the writer when done
+            writer.Close();
         }
     }
 }
