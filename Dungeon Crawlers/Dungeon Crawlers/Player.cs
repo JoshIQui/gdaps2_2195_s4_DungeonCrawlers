@@ -121,6 +121,10 @@ namespace Dungeon_Crawlers
 
                 case PlayerState.WalkingRight:
                     position.BoxX += 5;
+                    if (kbState.IsKeyDown(Keys.W))
+                    {
+                        playerState = PlayerState.JumpingRight;
+                    }
                     if (kbState.IsKeyUp(Keys.D) && playerState == PlayerState.WalkingRight)
                     {
                         playerState = PlayerState.FacingRight;
@@ -129,6 +133,10 @@ namespace Dungeon_Crawlers
 
                 case PlayerState.WalkingLeft:
                     position.BoxX -= 5;
+                    if (kbState.IsKeyDown(Keys.W))
+                    {
+                        playerState = PlayerState.JumpingLeft;
+                    }
                     if (kbState.IsKeyUp(Keys.A) && playerState == PlayerState.WalkingLeft)
                     {
                         playerState = PlayerState.FacingLeft;
@@ -150,6 +158,15 @@ namespace Dungeon_Crawlers
                     break;
                 case PlayerState.JumpingRight:
                     position.BoxY -= 10;
+                    if (kbState.IsKeyDown(Keys.D))
+                    {
+                        position.BoxX += 5;
+                    }
+                    if (kbState.IsKeyDown(Keys.A))
+                    {
+                        position.BoxX -= 5;
+                        playerState = PlayerState.JumpingLeft;
+                    }
                     if (kbState.IsKeyUp(Keys.W) && playerState == PlayerState.JumpingRight)
                     {
                         playerState = PlayerState.FacingRight;
@@ -158,6 +175,15 @@ namespace Dungeon_Crawlers
 
                 case PlayerState.JumpingLeft:
                     position.BoxY -= 10;
+                    if (kbState.IsKeyDown(Keys.A))
+                    {
+                        position.BoxX -= 5;
+                    }
+                    if (kbState.IsKeyDown(Keys.D))
+                    {
+                        position.BoxX += 5;
+                        playerState = PlayerState.JumpingRight;
+                    }
                     if (kbState.IsKeyUp(Keys.W) && playerState == PlayerState.JumpingLeft)
                     {
                         playerState = PlayerState.FacingLeft;
