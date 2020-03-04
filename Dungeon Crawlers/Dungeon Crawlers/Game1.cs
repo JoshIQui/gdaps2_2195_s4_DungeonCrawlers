@@ -25,11 +25,13 @@ namespace Dungeon_Crawlers
         Texture2D goblinTextures;       // The textures for the goblin
         Texture2D slimeTextures;        // The textures for the slime
         Texture2D wizardTextures;       // The textures for the wizard
+        Texture2D tileTextures;         // The textures for the level tiles
         KeyboardState kbState;          // Tracks the current state of the keyboard
         KeyboardState prevKbState;      // Tracks the state of the keyboard from the last frame
         MouseState mState;              // use only for debug
         MouseState prevmsState;         // use only for debug
         List<Hitbox> hitBoxes;
+        Tile tile;
 
         List<Item> squareCollection = new List<Item>();
 
@@ -84,10 +86,15 @@ namespace Dungeon_Crawlers
             Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hitbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
-            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, charTextures.Width, charTextures.Height), BoxType.Hitbox);
+            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 45, 84), BoxType.Hitbox);
             player = new Player(charTextures, playerBox, screenWidth, screenHeight);
 
             squareObject = Content.Load<Texture2D>("Square");
+
+            tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
+            Hitbox tileBox = new Hitbox(new Rectangle (100, 100, tileTextures.Width, tileTextures.Height), BoxType.Hitbox);
+            tile = new Tile(tileTextures, tileBox);
+            hitBoxes.Add(tileBox);
         }
 
         /// <summary>
@@ -127,6 +134,7 @@ namespace Dungeon_Crawlers
 
                 squareCollection.Add(square);
                 hitBoxes.Add(squareBox);
+                
             }
             prevmsState = mState;
 
@@ -252,6 +260,7 @@ namespace Dungeon_Crawlers
                     spriteBatch.DrawString(titleFont, "Press ENTER to Start", new Vector2(500, 700), Color.OrangeRed);
 
                     player.Draw(spriteBatch);
+                    tile.Draw(spriteBatch);
                     break;
 
 

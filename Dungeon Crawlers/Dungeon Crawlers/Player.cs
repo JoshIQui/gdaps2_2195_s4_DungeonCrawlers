@@ -202,21 +202,6 @@ namespace Dungeon_Crawlers
             }
         }
 
-        // Method for Collision Checks for player
-        public override void CheckCollision(List<Hitbox> objects)
-        {
-            for(int i = 0; i < objects.Count; i++)
-            {
-                if(objects[i].BoxType == BoxType.Hitbox)
-                {
-                    if(position.Box.Intersects(objects[i].Box))
-                    {
-                        position.BoxY -= 5;
-                    }
-                }
-            }
-        }
-
         // Method for updating Player animations
         public void UpdateAnimation(GameTime gameTime)
         {
@@ -313,6 +298,21 @@ namespace Dungeon_Crawlers
                 2.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
+        }
+
+        // Method for Collision Checks for player
+        public override void CheckCollision(List<Hitbox> objects)
+        {
+            for (int i = 0; i < objects.Count; i++)
+            {
+                if (objects[i].BoxType == BoxType.Hitbox)
+                {
+                    if (position.Box.Intersects(objects[i].Box))
+                    {
+                        position.BoxY -= 5;
+                    }
+                }
+            }
         }
 
     }
