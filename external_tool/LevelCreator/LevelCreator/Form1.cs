@@ -19,7 +19,6 @@ namespace LevelCreator
 
         List<Button> buttons;
         Button saveButton;
-        TextBox fileName;
         Color clickColor;
 
         public Form1()
@@ -63,23 +62,16 @@ namespace LevelCreator
                     {
                         //Creates a button for saving
                         saveButton = new Button();
-                        saveButton.Location = new Point(700, b.Location.Y + 20);
-                        saveButton.Width = 50;
-                        saveButton.Height = 20;
+                        saveButton.Location = new Point(525, b.Location.Y + 20);
+                        saveButton.Width = 120;
+                        saveButton.Height = 30;
+                        saveButton.Text = "Save and Quit";
 
-                        //Creates a text box to name the file
-                        fileName = new TextBox();
-                        fileName.Location = new Point(500, b.Location.Y + 20);
-                        fileName.Width = 80;
-                        fileName.Height = 20;
-
-                        //Names the text box and the save button
-                        fileName.Name = "FileNameTextBox";
+                        //Names the save button
                         saveButton.Name = "SaveButton";
 
-                        //Adds the button and text box to the controls
+                        //Adds the button to the controls
                         base.Controls.Add(saveButton);
-                        base.Controls.Add(fileName);
 
                         //Subscribes to the event
                         saveButton.Click += SaveButtonClicked;
@@ -206,59 +198,68 @@ namespace LevelCreator
 
             try
             {
-                //Writes to the file name specified in the text box
-                writer = new StreamWriter(fileName.Text + ".txt");
+                //Has the user enter the filename for the file to save
+                SaveFileDialog fileDialog = new SaveFileDialog();
+                fileDialog.ShowDialog();
+                string fileName = fileDialog.FileName;
 
-                foreach (Button button in buttons)
+                //Only works if there is a filename
+                if (fileName != null)
                 {
-                    if(button.BackColor == Color.Red)
-                    {
-                        writer.Write("R");
-                    }
-                    else if (button.BackColor == Color.Blue)
-                    {
-                        writer.Write("B");
-                    }
-                    else if (button.BackColor == Color.Green)
-                    {
-                        writer.Write("G");
-                    }
-                    else if (button.BackColor == Color.Yellow)
-                    {
-                        writer.Write("Y");
-                    }
-                    else if (button.BackColor == Color.Orange)
-                    {
-                        writer.Write("Q");
-                    }
-                    else if (button.BackColor == Color.Purple)
-                    {
-                        writer.Write("P");
-                    }
-                    else if (button.BackColor == Color.Teal)
-                    {
-                        writer.Write("T");
-                    }
-                    else if (button.BackColor == Color.Black)
-                    {
-                        writer.Write("L");
-                    }
-                    else if (button.BackColor == Color.Brown)
-                    {
-                        writer.Write("K");
-                    }
-                    else if (button.BackColor == Color.Empty)
-                    {
-                        writer.Write("O");
-                    }
+                    //Opens the writer
+                    writer = new StreamWriter(fileName);
 
-                    //Splits the name into the two coordinates
-                    string[] coordinates = button.Name.Split();
-
-                    //Skips a line for the last column in the row
-                    if (int.Parse(coordinates[0]) == 56)
+                    foreach (Button button in buttons)
                     {
-                        writer.WriteLine();
+                        if (button.BackColor == Color.Red)
+                        {
+                            writer.Write("R");
+                        }
+                        else if (button.BackColor == Color.Blue)
+                        {
+                            writer.Write("B");
+                        }
+                        else if (button.BackColor == Color.Green)
+                        {
+                            writer.Write("G");
+                        }
+                        else if (button.BackColor == Color.Yellow)
+                        {
+                            writer.Write("Y");
+                        }
+                        else if (button.BackColor == Color.Orange)
+                        {
+                            writer.Write("Q");
+                        }
+                        else if (button.BackColor == Color.Purple)
+                        {
+                            writer.Write("P");
+                        }
+                        else if (button.BackColor == Color.Teal)
+                        {
+                            writer.Write("T");
+                        }
+                        else if (button.BackColor == Color.Black)
+                        {
+                            writer.Write("L");
+                        }
+                        else if (button.BackColor == Color.Brown)
+                        {
+                            writer.Write("K");
+                        }
+                        else
+                        {
+                            writer.Write("O");
+                        }
+
+                        //Splits the name into the two coordinates
+                        string[] coordinates = button.Name.Split(',');
+
+                        //Skips a line for the last column in the row
+                        if (int.Parse(coordinates[0]) == 56)
+                        {
+                            writer.WriteLine();
+                        }
                     }
                 }
             }
