@@ -216,7 +216,7 @@ namespace LevelCreator
                     writer = new StreamWriter(fileName);
 
                     //Writes the dimensions in the file
-                    writer.WriteLine(rows + "," + columns);
+                    writer.WriteLine(columns + "," + rows);
 
                     foreach (Button button in buttons)
                     {
