@@ -21,7 +21,7 @@ namespace Dungeon_Crawlers
         AttackingRight,
         AttackingLeft
     }
-
+    
     class Player : GameObject
     {
         // Fields
