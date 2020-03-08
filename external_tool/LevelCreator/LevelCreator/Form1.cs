@@ -20,6 +20,8 @@ namespace LevelCreator
         List<Button> buttons;
         Button saveButton;
         Color clickColor;
+        int rows;
+        int columns;
 
         public Form1()
         {
@@ -34,10 +36,14 @@ namespace LevelCreator
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Sets the amount of rows and columns
+            rows = 27;
+            columns = 57;
+
             //Loads a wall of buttons to interact with
-            for (int row = 0; row < 27; row++)
+            for (int row = 0; row < rows; row++)
             {
-                for (int column = 0; column < 57; column++)
+                for (int column = 0; column < columns; column++)
                 {
                     //Creates a new button and gives it a location and size
                     Button b = new Button();
@@ -209,6 +215,9 @@ namespace LevelCreator
                     //Opens the writer
                     writer = new StreamWriter(fileName);
 
+                    //Writes the dimensions in the file
+                    writer.WriteLine(rows + "," + columns);
+
                     foreach (Button button in buttons)
                     {
                         if (button.BackColor == Color.Red)
@@ -256,7 +265,7 @@ namespace LevelCreator
                         string[] coordinates = button.Name.Split(',');
 
                         //Skips a line for the last column in the row
-                        if (int.Parse(coordinates[0]) == 56)
+                        if (int.Parse(coordinates[0]) == columns - 1)
                         {
                             writer.WriteLine();
                         }
