@@ -30,9 +30,17 @@ namespace Dungeon_Crawlers
         {
 
         }
-        protected override bool CheckCollision(List<Hitbox> objects)
+        public bool Intersect (Rectangle target)
         {
+            if (position.Box.Intersects(target))
+            {
+                return true;
+            }
             return false;
+        }
+        public override void CheckCollision(List<Hitbox> objects)
+        {
+            
         }
     }
 }

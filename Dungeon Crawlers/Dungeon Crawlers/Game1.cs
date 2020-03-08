@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Dungeon_Crawlers
 {
@@ -19,20 +20,27 @@ namespace Dungeon_Crawlers
         Player player;                  // The player object for the main character
         Hero hero;                      // The hero object for the enemy of the game
         Texture2D charTextures;         // The textures for the hero
+        Texture2D squareObject;         // use only for debug
         Enemy enemy;                    // The ally object for the other monsters who help you
         Texture2D goblinTextures;       // The textures for the goblin
         Texture2D slimeTextures;        // The textures for the slime
         Texture2D wizardTextures;       // The textures for the wizard
+        Texture2D tileTextures;         // The textures for the level tiles
         KeyboardState kbState;          // Tracks the current state of the keyboard
         KeyboardState prevKbState;      // Tracks the state of the keyboard from the last frame
-        
+        MouseState mState;              // use only for debug
+        MouseState prevmsState;         // use only for debug
+        List<Hitbox> hitBoxes;
+        Tile tile;
 
+        List<Item> squareCollection = new List<Item>();
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 1200;
-            graphics.PreferredBackBufferHeight = 1000;
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 900;
         }
 
         /// <summary>
@@ -50,9 +58,12 @@ namespace Dungeon_Crawlers
 
             //Sets up the positions for text
             titlePosition = new Vector2((screenWidth / 2), (screenHeight / 2));
-
+            IsMouseVisible = true;
             //Sets up the state manager
             stateManager = new StateManager();
+
+            // Initializes collection of hitboxes
+            hitBoxes = new List<Hitbox>();
 
             base.Initialize();
         }
@@ -72,11 +83,18 @@ namespace Dungeon_Crawlers
 
             //Loads the hero and his textures
             charTextures = Content.Load<Texture2D>("Character-Spritesheet");
-            Hitbox heroBox = new Hitbox(new Rectangle(0,0,charTextures.Width,charTextures.Height),BoxType.Hitbox);
+            Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hitbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
-            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, charTextures.Width, charTextures.Height), BoxType.Hitbox);
+            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 45, 89), BoxType.Hitbox);
             player = new Player(charTextures, playerBox, screenWidth, screenHeight);
+
+            squareObject = Content.Load<Texture2D>("Square");
+
+            tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
+            Hitbox tileBox = new Hitbox(new Rectangle (100, 100, tileTextures.Width, tileTextures.Height), BoxType.Hitbox);
+            tile = new Tile(tileTextures, tileBox);
+            hitBoxes.Add(tileBox);
         }
 
         /// <summary>
@@ -101,9 +119,26 @@ namespace Dungeon_Crawlers
             // TODO: Add your update logic here'
             hero.UpdateAnimation(gameTime);
             player.UpdateAnimation(gameTime);
+            player.CheckCollision(hitBoxes);
+            
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
+            mState = Mouse.GetState();
+            hero.logic(mState, squareCollection);
 
+            if (mState.LeftButton == ButtonState.Pressed && prevmsState.LeftButton == ButtonState.Released)
+            {
+                Rectangle mousLoc = new Rectangle(mState.X, mState.Y, 40, 40);
+                Hitbox squareBox = new Hitbox(mousLoc, BoxType.Hitbox);
+                Item square = new Item(squareObject, squareBox, screenWidth, screenHeight);
+
+                squareCollection.Add(square);
+                hitBoxes.Add(squareBox);
+                
+            }
+            prevmsState = mState;
+
+            
             //Checks the state and updates accordingly
             switch (stateManager.CurrentState)
             {
@@ -209,6 +244,12 @@ namespace Dungeon_Crawlers
             spriteBatch.Begin();
             hero.Draw(spriteBatch);
             //Checks the state and draws accordingly
+
+            for (int a = 0; a < squareCollection.Count; a++)
+            {
+                spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
+            }
+
             switch (stateManager.CurrentState)
             {
                 case GameState.Title:
@@ -219,6 +260,7 @@ namespace Dungeon_Crawlers
                     spriteBatch.DrawString(titleFont, "Press ENTER to Start", new Vector2(500, 700), Color.OrangeRed);
 
                     player.Draw(spriteBatch);
+                    tile.Draw(spriteBatch);
                     break;
 
 

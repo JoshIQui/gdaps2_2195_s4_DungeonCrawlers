@@ -34,7 +34,7 @@ namespace Dungeon_Crawlers
             this.position = position;
         }
         // Methods
-        abstract protected bool CheckCollision(List<Hitbox> objects);
+        abstract public void CheckCollision(List<Hitbox> objects);
 
         // Method that draws the asset
         public virtual void Draw(SpriteBatch sb)
