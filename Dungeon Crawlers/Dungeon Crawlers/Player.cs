@@ -76,8 +76,10 @@ namespace Dungeon_Crawlers
         // Method for Player Updates in game
         public override void Update(GameTime gametime)
         {
+            // Get Keyboard state for user input
             KeyboardState kbState = Keyboard.GetState();
             position.BoxY += 5;
+
             // Logic for switching player states and player movement
             switch(playerState)
             {
@@ -189,6 +191,12 @@ namespace Dungeon_Crawlers
                         playerState = PlayerState.FacingLeft;
                     }
                     break;
+            }
+
+            // If player dies then go to GameOver Screen
+            if(health <= 0)
+            {
+                StateManager.Instance.ChangeState(GameState.GameOver);
             }
 
             // Update previous Keyboard State
@@ -331,11 +339,18 @@ namespace Dungeon_Crawlers
         {
             for (int i = 0; i < objects.Count; i++)
             {
-                if (objects[i].BoxType == BoxType.Hitbox)
+                if (objects[i].BoxType == BoxType.Collision)
                 {
                     if (position.Box.Intersects(objects[i].Box))
                     {
                         position.BoxY -= 5;
+                    }
+                }
+                if (objects[i].BoxType == BoxType.Hurtbox)
+                {
+                    if (position.Box.Intersects(objects[i].Box))
+                    {
+                        health--;
                     }
                 }
             }

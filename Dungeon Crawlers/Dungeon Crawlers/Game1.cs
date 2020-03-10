@@ -12,7 +12,6 @@ namespace Dungeon_Crawlers
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        StateManager stateManager;      // The object that manages all states of the game
         SpriteFont titleFont;
         Vector2 titlePosition;
         int screenWidth;
@@ -52,15 +51,12 @@ namespace Dungeon_Crawlers
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            stateManager = new StateManager();
             screenWidth = graphics.GraphicsDevice.Viewport.Width;
             screenHeight = graphics.GraphicsDevice.Viewport.Height;
 
             //Sets up the positions for text
             titlePosition = new Vector2((screenWidth / 2), (screenHeight / 2));
             IsMouseVisible = true;
-            //Sets up the state manager
-            stateManager = new StateManager();
 
             // Initializes collection of hitboxes
             hitBoxes = new List<Hitbox>();
@@ -92,8 +88,8 @@ namespace Dungeon_Crawlers
             squareObject = Content.Load<Texture2D>("Square");
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
-            Hitbox tileBox = new Hitbox(new Rectangle (100, 100, tileTextures.Width, tileTextures.Height), BoxType.Hitbox);
-            tile = new Tile(tileTextures, tileBox);
+            Hitbox tileBox = new Hitbox(new Rectangle (700, 100, tileTextures.Width, tileTextures.Height), BoxType.Hurtbox);
+            tile = new Tile(tileTextures, tileBox, TileType.Spikes);
             hitBoxes.Add(tileBox);
         }
 
@@ -140,7 +136,7 @@ namespace Dungeon_Crawlers
 
             
             //Checks the state and updates accordingly
-            switch (stateManager.CurrentState)
+            switch (StateManager.Instance.CurrentState)
             {
                 //Title updates
                 case GameState.Title:
@@ -148,13 +144,13 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
                     {
                         //Start the game
-                        stateManager.ChangeState(GameState.Game);
+                        StateManager.Instance.ChangeState(GameState.Game);
                     }
                     //If I is pressed
                     if (kbState.IsKeyDown(Keys.I) && kbState != prevKbState)
                     {
                         //Show the instructions
-                        stateManager.ChangeState(GameState.Instructions);
+                        StateManager.Instance.ChangeState(GameState.Instructions);
                     }
                     player.Update(gameTime);
                     break;
@@ -165,13 +161,13 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
                     {
                         //Start the game
-                        stateManager.ChangeState(GameState.Game);
+                        StateManager.Instance.ChangeState(GameState.Game);
                     }
                     //If M is pressed
                     if (kbState.IsKeyDown(Keys.M) && kbState != prevKbState)
                     {
                         //Go back to the main menu
-                        stateManager.ChangeState(GameState.Title);
+                        StateManager.Instance.ChangeState(GameState.Title);
                     }
                     break;
 
@@ -181,7 +177,7 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Escape) && kbState != prevKbState)
                     {
                         //Pause the game
-                        stateManager.ChangeState(GameState.Pause);
+                        StateManager.Instance.ChangeState(GameState.Pause);
                     }
                     break;
 
@@ -191,13 +187,13 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Escape) && kbState != prevKbState)
                     {
                         //Unpause the game
-                        stateManager.ChangeState(GameState.Game);
+                        StateManager.Instance.ChangeState(GameState.Game);
                     }
                     //If H is pressed
                     if (kbState.IsKeyDown(Keys.H) && kbState != prevKbState)
                     {
                         //Display the help screen
-                        stateManager.ChangeState(GameState.Help);
+                        StateManager.Instance.ChangeState(GameState.Help);
                     }
                     break;
 
@@ -207,7 +203,7 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Escape) && kbState != prevKbState)
                     {
                         //Go back to the pause menu
-                        stateManager.ChangeState(GameState.Pause);
+                        StateManager.Instance.ChangeState(GameState.Pause);
                     }
                     break;
 
@@ -217,7 +213,7 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
                     {
                         //Return to the title screen
-                        stateManager.ChangeState(GameState.Title);
+                        StateManager.Instance.ChangeState(GameState.Title);
                     }
                     break;
 
@@ -250,7 +246,7 @@ namespace Dungeon_Crawlers
                 spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
             }
 
-            switch (stateManager.CurrentState)
+            switch (StateManager.Instance.CurrentState)
             {
                 case GameState.Title:
                     //Draws the title text
@@ -282,6 +278,7 @@ namespace Dungeon_Crawlers
                     break;
 
                 case GameState.GameOver:
+                    spriteBatch.DrawString(titleFont, "You have lost the game!", titlePosition, Color.OrangeRed);
                     break;
 
                 case GameState.Win:

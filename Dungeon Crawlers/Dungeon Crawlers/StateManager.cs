@@ -24,11 +24,26 @@ namespace Dungeon_Crawlers
         // ---------------------
 
         private GameState currentState;
+        private static StateManager mgrInstance;
 
         // ---------------------
         // Properties
         // ---------------------
 
+        // Add a public static "Instance" property
+        public static StateManager Instance
+        {
+            get
+            {
+                // Returns a reference to the single
+                // static instance (creating it if needed)
+                if (mgrInstance == null)
+                {
+                    mgrInstance = new StateManager();
+                }
+                return mgrInstance;
+            }
+        }
         public GameState CurrentState
         {
             get { return currentState; }
@@ -38,7 +53,7 @@ namespace Dungeon_Crawlers
         // ---------------------
         // Constructor
         // ---------------------
-        public StateManager()
+        private StateManager()
         {
             this.currentState = GameState.Title;
         }
