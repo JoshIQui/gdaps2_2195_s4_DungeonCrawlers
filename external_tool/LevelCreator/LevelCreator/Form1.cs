@@ -86,12 +86,12 @@ namespace LevelCreator
             }
 
             //Creates a toolbar of buttons that allow the user to change the color of the wall of buttons
-            for (int column = 0; column < 10; column++)
+            for (int column = 0; column < 14; column++)
             {
                 //Creates a new button and gives it a location and size
                 Button b = new Button();
-                b.Location = new Point(100 * (column + 1), 20);
-                b.Width = 80;
+                b.Location = new Point(70 * (column + 1), 20);
+                b.Width = 70;
                 b.Height = 20;
 
                 //Gives the button a name
@@ -108,12 +108,12 @@ namespace LevelCreator
                 Label label = new Label();
 
                 //Location and size of the label
-                label.Location = new Point(100 * (column + 1), 5);
-                label.Width = 80;
+                label.Location = new Point(70 * (column + 1), 5);
+                label.Width = 70;
                 label.Height = 20;
 
                 //Gives the label a name
-                string labelName = String.Format("Button {0} label", column + 1);
+                string labelName = String.Format("Button {0}", column + 1);
                 label.Name = labelName;
 
                 switch (column)
@@ -156,6 +156,22 @@ namespace LevelCreator
                         break;
                     case 9:
                         label.Text = labelName;
+                        b.BackColor = Color.Salmon;
+                        break;
+                    case 10:
+                        label.Text = labelName;
+                        b.BackColor = Color.CadetBlue;
+                        break;
+                    case 11:
+                        label.Text = labelName;
+                        b.BackColor = Color.DarkViolet;
+                        break;
+                    case 12:
+                        label.Text = labelName;
+                        b.BackColor = Color.White;
+                        break;
+                    case 13:
+                        label.Text = labelName;
                         b.BackColor = Color.Empty;
                         break;
                 }
@@ -179,8 +195,77 @@ namespace LevelCreator
                 }
                 else
                 {
-                    //Sets the color of the button to the color type
-                    tempButton.BackColor = clickColor;
+                    //IF the color is not white, do normal things
+                    if (clickColor != Color.White)
+                    {
+                        //Sets the color of the button to the color type
+                        tempButton.BackColor = clickColor;
+                        tempButton.Text = "1";
+                    }
+                    //If the click color is white, rotate or flip the space based on the color
+                    else
+                    {
+                        //Can rotate 360 degrees
+                        if (tempButton.BackColor == Color.Red || tempButton.BackColor == Color.Blue || 
+                            tempButton.BackColor == Color.Yellow || tempButton.BackColor == Color.Orange)
+                        {
+                            switch (tempButton.Text)
+                            {
+                                case "1":
+                                    tempButton.Text = "2";
+                                    break;
+                                case "2":
+                                    tempButton.Text = "3";
+                                    break;
+                                case "3":
+                                    tempButton.Text = "4";
+                                    break;
+                                case "4":
+                                    tempButton.Text = "1";
+                                    break;
+                            }
+                        }
+                        //Can rotate 90 degrees
+                        else if (tempButton.BackColor == Color.Green)
+                        {
+                            switch (tempButton.Text)
+                            {
+                                case "1":
+                                    tempButton.Text = "2";
+                                    break;
+                                case "2":
+                                    tempButton.Text = "1";
+                                    break;
+                            }
+                        }
+                        //Can flip horizontally
+                        else if (tempButton.BackColor == Color.Teal || tempButton.BackColor == Color.Black || tempButton.BackColor == Color.Brown ||
+                                tempButton.BackColor == Color.Salmon)
+                        {
+                            switch (tempButton.Text)
+                            {
+                                case "1":
+                                    tempButton.Text = "H";
+                                    break;
+                                case "H":
+                                    tempButton.Text = "1";
+                                    break;
+                            }
+                        }
+                        //Can flip vertically
+                        else if (tempButton.BackColor == Color.CadetBlue)
+                        {
+                            switch (tempButton.Text)
+                            {
+                                case "1":
+                                    tempButton.Text = "V";
+                                    break;
+                                case "V":
+                                    tempButton.Text = "1";
+                                    break;
+                            }
+                        }
+                    }
                 }
             }
         }
