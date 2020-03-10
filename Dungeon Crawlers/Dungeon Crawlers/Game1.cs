@@ -30,7 +30,8 @@ namespace Dungeon_Crawlers
         MouseState mState;              // use only for debug
         MouseState prevmsState;         // use only for debug
         List<Hitbox> hitBoxes;
-        Tile tile;
+        Tile tile1;
+        Tile tile2;
 
         List<Item> squareCollection = new List<Item>();
         
@@ -82,15 +83,18 @@ namespace Dungeon_Crawlers
             Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hitbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
-            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 45, 89), BoxType.Hitbox);
+            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 64, 89), BoxType.Hitbox);
             player = new Player(charTextures, playerBox, screenWidth, screenHeight);
 
             squareObject = Content.Load<Texture2D>("Square");
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
-            Hitbox tileBox = new Hitbox(new Rectangle (700, 100, tileTextures.Width, tileTextures.Height), BoxType.Hurtbox);
-            tile = new Tile(tileTextures, tileBox, TileType.Spikes);
-            hitBoxes.Add(tileBox);
+            Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 128, 128), BoxType.Collision);
+            tile1 = new Tile(tileTextures, tileBox1, TileType.Floor);
+            hitBoxes.Add(tileBox1);
+            Hitbox tileBox2 = new Hitbox(new Rectangle(700, 272, 128, 64), BoxType.Hurtbox);
+            tile2 = new Tile(tileTextures, tileBox2, TileType.Spikes);
+            hitBoxes.Add(tileBox2);
         }
 
         /// <summary>
@@ -256,7 +260,8 @@ namespace Dungeon_Crawlers
                     spriteBatch.DrawString(titleFont, "Press ENTER to Start", new Vector2(500, 700), Color.OrangeRed);
 
                     player.Draw(spriteBatch);
-                    tile.Draw(spriteBatch);
+                    tile1.Draw(spriteBatch);
+                    tile2.Draw(spriteBatch);
                     break;
 
 

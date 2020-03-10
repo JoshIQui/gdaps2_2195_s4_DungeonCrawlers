@@ -341,9 +341,21 @@ namespace Dungeon_Crawlers
             {
                 if (objects[i].BoxType == BoxType.Collision)
                 {
-                    if (position.Box.Intersects(objects[i].Box))
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY + 89 >= objects[i].BoxY)
                     {
                         position.BoxY -= 5;
+                    }
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY <= objects[i].BoxY + 128)
+                    {
+                        position.BoxY += 10;
+                    }
+                    if(position.Box.Intersects(objects[i].Box) && kbState.IsKeyDown(Keys.D))
+                    {
+                        position.BoxX = objects[i].BoxX - 64;
+                    }
+                    if (position.Box.Intersects(objects[i].Box) && kbState.IsKeyDown(Keys.A))
+                    {
+                        position.BoxX = objects[i].BoxX + 128;
                     }
                 }
                 if (objects[i].BoxType == BoxType.Hurtbox)
