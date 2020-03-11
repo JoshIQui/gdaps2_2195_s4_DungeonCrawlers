@@ -33,12 +33,25 @@ namespace Dungeon_Crawlers
                     for (int j = 0; j < numTilesWidth; j++)
                     {
                         string row = reader.ReadLine();
-                        string[] tiles = row.Split(',');
+                        char[] tiles = row.ToCharArray();
+
+                        foreach (char tile in tiles)
+                        {
+                            TileType type;
+
+                            // ~~~~~~~~~~~~~ Floors ~~~~~~~~~~~~~~
+                            if (tile == '1' || tile == 'Q' || tile == 'A' || tile == 'Z')
+                            {
+                                type = TileType.Floor;
+                            }
+                                
+                                
+                        }
 
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 
             }
