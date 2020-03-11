@@ -188,8 +188,8 @@ namespace LevelCreator
             {
                 Button tempButton = (Button)sender;
 
-                //Gets rid of the color if the button is clicked with the same color as the click color
-                if (tempButton.BackColor == clickColor)
+                //Gets rid of the color if the button is clicked with the same color as the click color or if the color is empty
+                if (tempButton.BackColor == clickColor || clickColor.Name == "Control")
                 {
                     tempButton.BackColor = Color.Empty;
                     tempButton.Text = "";
