@@ -355,7 +355,7 @@ namespace Dungeon_Crawlers
                     }
                     if (position.Box.Intersects(objects[i].Box) && position.BoxX <= objects[i].BoxX + 64) // Right of Tile
                     {
-                        position.BoxX += 5;
+                        position.BoxX += 10;
                     }
                 }
                 if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player

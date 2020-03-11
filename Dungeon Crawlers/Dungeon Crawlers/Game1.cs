@@ -92,7 +92,7 @@ namespace Dungeon_Crawlers
             Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
             tile1 = new Tile(tileTextures, tileBox1, TileType.Floor);
             hitBoxes.Add(tileBox1);
-            Hitbox tileBox2 = new Hitbox(new Rectangle(700, 336, 64, 32), BoxType.Collision);
+            Hitbox tileBox2 = new Hitbox(new Rectangle(700, 336, 64, 64), BoxType.Collision);
             tile2 = new Tile(tileTextures, tileBox2, TileType.Floor);
             hitBoxes.Add(tileBox2);
         }
