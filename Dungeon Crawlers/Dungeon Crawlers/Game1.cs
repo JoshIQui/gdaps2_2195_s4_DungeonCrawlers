@@ -89,10 +89,10 @@ namespace Dungeon_Crawlers
             squareObject = Content.Load<Texture2D>("Square");
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
-            Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 128, 128), BoxType.Collision);
+            Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
             tile1 = new Tile(tileTextures, tileBox1, TileType.Floor);
             hitBoxes.Add(tileBox1);
-            Hitbox tileBox2 = new Hitbox(new Rectangle(700, 272, 128, 64), BoxType.Hurtbox);
+            Hitbox tileBox2 = new Hitbox(new Rectangle(700, 336, 64, 32), BoxType.Hurtbox);
             tile2 = new Tile(tileTextures, tileBox2, TileType.Spikes);
             hitBoxes.Add(tileBox2);
         }
