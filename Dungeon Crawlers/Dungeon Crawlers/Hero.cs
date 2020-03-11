@@ -61,10 +61,10 @@ namespace Dungeon_Crawlers
             fps = 10.0;                     // Will cycle through 10 walk frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
         }
-        public void logic(MouseState mouse,List<Hitbox> square)
+        public void logic(MouseState target,List<Hitbox> square)
         {
-            debug.X = mouse.X;
-            debug.Y = mouse.Y;
+            debug.X = target.X;
+            debug.Y = target.Y;
             debug.Width = 1;
             debug.Height = 1;
 
@@ -76,7 +76,7 @@ namespace Dungeon_Crawlers
                     currentState = HeroState.Attack;
                     break;
                 }
-                if (position.BoxY < mouse.Y) //going down
+                if (position.BoxY < target.Y) //going down
                 {
                     position.BoxY += 1;
                     speed -= 1;
@@ -88,7 +88,7 @@ namespace Dungeon_Crawlers
                         }
                     }
                 }
-                if (position.BoxY > mouse.Y) //going up
+                if (position.BoxY > target.Y) //going up
                 {
                     position.BoxY -= 1;
                     speed -= 1;
@@ -101,7 +101,7 @@ namespace Dungeon_Crawlers
                         }
                     }
                 }
-                if (position.BoxX < mouse.X) //GO RIGHT 
+                if (position.BoxX < target.X) //GO RIGHT 
                 {
                     position.BoxX += 1;
                     speed -= 1;
@@ -111,18 +111,11 @@ namespace Dungeon_Crawlers
 
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            if ((position.BoxY + HeroRectHeight * 2)- square[a].BoxY < square[a].Box.Height)
-                            {
-                                position.BoxY = square[a].BoxY - HeroRectHeight*2;
-                            }
-                            else
-                            {
-                                position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
-                            }
+                            position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
                         }
                     }
                 }
-                if (position.BoxX > mouse.X) //GO LEFT
+                if (position.BoxX > target.X) //GO LEFT
                 {
                     position.BoxX -= 1;
                     speed -= 1;
@@ -131,14 +124,8 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
-                            {
-                                position.BoxY = square[a].BoxY - HeroRectHeight * 2;
-                            }
-                            else
-                            {
-                                position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
-                            }
+                            position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
+                           
                         }
                     }
                 }
