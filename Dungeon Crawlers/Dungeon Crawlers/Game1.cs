@@ -83,7 +83,7 @@ namespace Dungeon_Crawlers
             Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hitbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
-            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 88*2, 45*2), BoxType.Hitbox);
+            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 66, 64), BoxType.Hitbox);
             player = new Player(charTextures, playerBox, screenWidth, screenHeight);
 
             squareObject = Content.Load<Texture2D>("Square");
@@ -129,7 +129,7 @@ namespace Dungeon_Crawlers
             if (mState.LeftButton == ButtonState.Pressed && prevmsState.LeftButton == ButtonState.Released)
             {
                 Rectangle mousLoc = new Rectangle(mState.X, mState.Y, 40, 40);
-                Hitbox squareBox = new Hitbox(mousLoc, BoxType.Collision);
+                Hitbox squareBox = new Hitbox(mousLoc, BoxType.Hitbox);
                 Item square = new Item(squareObject, squareBox, screenWidth, screenHeight);
 
                 squareCollection.Add(square);
@@ -156,7 +156,7 @@ namespace Dungeon_Crawlers
                         //Show the instructions
                         StateManager.Instance.ChangeState(GameState.Instructions);
                     }
-                    player.Update(gameTime);
+                    
                     break;
 
                 //Instructions updates
@@ -178,17 +178,18 @@ namespace Dungeon_Crawlers
                 //Game updates
                 case GameState.Game:
                     //If esc is pressed
-                    if (kbState.IsKeyDown(Keys.Escape) && kbState != prevKbState)
+                    if (kbState.IsKeyDown(Keys.P) && kbState != prevKbState)
                     {
                         //Pause the game
                         StateManager.Instance.ChangeState(GameState.Pause);
                     }
+                    player.Update(gameTime);
                     break;
 
                 //Pause updates
                 case GameState.Pause:
-                    //If esc is pressed
-                    if (kbState.IsKeyDown(Keys.Escape) && kbState != prevKbState)
+                    //If R is pressed
+                    if (kbState.IsKeyDown(Keys.R) && kbState != prevKbState)
                     {
                         //Unpause the game
                         StateManager.Instance.ChangeState(GameState.Game);
@@ -199,15 +200,27 @@ namespace Dungeon_Crawlers
                         //Display the help screen
                         StateManager.Instance.ChangeState(GameState.Help);
                     }
+                    //If M is pressed
+                    if (kbState.IsKeyDown(Keys.M) && kbState != prevKbState)
+                    {
+                        //Display the help screen
+                        StateManager.Instance.ChangeState(GameState.Title);
+                    }
                     break;
 
                 //Help updates
                 case GameState.Help:
-                    //If esc is pressed
-                    if (kbState.IsKeyDown(Keys.Escape) && kbState != prevKbState)
+                    //If P is pressed
+                    if (kbState.IsKeyDown(Keys.P) && kbState != prevKbState)
                     {
                         //Go back to the pause menu
                         StateManager.Instance.ChangeState(GameState.Pause);
+                    }
+                    //If P is pressed
+                    if (kbState.IsKeyDown(Keys.R) && kbState != prevKbState)
+                    {
+                        //Go back to the pause menu
+                        StateManager.Instance.ChangeState(GameState.Game);
                     }
                     break;
 
@@ -242,13 +255,8 @@ namespace Dungeon_Crawlers
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            hero.Draw(spriteBatch);
             //Checks the state and draws accordingly
 
-            for (int a = 0; a < squareCollection.Count; a++)
-            {
-                spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
-            }
 
             switch (StateManager.Instance.CurrentState)
             {
@@ -259,27 +267,41 @@ namespace Dungeon_Crawlers
                     //Draws the instructions for starting the game
                     spriteBatch.DrawString(titleFont, "Press ENTER to Start", new Vector2(500, 700), Color.OrangeRed);
 
-                    player.Draw(spriteBatch);
-                    tile1.Draw(spriteBatch);
-                    tile2.Draw(spriteBatch);
                     break;
 
 
                 case GameState.Instructions:
+                    spriteBatch.DrawString(titleFont, "Objective: Defeat the hero by gathering as many enemies as possible and", new Vector2(500, 300), Color.OrangeRed);
+                    spriteBatch.DrawString(titleFont, "then fighting the hero with those enemies. The Hero is stronger so you", new Vector2(500, 325), Color.OrangeRed);
+                    spriteBatch.DrawString(titleFont, "can't defeat him alone!", new Vector2(500, 350), Color.OrangeRed);
+                    spriteBatch.DrawString(titleFont, "Click Enter to Continue", new Vector2(500, 800), Color.OrangeRed);
                     break;
 
                 case GameState.Game:
-                    //Draws the player
-                    spriteBatch.Draw(player.Asset, player.Position.Box, Color.White);
-
-                    //Draws the hero
-                    spriteBatch.Draw(hero.Asset, hero.Position.Box, Color.White);
+                    hero.Draw(spriteBatch);
+                    player.Draw(spriteBatch);
+                    tile1.Draw(spriteBatch);
+                    tile2.Draw(spriteBatch);
+                    for (int a = 0; a < squareCollection.Count; a++)
+                    {
+                        spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
+                    }
                     break;
 
                 case GameState.Pause:
+                    spriteBatch.DrawString(titleFont, "Click M to Go back To Menu", new Vector2(500, 700), Color.OrangeRed);
+                    spriteBatch.DrawString(titleFont, "Click H for Help", new Vector2(500, 750), Color.OrangeRed);
+                    spriteBatch.DrawString(titleFont, "Click R to Resume", new Vector2(500, 800), Color.OrangeRed);
                     break;
 
                 case GameState.Help:
+                    spriteBatch.DrawString(titleFont, "Click W to Jump", new Vector2(500, 300), Color.OrangeRed);
+                    spriteBatch.DrawString(titleFont, "Click A to move left", new Vector2(500, 350), Color.OrangeRed);
+                    spriteBatch.DrawString(titleFont, "Click D to move right", new Vector2(500, 400), Color.OrangeRed);
+                    spriteBatch.DrawString(titleFont, "Click Space to attack", new Vector2(500, 450), Color.OrangeRed);
+
+                    spriteBatch.DrawString(titleFont, "Click P to Go Back", new Vector2(500, 750), Color.OrangeRed);
+                    spriteBatch.DrawString(titleFont, "Click R to Resume", new Vector2(500, 800), Color.OrangeRed);
                     break;
 
                 case GameState.GameOver:
@@ -287,6 +309,7 @@ namespace Dungeon_Crawlers
                     break;
 
                 case GameState.Win:
+                    spriteBatch.DrawString(titleFont, "You have won the game!", titlePosition, Color.OrangeRed);
                     break;
             }
 
