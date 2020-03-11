@@ -188,8 +188,8 @@ namespace LevelCreator
             {
                 Button tempButton = (Button)sender;
 
-                //Gets rid of the color if the button is clicked with the same color as the click color
-                if (tempButton.BackColor == clickColor)
+                //Gets rid of the color if the button is clicked with the same color as the click color or if the color is empty
+                if (tempButton.BackColor == clickColor || clickColor.Name == "Control")
                 {
                     tempButton.BackColor = Color.Empty;
                     tempButton.Text = "";
@@ -306,45 +306,151 @@ namespace LevelCreator
 
                     foreach (Button button in buttons)
                     {
-                        if (button.BackColor == Color.Red)
+                        //Determines the color and transformation of the box and writes to the file accordingly
+                        switch (clickColor.Name)
                         {
-                            writer.Write("R");
-                        }
-                        else if (button.BackColor == Color.Blue)
-                        {
-                            writer.Write("B");
-                        }
-                        else if (button.BackColor == Color.Green)
-                        {
-                            writer.Write("G");
-                        }
-                        else if (button.BackColor == Color.Yellow)
-                        {
-                            writer.Write("Y");
-                        }
-                        else if (button.BackColor == Color.Orange)
-                        {
-                            writer.Write("Q");
-                        }
-                        else if (button.BackColor == Color.Purple)
-                        {
-                            writer.Write("P");
-                        }
-                        else if (button.BackColor == Color.Teal)
-                        {
-                            writer.Write("T");
-                        }
-                        else if (button.BackColor == Color.Black)
-                        {
-                            writer.Write("L");
-                        }
-                        else if (button.BackColor == Color.Brown)
-                        {
-                            writer.Write("K");
-                        }
-                        else
-                        {
-                            writer.Write("O");
+                            case "Red":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("1");
+                                        break;
+                                    case "2":
+                                        writer.Write("Q");
+                                        break;
+                                    case "3":
+                                        writer.Write("A");
+                                        break;
+                                    case "4":
+                                        writer.Write("Z");
+                                        break;
+                                }
+                                break;
+                            case "Blue":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("2");
+                                        break;
+                                    case "2":
+                                        writer.Write("W");
+                                        break;
+                                    case "3":
+                                        writer.Write("S");
+                                        break;
+                                    case "4":
+                                        writer.Write("X");
+                                        break;
+                                }
+                                break;
+                            case "Green":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("3");
+                                        break;
+                                    case "2":
+                                        writer.Write("E");
+                                        break;
+                                }
+                                break;
+                            case "Yellow":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("4");
+                                        break;
+                                    case "2":
+                                        writer.Write("R");
+                                        break;
+                                    case "3":
+                                        writer.Write("F");
+                                        break;
+                                    case "4":
+                                        writer.Write("V");
+                                        break;
+                                }
+                                break;
+                            case "Orange":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("5");
+                                        break;
+                                    case "2":
+                                        writer.Write("T");
+                                        break;
+                                    case "3":
+                                        writer.Write("G");
+                                        break;
+                                    case "4":
+                                        writer.Write("B");
+                                        break;
+                                }
+                                break;
+                            case "Purple":
+                                break;
+                            case "Teal":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("6");
+                                        break;
+                                    case "H":
+                                        writer.Write("Y");
+                                        break;
+                                }
+                                break;
+                            case "Black":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("7");
+                                        break;
+                                    case "H":
+                                        writer.Write("U");
+                                        break;
+                                }
+                                break;
+                            case "Brown":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("8");
+                                        break;
+                                    case "H":
+                                        writer.Write("I");
+                                        break;
+                                }
+                                break;
+                            case "Salmon":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("9");
+                                        break;
+                                    case "H":
+                                        writer.Write("O");
+                                        break;
+                                }
+                                break;
+                            case "CadetBlue":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("0");
+                                        break;
+                                    case "V":
+                                        writer.Write("P");
+                                        break;
+                                }
+                                break;
+                            case "DarkViolet":
+                                writer.Write("-");
+                                break;
+                            case "Control":
+                                writer.Write("~");
+                                break;
                         }
 
                         //Splits the name into the two coordinates
