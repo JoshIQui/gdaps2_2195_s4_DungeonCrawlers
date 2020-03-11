@@ -17,7 +17,7 @@ namespace Dungeon_Crawlers
 
         private Rectangle box;
         private BoxType boxType;
-        private bool hasDuration;
+        private string duration;
 
         //IMPLEMENT ANIMATION FIELDS HERE
 
@@ -52,10 +52,34 @@ namespace Dungeon_Crawlers
         // Constructor
         // ---------------------
 
-        public Hitbox(Rectangle box, BoxType boxType)
+        public Hitbox(Rectangle box, BoxType boxType, string duration = null)
         {
             this.box = box;
             this.boxType = boxType;
+            this.duration = duration;
+        }
+
+        // ---------------------
+        // Methods
+        // ---------------------
+
+        //Method is not fully implemented
+        public void CountDuration()
+        {
+            if (duration != "0")
+            {
+                int frameDuration;
+
+                if (int.TryParse(duration, out frameDuration))
+                {
+                    if (frameDuration!= 0)
+                    {
+                        frameDuration -= 1;
+                    }
+                }
+
+                duration = "" + frameDuration;
+            }
         }
     }
 }
