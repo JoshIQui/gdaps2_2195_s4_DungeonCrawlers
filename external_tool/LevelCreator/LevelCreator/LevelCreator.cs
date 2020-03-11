@@ -322,7 +322,7 @@ namespace LevelCreator
                     foreach (Button button in buttons)
                     {
                         //Determines the color and transformation of the box and writes to the file accordingly
-                        switch (clickColor.Name)
+                        switch (button.BackColor.Name)
                         {
                             case "Red":
                                 switch (button.Text)
@@ -474,6 +474,9 @@ namespace LevelCreator
                                         writer.Write("]");
                                         break;
                                 }
+                                break;
+                            case "0":
+                                writer.Write("~");
                                 break;
                             case "Control":
                                 writer.Write("~");
