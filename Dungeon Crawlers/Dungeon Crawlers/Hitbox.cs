@@ -63,6 +63,7 @@ namespace Dungeon_Crawlers
         // Methods
         // ---------------------
 
+        //Method is not fully implemented
         public void CountDuration()
         {
             if (duration != "0")
