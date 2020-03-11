@@ -42,6 +42,7 @@ namespace Dungeon_Crawlers
         const int PlayerRectOffsetWalk = 48;   // How far down in the image are the frames? FOR THE RUN
         const int PlayerRectHeight = 45;     // The height of a single frame
         const int PlayerRectWidth = 88;     // The width of a single frame
+        const int OffsetX = 50;
 
         // Properties
         public int Health
@@ -78,7 +79,7 @@ namespace Dungeon_Crawlers
         {
             // Get Keyboard state for user input
             KeyboardState kbState = Keyboard.GetState();
-            position.BoxY += 5;
+            //position.BoxY += 5;
 
             // Logic for switching player states and player movement
             switch(playerState)
@@ -263,7 +264,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
                     PlayerRectOffsetWalk * 5,           //	   where "inside" the texture
@@ -282,7 +283,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
                     PlayerRectOffsetWalk * 6,           //	   where "inside" the texture
@@ -301,7 +302,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
                     PlayerRectOffsetWalk * 7,           //	   where "inside" the texture
@@ -320,7 +321,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     3 * PlayerRectWidth,     //   - This rectangle specifies
                     PlayerRectOffsetWalk * 6,           //	   where "inside" the texture

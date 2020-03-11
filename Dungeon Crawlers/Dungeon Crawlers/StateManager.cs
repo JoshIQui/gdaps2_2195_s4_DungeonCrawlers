@@ -55,7 +55,7 @@ namespace Dungeon_Crawlers
         // ---------------------
         private StateManager()
         {
-            this.currentState = GameState.Title;
+            this.currentState = GameState.Game;
         }
 
         // ---------------------

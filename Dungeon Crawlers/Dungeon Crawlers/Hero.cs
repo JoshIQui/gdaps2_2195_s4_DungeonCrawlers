@@ -61,7 +61,7 @@ namespace Dungeon_Crawlers
             fps = 10.0;                     // Will cycle through 10 walk frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
         }
-        public void logic(MouseState mouse,List<Item> square)
+        public void logic(MouseState mouse,List<Hitbox> square)
         {
             debug.X = mouse.X;
             debug.Y = mouse.Y;
@@ -82,9 +82,9 @@ namespace Dungeon_Crawlers
                     speed -= 1;
                     for (int a = 0; a < square.Count; a++)
                     {
-                        if (square[a].Intersect(position.Box))
+                        if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxY = square[a].Position.BoxY - HeroRectHeight * 2;// *2 because i use 200% scaling
+                            position.BoxY = square[a].BoxY - HeroRectHeight * 2;// *2 because i use 200% scaling
                         }
                     }
                 }
@@ -95,9 +95,9 @@ namespace Dungeon_Crawlers
                     currentState = HeroState.Jumping;
                     for (int a = 0; a < square.Count; a++)
                     {
-                        if (square[a].Intersect(position.Box))
+                        if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxY = square[a].Position.BoxY + square[a].Position.Box.Height;// *2 because i use 200% scaling
+                            position.BoxY = square[a].BoxY + square[a].Box.Height;// *2 because i use 200% scaling
                         }
                     }
                 }
@@ -109,15 +109,15 @@ namespace Dungeon_Crawlers
                     for (int a = 0; a < square.Count; a++)
                     {
 
-                        if (square[a].Intersect(position.Box))
+                        if (square[a].Box.Intersects(position.Box))
                         {
-                            if ((position.BoxY + HeroRectHeight * 2)- square[a].Position.BoxY < square[a].Position.Box.Height)
+                            if ((position.BoxY + HeroRectHeight * 2)- square[a].BoxY < square[a].Box.Height)
                             {
-                                position.BoxY = square[a].Position.BoxY - HeroRectHeight*2;
+                                position.BoxY = square[a].BoxY - HeroRectHeight*2;
                             }
                             else
                             {
-                                position.BoxX = square[a].Position.BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
+                                position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
                             }
                         }
                     }
@@ -129,15 +129,15 @@ namespace Dungeon_Crawlers
                     currentState = HeroState.WalkLeft;
                     for (int a = 0; a < square.Count; a++)
                     {
-                        if (square[a].Intersect(position.Box))
+                        if (square[a].Box.Intersects(position.Box))
                         {
-                            if ((position.BoxY + HeroRectHeight * 2) - square[a].Position.BoxY < square[a].Position.Box.Height)
+                            if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
                             {
-                                position.BoxY = square[a].Position.BoxY - HeroRectHeight * 2;
+                                position.BoxY = square[a].BoxY - HeroRectHeight * 2;
                             }
                             else
                             {
-                                position.BoxX = square[a].Position.BoxX + square[a].Position.Box.Width;// *2 because i use 200% scaling
+                                position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
                             }
                         }
                     }
