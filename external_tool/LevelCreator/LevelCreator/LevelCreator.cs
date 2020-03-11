@@ -135,43 +135,43 @@ namespace LevelCreator
                         b.BackColor = Color.Yellow;
                         break;
                     case 4:
-                        label.Text = labelName;
+                        label.Text = "Corner";
                         b.BackColor = Color.Orange;
                         break;
                     case 5:
-                        label.Text = labelName;
+                        label.Text = "Empty Space";
                         b.BackColor = Color.Purple;
                         break;
                     case 6:
-                        label.Text = labelName;
+                        label.Text = "Stairs";
                         b.BackColor = Color.Teal;
                         break;
                     case 7:
-                        label.Text = labelName;
+                        label.Text = "Stair end";
                         b.BackColor = Color.Black;
                         break;
                     case 8:
-                        label.Text = labelName;
+                        label.Text = "Platform";
                         b.BackColor = Color.Brown;
                         break;
                     case 9:
-                        label.Text = labelName;
+                        label.Text = "Platform End";
                         b.BackColor = Color.Salmon;
                         break;
                     case 10:
-                        label.Text = labelName;
+                        label.Text = "Spikes";
                         b.BackColor = Color.CadetBlue;
                         break;
                     case 11:
-                        label.Text = labelName;
+                        label.Text = "Enemy";
                         b.BackColor = Color.DarkViolet;
                         break;
                     case 12:
-                        label.Text = labelName;
+                        label.Text = "Transform";
                         b.BackColor = Color.White;
                         break;
                     case 13:
-                        label.Text = labelName;
+                        label.Text = "Eraser";
                         b.BackColor = Color.Empty;
                         break;
                 }
@@ -266,6 +266,21 @@ namespace LevelCreator
                                     break;
                             }
                         }
+                        else if (tempButton.BackColor == Color.DarkViolet)
+                        {
+                            switch (tempButton.Text)
+                            {
+                                case "1":
+                                    tempButton.Text = "2";
+                                    break;
+                                case "2":
+                                    tempButton.Text = "3";
+                                    break;
+                                case "3":
+                                    tempButton.Text = "1";
+                                    break;
+                            }
+                        }
                     }
                 }
             }
@@ -307,7 +322,7 @@ namespace LevelCreator
                     foreach (Button button in buttons)
                     {
                         //Determines the color and transformation of the box and writes to the file accordingly
-                        switch (clickColor.Name)
+                        switch (button.BackColor.Name)
                         {
                             case "Red":
                                 switch (button.Text)
@@ -447,7 +462,21 @@ namespace LevelCreator
                                 }
                                 break;
                             case "DarkViolet":
-                                writer.Write("=");
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("=");
+                                        break;
+                                    case "2":
+                                        writer.Write("+");
+                                        break;
+                                    case "3":
+                                        writer.Write("]");
+                                        break;
+                                }
+                                break;
+                            case "0":
+                                writer.Write("~");
                                 break;
                             case "Control":
                                 writer.Write("~");
