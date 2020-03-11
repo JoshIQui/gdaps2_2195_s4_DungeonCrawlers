@@ -142,7 +142,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
@@ -160,7 +160,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
@@ -177,7 +177,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
@@ -194,7 +194,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
@@ -211,7 +211,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
@@ -228,7 +228,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
@@ -245,7 +245,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
@@ -262,7 +262,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
@@ -279,7 +279,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
@@ -296,7 +296,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
@@ -313,7 +313,7 @@ namespace Dungeon_Crawlers
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
+                1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
