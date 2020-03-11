@@ -339,26 +339,26 @@ namespace Dungeon_Crawlers
         {
             for (int i = 0; i < objects.Count; i++)
             {
-                if (objects[i].BoxType == BoxType.Collision)
+                if (objects[i].BoxType == BoxType.Collision) // Immobile Tiles
                 {
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY + 89 >= objects[i].BoxY)
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY + 89 >= objects[i].BoxY) // Top of Tile
                     {
                         position.BoxY -= 5;
                     }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY <= objects[i].BoxY + 128)
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY <= objects[i].BoxY + 128) // Bottom of Tile
                     {
                         position.BoxY += 10;
                     }
-                    if(position.Box.Intersects(objects[i].Box) && kbState.IsKeyDown(Keys.D))
+                    if(position.Box.Intersects(objects[i].Box) && kbState.IsKeyDown(Keys.D)) // Left of Tile
                     {
                         position.BoxX = objects[i].BoxX - 64;
                     }
-                    if (position.Box.Intersects(objects[i].Box) && kbState.IsKeyDown(Keys.A))
+                    if (position.Box.Intersects(objects[i].Box) && kbState.IsKeyDown(Keys.A)) // Right of Tile
                     {
                         position.BoxX = objects[i].BoxX + 128;
                     }
                 }
-                if (objects[i].BoxType == BoxType.Hurtbox)
+                if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player
                 {
                     if (position.Box.Intersects(objects[i].Box))
                     {
