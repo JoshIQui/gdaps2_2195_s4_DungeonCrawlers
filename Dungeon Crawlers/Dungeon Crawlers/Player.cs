@@ -79,7 +79,7 @@ namespace Dungeon_Crawlers
         {
             // Get Keyboard state for user input
             KeyboardState kbState = Keyboard.GetState();
-            //position.BoxY += 5;
+            position.BoxY += 5;
 
             // Logic for switching player states and player movement
             switch(playerState)
@@ -342,25 +342,21 @@ namespace Dungeon_Crawlers
             {
                 if (objects[i].BoxType == BoxType.Collision) // Immobile Tiles
                 {
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY + PlayerRectHeight*2 >= objects[i].BoxY) // Top of Tile
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY + PlayerRectHeight * 2 >= objects[i].BoxY) // Top of Tile
                     {
-                        position.BoxY = objects[i].BoxY-PlayerRectHeight*2;
-                        //break;
+                        position.BoxY -= 5;
                     }
                     if (position.Box.Intersects(objects[i].Box) && position.BoxY <= objects[i].BoxY - objects[i].Box.Height) // Bottom of Tile
                     {
-                        position.BoxY = objects[i].BoxY - objects[i].Box.Height;
-                        //break;
+                        position.BoxY += 10; 
                     }
                     if(position.Box.Intersects(objects[i].Box) && position.BoxX + PlayerRectWidth*2 >= objects[i].BoxX) // Left of Tile
                     {
-                        position.BoxX = objects[i].BoxX - PlayerRectWidth*2;
-                        //break;
+                        position.BoxX -= 5;
                     }
                     if (position.Box.Intersects(objects[i].Box) && position.BoxX <= objects[i].BoxX + objects[i].Box.Width) // Right of Tile
                     {
-                        position.BoxX = objects[i].BoxX + objects[i].Box.Width;
-                        //break;
+                        position.BoxX += 10;
                     }
                 }
                 if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player
