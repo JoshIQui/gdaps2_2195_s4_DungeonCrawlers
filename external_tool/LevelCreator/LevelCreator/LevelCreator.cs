@@ -11,7 +11,7 @@ using System.IO;
 
 namespace LevelCreator
 {
-    public partial class Form1 : Form
+    public partial class LevelCreator : Form
     {
         // --------------------
         // Fields
@@ -23,7 +23,7 @@ namespace LevelCreator
         int rows;
         int columns;
 
-        public Form1()
+        public LevelCreator()
         {
             InitializeComponent();
 
