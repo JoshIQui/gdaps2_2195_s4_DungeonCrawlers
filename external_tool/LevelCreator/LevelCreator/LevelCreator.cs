@@ -119,19 +119,19 @@ namespace LevelCreator
                 switch (column)
                 {
                     case 0:
-                        label.Text = labelName;
+                        label.Text = "Floor";
                         b.BackColor = Color.Red;
                         break;
                     case 1:
-                        label.Text = labelName;
+                        label.Text = "Half Block";
                         b.BackColor = Color.Blue;
                         break;
                     case 2:
-                        label.Text = labelName;
+                        label.Text = "Divider";
                         b.BackColor = Color.Green;
                         break;
                     case 3:
-                        label.Text = labelName;
+                        label.Text = "Slant Corner";
                         b.BackColor = Color.Yellow;
                         break;
                     case 4:
@@ -389,19 +389,9 @@ namespace LevelCreator
                                 }
                                 break;
                             case "Purple":
+                                writer.Write("6");
                                 break;
                             case "Teal":
-                                switch (button.Text)
-                                {
-                                    case "1":
-                                        writer.Write("6");
-                                        break;
-                                    case "H":
-                                        writer.Write("Y");
-                                        break;
-                                }
-                                break;
-                            case "Black":
                                 switch (button.Text)
                                 {
                                     case "1":
@@ -412,7 +402,7 @@ namespace LevelCreator
                                         break;
                                 }
                                 break;
-                            case "Brown":
+                            case "Black":
                                 switch (button.Text)
                                 {
                                     case "1":
@@ -423,7 +413,7 @@ namespace LevelCreator
                                         break;
                                 }
                                 break;
-                            case "Salmon":
+                            case "Brown":
                                 switch (button.Text)
                                 {
                                     case "1":
@@ -434,19 +424,30 @@ namespace LevelCreator
                                         break;
                                 }
                                 break;
-                            case "CadetBlue":
+                            case "Salmon":
                                 switch (button.Text)
                                 {
                                     case "1":
                                         writer.Write("0");
                                         break;
-                                    case "V":
+                                    case "H":
                                         writer.Write("P");
                                         break;
                                 }
                                 break;
+                            case "CadetBlue":
+                                switch (button.Text)
+                                {
+                                    case "1":
+                                        writer.Write("-");
+                                        break;
+                                    case "V":
+                                        writer.Write("[");
+                                        break;
+                                }
+                                break;
                             case "DarkViolet":
-                                writer.Write("-");
+                                writer.Write("=");
                                 break;
                             case "Control":
                                 writer.Write("~");
