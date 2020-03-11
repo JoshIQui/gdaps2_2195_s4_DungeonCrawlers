@@ -192,6 +192,7 @@ namespace LevelCreator
                 if (tempButton.BackColor == clickColor)
                 {
                     tempButton.BackColor = Color.Empty;
+                    tempButton.Text = "";
                 }
                 else
                 {
