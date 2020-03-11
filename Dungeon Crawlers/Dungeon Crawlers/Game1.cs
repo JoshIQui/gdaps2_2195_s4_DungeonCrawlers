@@ -83,7 +83,7 @@ namespace Dungeon_Crawlers
             Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hitbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
-            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 64, 89), BoxType.Hitbox);
+            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 66, 64), BoxType.Hitbox);
             player = new Player(charTextures, playerBox, screenWidth, screenHeight);
 
             squareObject = Content.Load<Texture2D>("Square");
@@ -92,8 +92,8 @@ namespace Dungeon_Crawlers
             Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
             tile1 = new Tile(tileTextures, tileBox1, TileType.Floor);
             hitBoxes.Add(tileBox1);
-            Hitbox tileBox2 = new Hitbox(new Rectangle(700, 336, 64, 32), BoxType.Hurtbox);
-            tile2 = new Tile(tileTextures, tileBox2, TileType.Spikes);
+            Hitbox tileBox2 = new Hitbox(new Rectangle(700, 336, 64, 32), BoxType.Collision);
+            tile2 = new Tile(tileTextures, tileBox2, TileType.Floor);
             hitBoxes.Add(tileBox2);
         }
 

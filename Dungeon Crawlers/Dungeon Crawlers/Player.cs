@@ -341,21 +341,21 @@ namespace Dungeon_Crawlers
             {
                 if (objects[i].BoxType == BoxType.Collision) // Immobile Tiles
                 {
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY + 89 >= objects[i].BoxY) // Top of Tile
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY + 64 >= objects[i].BoxY) // Top of Tile
                     {
                         position.BoxY -= 5;
                     }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY <= objects[i].BoxY + 128) // Bottom of Tile
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY <= objects[i].BoxY + 64) // Bottom of Tile
                     {
                         position.BoxY += 10;
                     }
-                    if(position.Box.Intersects(objects[i].Box) && kbState.IsKeyDown(Keys.D)) // Left of Tile
+                    if(position.Box.Intersects(objects[i].Box) && position.BoxX + 66 >= objects[i].BoxX) // Left of Tile
                     {
-                        position.BoxX = objects[i].BoxX - 64;
+                        position.BoxX -= 5;
                     }
-                    if (position.Box.Intersects(objects[i].Box) && kbState.IsKeyDown(Keys.A)) // Right of Tile
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxX <= objects[i].BoxX + 64) // Right of Tile
                     {
-                        position.BoxX = objects[i].BoxX + 128;
+                        position.BoxX += 5;
                     }
                 }
                 if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player
@@ -367,6 +367,5 @@ namespace Dungeon_Crawlers
                 }
             }
         }
-
     }
 }
