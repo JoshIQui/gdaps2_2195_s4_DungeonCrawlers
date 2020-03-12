@@ -197,10 +197,7 @@ namespace Dungeon_Crawlers
                     }
                     if (kbState.IsKeyDown(Keys.D))
                     {
-                        for (int i = 0; i < 2; i++) // Gradual movement (Same as above)
-                        {
-                            position.BoxX += 5;
-                        }
+                        position.BoxX += 5;
                     }
                     if (kbState.IsKeyDown(Keys.A))
                     {
@@ -220,10 +217,7 @@ namespace Dungeon_Crawlers
                     }
                     if (kbState.IsKeyDown(Keys.A))
                     {
-                        for (int i = 0; i < 2; i++) // Gradual movement (Same as above)
-                        {
-                            position.BoxX -= 5;
-                        }
+                        position.BoxX -= 5;
                     }
                     if (kbState.IsKeyDown(Keys.D))
                     {
