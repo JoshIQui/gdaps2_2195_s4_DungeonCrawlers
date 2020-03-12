@@ -61,47 +61,49 @@ namespace Dungeon_Crawlers
             fps = 10.0;                     // Will cycle through 10 walk frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
         }
-        public void logic(MouseState mouse,List<Item> square)
+        public void logic(Player target,List<Hitbox> square)
         {
-            debug.X = mouse.X;
-            debug.Y = mouse.Y;
-            debug.Width = 1;
-            debug.Height = 1;
+            //debug.X = target.Position.BoxX;
+            //debug.Y = target.Position.BoxY;
+            //debug.Width = 1;
+            //debug.Height = 1;
 
 
             while (speed > 0)
             {
-                if (position.Box.Intersects(debug))
+                if (position.Box.Intersects(target.Position.Box))
                 {
                     currentState = HeroState.Attack;
-                    break;
+                    speed--;
+                    //break;
                 }
-                if (position.BoxY < mouse.Y) //going down
+                
+                if (position.BoxY < target.Position.BoxY) //going down
                 {
                     position.BoxY += 1;
                     speed -= 1;
                     for (int a = 0; a < square.Count; a++)
                     {
-                        if (square[a].Intersect(position.Box))
+                        if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxY = square[a].Position.BoxY - HeroRectHeight * 2;// *2 because i use 200% scaling
+                            position.BoxY = square[a].BoxY - HeroRectHeight * 2;// *2 because i use 200% scaling
                         }
                     }
                 }
-                if (position.BoxY > mouse.Y) //going up
+                if (position.BoxY > target.Position.BoxY) //going up
                 {
                     position.BoxY -= 1;
                     speed -= 1;
                     currentState = HeroState.Jumping;
                     for (int a = 0; a < square.Count; a++)
                     {
-                        if (square[a].Intersect(position.Box))
+                        if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxY = square[a].Position.BoxY + square[a].Position.Box.Height;// *2 because i use 200% scaling
+                            position.BoxY = square[a].BoxY + square[a].Box.Height;// *2 because i use 200% scaling
                         }
                     }
                 }
-                if (position.BoxX < mouse.X) //GO RIGHT 
+                if (position.BoxX < target.Position.BoxX) //GO RIGHT 
                 {
                     position.BoxX += 1;
                     speed -= 1;
@@ -109,43 +111,53 @@ namespace Dungeon_Crawlers
                     for (int a = 0; a < square.Count; a++)
                     {
 
-                        if (square[a].Intersect(position.Box))
+                        if (square[a].Box.Intersects(position.Box))
                         {
-                            if ((position.BoxY + HeroRectHeight * 2)- square[a].Position.BoxY < square[a].Position.Box.Height)
+                            position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
+                            /*  //Extra features that allow hero to "jump" for small obstacle
+                             *  
+                            if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
                             {
-                                position.BoxY = square[a].Position.BoxY - HeroRectHeight*2;
+                                position.BoxY = square[a].BoxY - HeroRectHeight * 2;
                             }
                             else
                             {
-                                position.BoxX = square[a].Position.BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
+                                position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
                             }
+                            */
+                            
                         }
                     }
                 }
-                if (position.BoxX > mouse.X) //GO LEFT
+
+                if (position.BoxX > target.Position.BoxX) //GO LEFT
                 {
                     position.BoxX -= 1;
                     speed -= 1;
                     currentState = HeroState.WalkLeft;
                     for (int a = 0; a < square.Count; a++)
                     {
-                        if (square[a].Intersect(position.Box))
+                        if (square[a].Box.Intersects(position.Box))
                         {
-                            if ((position.BoxY + HeroRectHeight * 2) - square[a].Position.BoxY < square[a].Position.Box.Height)
+                            position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
+
+                            /* //Extra features that allow hero to "jump" for small obstacle
+                             
+                            if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
                             {
-                                position.BoxY = square[a].Position.BoxY - HeroRectHeight * 2;
+                                position.BoxY = square[a].BoxY - HeroRectHeight * 2;
                             }
                             else
                             {
-                                position.BoxX = square[a].Position.BoxX + square[a].Position.Box.Width;// *2 because i use 200% scaling
+                                position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
                             }
+                            */
+                            
                         }
                     }
-                }
-                
+                }  
             }
             speed = 5;
-
         }
         public override void Update(GameTime gametime)
         {

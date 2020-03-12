@@ -14,27 +14,35 @@ namespace Dungeon_Crawlers
     {
         Floor,
         Spikes,
-        LeftStairs,
-        RightStairs,
-        LeftLedge,
-        RightLedge,
+        Stairs,
+        //LeftStairs,
+        //RightStairs,
+        PlatformEdge,
+        //LeftLedge,
+        //RightLedge,
         Platform,
         Divider,
-        TopHalfTile,
-        BottomHalfTile,
-        TopLeftSlantCorner,
-        TopRightSlantCorner,
-        BottomRightSlantCorner,
-        BottomLeftSlantCorner,
-        TopLeftFullCorner,
-        TopRightFullCorner,
-        BottomRightFullCorner,
-        BottomLeftFullCorner,
-        TopLeftTriangle,
-        TopRightTriangle,
-        BottomRightTriangle,
-        BottomLeftTriangle,
-        BlackBlock
+        HalfTile,
+        //TopHalfTile,
+        //BottomHalfTile,
+        SlantCorner,
+        //TopLeftSlantCorner,
+        //TopRightSlantCorner,
+        //BottomRightSlantCorner,
+        //BottomLeftSlantCorner,
+        FullCorner,
+        //TopLeftFullCorner,
+        //TopRightFullCorner,
+        //BottomRightFullCorner,
+        //BottomLeftFullCorner,
+        StairTriangle,
+        //TopLeftTriangle,
+        //TopRightTriangle,
+        //BottomRightTriangle,
+        //BottomLeftTriangle,
+        BlackBlock,
+        Enemy,
+        None
     }
     class Tile
     {
@@ -68,8 +76,25 @@ namespace Dungeon_Crawlers
         }
 
         // Method that draws the asset depending on the tile type
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, int spriteNumWidth, int spriteNumHeight, SpriteEffects flipSprite, Single rotation)
         {
+            sb.Draw(
+                asset,                    // - The texture to draw
+                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    spriteNumWidth * width,     //   - This rectangle specifies
+                    offset * spriteNumHeight,           //	   where "inside" the texture
+                    width,             //     to get pixels (We don't want to
+                    height),           //     draw the whole thing)
+                Color.White,                    // - The color
+                rotation,                              // - Rotation
+                Vector2.Zero,
+                //new Vector2(width / 2, height / 2),                   // - Origin inside the image (top left)
+                1.0f,                           // - Scale (100% - no change)
+                flipSprite,                     // - Can be used to flip the image
+                0); ;                             // - Layer depth (unused)
+
+            /*
             switch (type)
             {
                 case TileType.Spikes:
@@ -124,6 +149,7 @@ namespace Dungeon_Crawlers
                     DrawLedge(SpriteEffects.None, sb);
                     break;
             }
+            */
         }
 
         // ---------------------------

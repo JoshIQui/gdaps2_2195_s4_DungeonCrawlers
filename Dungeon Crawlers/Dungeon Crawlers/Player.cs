@@ -30,6 +30,9 @@ namespace Dungeon_Crawlers
         private KeyboardState kbState;
         private KeyboardState prevKbState;
         private PlayerState playerState;
+        private bool canJump;
+        private bool jumping = false;
+        private int jumpHeight = 0;
 
         // Animation Variables
         int frame;              // The current animation frame
@@ -42,6 +45,7 @@ namespace Dungeon_Crawlers
         const int PlayerRectOffsetWalk = 48;   // How far down in the image are the frames? FOR THE RUN
         const int PlayerRectHeight = 45;     // The height of a single frame
         const int PlayerRectWidth = 88;     // The width of a single frame
+        const int OffsetX = 50;
 
         // Properties
         public int Health
@@ -65,7 +69,7 @@ namespace Dungeon_Crawlers
             this.health = health;
             this.numEnemies = numEnemies;
             playerState = PlayerState.FacingRight;
-
+            canJump = true;
             // Initialize
             fps = 5.0;                     // Will cycle through 5 frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
@@ -78,8 +82,16 @@ namespace Dungeon_Crawlers
         {
             // Get Keyboard state for user input
             KeyboardState kbState = Keyboard.GetState();
-            position.BoxY += 5;
-
+            position.BoxY += 2;
+            if(jumping && jumpHeight >0)
+            {
+                position.BoxY -= 10;
+                jumpHeight -= 10;
+            }
+            else
+            {
+                jumping = false;
+            }
             // Logic for switching player states and player movement
             switch(playerState)
             {
@@ -92,9 +104,13 @@ namespace Dungeon_Crawlers
                     {
                         playerState = PlayerState.FacingLeft;
                     }
-                    if (kbState.IsKeyDown(Keys.W))
+                    if (kbState.IsKeyDown(Keys.W)) 
                     {
-                        playerState = PlayerState.JumpingRight;
+                        if(canJump) // Jumps if on the ground
+                        {
+                            playerState = PlayerState.JumpingRight;
+                            jumpHeight = 100;
+                        }
                     }
                     if (kbState.IsKeyDown(Keys.Space))
                     {
@@ -113,7 +129,11 @@ namespace Dungeon_Crawlers
                     }
                     if (kbState.IsKeyDown(Keys.W))
                     {
-                        playerState = PlayerState.JumpingLeft;
+                        if(canJump) // Jumps if on the ground
+                        {
+                            playerState = PlayerState.JumpingLeft;
+                            jumpHeight = 100;
+                        }
                     }
                     if (kbState.IsKeyDown(Keys.Space))
                     {
@@ -125,7 +145,11 @@ namespace Dungeon_Crawlers
                     position.BoxX += 5;
                     if (kbState.IsKeyDown(Keys.W))
                     {
-                        playerState = PlayerState.JumpingRight;
+                        if(canJump) // Jumps if on the ground
+                        {
+                            playerState = PlayerState.JumpingRight;
+                            jumpHeight = 100;
+                        }
                     }
                     if (kbState.IsKeyUp(Keys.D) && playerState == PlayerState.WalkingRight)
                     {
@@ -137,7 +161,11 @@ namespace Dungeon_Crawlers
                     position.BoxX -= 5;
                     if (kbState.IsKeyDown(Keys.W))
                     {
-                        playerState = PlayerState.JumpingLeft;
+                        if(canJump) // Jumps if on the ground
+                        {
+                            playerState = PlayerState.JumpingLeft;
+                            jumpHeight = 100;
+                        }
                     }
                     if (kbState.IsKeyUp(Keys.A) && playerState == PlayerState.WalkingLeft)
                     {
@@ -159,7 +187,14 @@ namespace Dungeon_Crawlers
                     }
                     break;
                 case PlayerState.JumpingRight:
+                    canJump = false;
                     position.BoxY -= 10;
+                    jumpHeight -= 10;
+                    jumping = true;
+                    if (kbState.IsKeyDown(Keys.W)) // Puts player out of jump state to prevent double jumping
+                    {
+                        playerState = PlayerState.FacingRight;
+                    }
                     if (kbState.IsKeyDown(Keys.D))
                     {
                         position.BoxX += 5;
@@ -169,14 +204,17 @@ namespace Dungeon_Crawlers
                         position.BoxX -= 5;
                         playerState = PlayerState.JumpingLeft;
                     }
-                    if (kbState.IsKeyUp(Keys.W) && playerState == PlayerState.JumpingRight)
-                    {
-                        playerState = PlayerState.FacingRight;
-                    }
                     break;
 
                 case PlayerState.JumpingLeft:
+                    canJump = false;
                     position.BoxY -= 10;
+                    jumpHeight -= 10;
+                    jumping = true;
+                    if (kbState.IsKeyDown(Keys.W)) // Puts player out of jump state to prevent double jumping
+                    {
+                        playerState = PlayerState.FacingLeft;
+                    }
                     if (kbState.IsKeyDown(Keys.A))
                     {
                         position.BoxX -= 5;
@@ -263,7 +301,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
                     PlayerRectOffsetWalk * 5,           //	   where "inside" the texture
@@ -282,7 +320,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
                     PlayerRectOffsetWalk * 6,           //	   where "inside" the texture
@@ -301,7 +339,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
                     PlayerRectOffsetWalk * 7,           //	   where "inside" the texture
@@ -320,7 +358,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     3 * PlayerRectWidth,     //   - This rectangle specifies
                     PlayerRectOffsetWalk * 6,           //	   where "inside" the texture
@@ -341,25 +379,26 @@ namespace Dungeon_Crawlers
             {
                 if (objects[i].BoxType == BoxType.Collision) // Immobile Tiles
                 {
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY + PlayerRectHeight*2 >= objects[i].BoxY) // Top of Tile
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height < objects[i].BoxY * 2 + objects[i].Box.Height
+                        && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width -10) // Top of Tile
                     {
-                        position.BoxY = objects[i].BoxY-PlayerRectHeight*2;
-                        //break;
+                        position.BoxY = objects[i].BoxY - position.Box.Height;
+                        canJump = true; // If player is on top of a block let them be able to jump
                     }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY <= objects[i].BoxY - objects[i].Box.Height) // Bottom of Tile
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height > objects[i].BoxY * 2 + objects[i].Box.Height
+                        && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width -10)// Bottom of Tile
                     {
-                        position.BoxY = objects[i].BoxY - objects[i].Box.Height;
-                        //break;
+                        position.BoxY = objects[i].BoxY+ objects[i].Box.Height;
                     }
-                    if(position.Box.Intersects(objects[i].Box) && position.BoxX + PlayerRectWidth*2 >= objects[i].BoxX) // Left of Tile
+                    if(position.Box.Intersects(objects[i].Box) && position.BoxX  * 2 + position.Box.Width < objects[i].BoxX * 2 + objects[i].Box.Width
+                        && position.BoxY > objects[i].BoxY - position.Box.Height +10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height -10) // Left of Tile
                     {
-                        position.BoxX = objects[i].BoxX - PlayerRectWidth*2;
-                        //break;
+                        position.BoxX = objects[i].BoxX - position.Box.Width;
                     }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxX <= objects[i].BoxX + objects[i].Box.Width) // Right of Tile
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxX * 2 + position.Box.Width > objects[i].BoxX * 2 + objects[i].Box.Width
+                        && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
                     {
-                        position.BoxX = objects[i].BoxX + objects[i].Box.Width;
-                        //break;
+                        position.BoxX = objects[i].BoxX+ objects[i].Box.Width;
                     }
                 }
                 if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player
@@ -368,7 +407,7 @@ namespace Dungeon_Crawlers
                     {
                         health--;
                     }
-                }
+                } 
             }
         }
     }

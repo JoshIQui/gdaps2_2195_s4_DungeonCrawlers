@@ -83,7 +83,7 @@ namespace Dungeon_Crawlers
             Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hitbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
-            Hitbox playerBox = new Hitbox(new Rectangle(100, 200, 66, 64), BoxType.Hitbox);
+            Hitbox playerBox = new Hitbox(new Rectangle(700, 200, 36*2, 45*2), BoxType.Hitbox);
             player = new Player(charTextures, playerBox, screenWidth, screenHeight);
 
             squareObject = Content.Load<Texture2D>("Square");
@@ -124,12 +124,12 @@ namespace Dungeon_Crawlers
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
-            hero.logic(mState, squareCollection);
+            hero.logic(player, hitBoxes);
 
             if (mState.LeftButton == ButtonState.Pressed && prevmsState.LeftButton == ButtonState.Released)
             {
                 Rectangle mousLoc = new Rectangle(mState.X, mState.Y, 40, 40);
-                Hitbox squareBox = new Hitbox(mousLoc, BoxType.Hitbox);
+                Hitbox squareBox = new Hitbox(mousLoc, BoxType.Collision);
                 Item square = new Item(squareObject, squareBox, screenWidth, screenHeight);
 
                 squareCollection.Add(square);
@@ -280,8 +280,8 @@ namespace Dungeon_Crawlers
                 case GameState.Game:
                     hero.Draw(spriteBatch);
                     player.Draw(spriteBatch);
-                    tile1.Draw(spriteBatch);
-                    tile2.Draw(spriteBatch);
+                    tile1.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
+                    tile2.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
                     for (int a = 0; a < squareCollection.Count; a++)
                     {
                         spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
