@@ -342,21 +342,25 @@ namespace Dungeon_Crawlers
             {
                 if (objects[i].BoxType == BoxType.Collision) // Immobile Tiles
                 {
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY + PlayerRectHeight * 2 >= objects[i].BoxY) // Top of Tile
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height < objects[i].BoxY * 2 + objects[i].Box.Height
+                        && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width -10) // Top of Tile
                     {
-                        position.BoxY -= 5;
+                        position.BoxY = objects[i].BoxY - position.Box.Height;
                     }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY <= objects[i].BoxY - objects[i].Box.Height) // Bottom of Tile
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height > objects[i].BoxY * 2 + objects[i].Box.Height
+                        && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width -10)// Bottom of Tile
                     {
-                        position.BoxY += 10; 
+                        position.BoxY = objects[i].BoxY+ objects[i].Box.Height;
                     }
-                    if(position.Box.Intersects(objects[i].Box) && position.BoxX + PlayerRectWidth*2 >= objects[i].BoxX) // Left of Tile
+                    if(position.Box.Intersects(objects[i].Box) && position.BoxX  * 2 + position.Box.Width < objects[i].BoxX * 2 + objects[i].Box.Width
+                        && position.BoxY > objects[i].BoxY - position.Box.Height +10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height -10) // Left of Tile
                     {
-                        position.BoxX -= 5;
+                        position.BoxX = objects[i].BoxX - position.Box.Width;
                     }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxX <= objects[i].BoxX + objects[i].Box.Width) // Right of Tile
+                    if (position.Box.Intersects(objects[i].Box) && position.BoxX * 2 + position.Box.Width > objects[i].BoxX * 2 + objects[i].Box.Width
+                        && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
                     {
-                        position.BoxX += 10;
+                        position.BoxX = objects[i].BoxX+ objects[i].Box.Width;
                     }
                 }
                 if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player
