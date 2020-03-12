@@ -124,7 +124,7 @@ namespace Dungeon_Crawlers
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
-            hero.logic(mState, hitBoxes);
+            hero.logic(player, hitBoxes);
 
             if (mState.LeftButton == ButtonState.Pressed && prevmsState.LeftButton == ButtonState.Released)
             {
