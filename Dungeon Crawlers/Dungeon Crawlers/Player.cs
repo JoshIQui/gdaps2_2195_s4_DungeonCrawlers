@@ -31,6 +31,8 @@ namespace Dungeon_Crawlers
         private KeyboardState prevKbState;
         private PlayerState playerState;
         private bool canJump;
+        private bool jumping = false;
+        private int jumpHeight = 0;
 
         // Animation Variables
         int frame;              // The current animation frame
@@ -81,7 +83,15 @@ namespace Dungeon_Crawlers
             // Get Keyboard state for user input
             KeyboardState kbState = Keyboard.GetState();
             position.BoxY += 2;
-
+            if(jumping && jumpHeight >0)
+            {
+                position.BoxY -= 10;
+                jumpHeight -= 10;
+            }
+            else
+            {
+                jumping = false;
+            }
             // Logic for switching player states and player movement
             switch(playerState)
             {
@@ -99,6 +109,7 @@ namespace Dungeon_Crawlers
                         if(canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingRight;
+                            jumpHeight = 100;
                         }
                     }
                     if (kbState.IsKeyDown(Keys.Space))
@@ -121,6 +132,7 @@ namespace Dungeon_Crawlers
                         if(canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingLeft;
+                            jumpHeight = 100;
                         }
                     }
                     if (kbState.IsKeyDown(Keys.Space))
@@ -136,6 +148,7 @@ namespace Dungeon_Crawlers
                         if(canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingRight;
+                            jumpHeight = 100;
                         }
                     }
                     if (kbState.IsKeyUp(Keys.D) && playerState == PlayerState.WalkingRight)
@@ -151,6 +164,7 @@ namespace Dungeon_Crawlers
                         if(canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingLeft;
+                            jumpHeight = 100;
                         }
                     }
                     if (kbState.IsKeyUp(Keys.A) && playerState == PlayerState.WalkingLeft)
@@ -174,11 +188,10 @@ namespace Dungeon_Crawlers
                     break;
                 case PlayerState.JumpingRight:
                     canJump = false;
-                    for(int i = 0; i < 10; i ++) // Gradually move the player up instead of teleporting him
-                    {
-                        position.BoxY -= 10;
-                    }
-                    if(kbState.IsKeyDown(Keys.W)) // Puts player out of jump state to prevent double jumping
+                    position.BoxY -= 10;
+                    jumpHeight -= 10;
+                    jumping = true;
+                    if (kbState.IsKeyDown(Keys.W)) // Puts player out of jump state to prevent double jumping
                     {
                         playerState = PlayerState.FacingRight;
                     }
@@ -198,10 +211,9 @@ namespace Dungeon_Crawlers
 
                 case PlayerState.JumpingLeft:
                     canJump = false;
-                    for (int i = 0; i < 10; i++) // Gradually move the player up instead of teleporting him
-                    {
-                        position.BoxY -= 10;
-                    }
+                    position.BoxY -= 10;
+                    jumpHeight -= 10;
+                    jumping = true;
                     if (kbState.IsKeyDown(Keys.W)) // Puts player out of jump state to prevent double jumping
                     {
                         playerState = PlayerState.FacingLeft;
