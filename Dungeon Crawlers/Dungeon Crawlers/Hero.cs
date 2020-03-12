@@ -74,6 +74,8 @@ namespace Dungeon_Crawlers
                 if (position.Box.Intersects(target.Position.Box))
                 {
                     currentState = HeroState.Attack;
+                    speed--;
+                    //break;
                 }
                 
                 if (position.BoxY < target.Position.BoxY) //going down
