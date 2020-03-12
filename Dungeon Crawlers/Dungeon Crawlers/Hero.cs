@@ -74,8 +74,8 @@ namespace Dungeon_Crawlers
                 if (position.Box.Intersects(target.Position.Box))
                 {
                     currentState = HeroState.Attack;
-                    //break;
                 }
+                
                 if (position.BoxY < target.Position.BoxY) //going down
                 {
                     position.BoxY += 1;
@@ -123,9 +123,11 @@ namespace Dungeon_Crawlers
                                 position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
                             }
                             */
+                            
                         }
                     }
                 }
+
                 if (position.BoxX > target.Position.BoxX) //GO LEFT
                 {
                     position.BoxX -= 1;
@@ -148,13 +150,12 @@ namespace Dungeon_Crawlers
                                 position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
                             }
                             */
+                            
                         }
                     }
-                }
-                
+                }  
             }
             speed = 5;
-
         }
         public override void Update(GameTime gametime)
         {

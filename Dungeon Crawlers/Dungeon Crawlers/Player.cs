@@ -30,6 +30,7 @@ namespace Dungeon_Crawlers
         private KeyboardState kbState;
         private KeyboardState prevKbState;
         private PlayerState playerState;
+        private bool canJump;
 
         // Animation Variables
         int frame;              // The current animation frame
@@ -66,7 +67,7 @@ namespace Dungeon_Crawlers
             this.health = health;
             this.numEnemies = numEnemies;
             playerState = PlayerState.FacingRight;
-
+            canJump = true;
             // Initialize
             fps = 5.0;                     // Will cycle through 5 frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
@@ -79,7 +80,7 @@ namespace Dungeon_Crawlers
         {
             // Get Keyboard state for user input
             KeyboardState kbState = Keyboard.GetState();
-            position.BoxY += 5;
+            position.BoxY += 2;
 
             // Logic for switching player states and player movement
             switch(playerState)
@@ -93,9 +94,12 @@ namespace Dungeon_Crawlers
                     {
                         playerState = PlayerState.FacingLeft;
                     }
-                    if (kbState.IsKeyDown(Keys.W))
+                    if (kbState.IsKeyDown(Keys.W)) 
                     {
-                        playerState = PlayerState.JumpingRight;
+                        if(canJump) // Jumps if on the ground
+                        {
+                            playerState = PlayerState.JumpingRight;
+                        }
                     }
                     if (kbState.IsKeyDown(Keys.Space))
                     {
@@ -114,7 +118,10 @@ namespace Dungeon_Crawlers
                     }
                     if (kbState.IsKeyDown(Keys.W))
                     {
-                        playerState = PlayerState.JumpingLeft;
+                        if(canJump) // Jumps if on the ground
+                        {
+                            playerState = PlayerState.JumpingLeft;
+                        }
                     }
                     if (kbState.IsKeyDown(Keys.Space))
                     {
@@ -126,7 +133,10 @@ namespace Dungeon_Crawlers
                     position.BoxX += 5;
                     if (kbState.IsKeyDown(Keys.W))
                     {
-                        playerState = PlayerState.JumpingRight;
+                        if(canJump) // Jumps if on the ground
+                        {
+                            playerState = PlayerState.JumpingRight;
+                        }
                     }
                     if (kbState.IsKeyUp(Keys.D) && playerState == PlayerState.WalkingRight)
                     {
@@ -138,7 +148,10 @@ namespace Dungeon_Crawlers
                     position.BoxX -= 5;
                     if (kbState.IsKeyDown(Keys.W))
                     {
-                        playerState = PlayerState.JumpingLeft;
+                        if(canJump) // Jumps if on the ground
+                        {
+                            playerState = PlayerState.JumpingLeft;
+                        }
                     }
                     if (kbState.IsKeyUp(Keys.A) && playerState == PlayerState.WalkingLeft)
                     {
@@ -160,27 +173,45 @@ namespace Dungeon_Crawlers
                     }
                     break;
                 case PlayerState.JumpingRight:
-                    position.BoxY -= 10;
+                    canJump = false;
+                    for(int i = 0; i < 10; i ++) // Gradually move the player up instead of teleporting him
+                    {
+                        position.BoxY -= 10;
+                    }
+                    if(kbState.IsKeyDown(Keys.W)) // Puts player out of jump state to prevent double jumping
+                    {
+                        playerState = PlayerState.FacingRight;
+                    }
                     if (kbState.IsKeyDown(Keys.D))
                     {
-                        position.BoxX += 5;
+                        for (int i = 0; i < 2; i++) // Gradual movement (Same as above)
+                        {
+                            position.BoxX += 5;
+                        }
                     }
                     if (kbState.IsKeyDown(Keys.A))
                     {
                         position.BoxX -= 5;
                         playerState = PlayerState.JumpingLeft;
                     }
-                    if (kbState.IsKeyUp(Keys.W) && playerState == PlayerState.JumpingRight)
-                    {
-                        playerState = PlayerState.FacingRight;
-                    }
                     break;
 
                 case PlayerState.JumpingLeft:
-                    position.BoxY -= 10;
+                    canJump = false;
+                    for (int i = 0; i < 10; i++) // Gradually move the player up instead of teleporting him
+                    {
+                        position.BoxY -= 10;
+                    }
+                    if (kbState.IsKeyDown(Keys.W)) // Puts player out of jump state to prevent double jumping
+                    {
+                        playerState = PlayerState.FacingLeft;
+                    }
                     if (kbState.IsKeyDown(Keys.A))
                     {
-                        position.BoxX -= 5;
+                        for (int i = 0; i < 2; i++) // Gradual movement (Same as above)
+                        {
+                            position.BoxX -= 5;
+                        }
                     }
                     if (kbState.IsKeyDown(Keys.D))
                     {
@@ -346,6 +377,7 @@ namespace Dungeon_Crawlers
                         && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width -10) // Top of Tile
                     {
                         position.BoxY = objects[i].BoxY - position.Box.Height;
+                        canJump = true; // If player is on top of a block let them be able to jump
                     }
                     if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height > objects[i].BoxY * 2 + objects[i].Box.Height
                         && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width -10)// Bottom of Tile
@@ -369,7 +401,7 @@ namespace Dungeon_Crawlers
                     {
                         health--;
                     }
-                }
+                } 
             }
         }
     }
