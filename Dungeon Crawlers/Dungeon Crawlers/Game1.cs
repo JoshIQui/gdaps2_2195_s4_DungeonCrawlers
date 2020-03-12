@@ -280,8 +280,8 @@ namespace Dungeon_Crawlers
                 case GameState.Game:
                     hero.Draw(spriteBatch);
                     player.Draw(spriteBatch);
-                    tile1.Draw(spriteBatch);
-                    tile2.Draw(spriteBatch);
+                    tile1.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
+                    tile2.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
                     for (int a = 0; a < squareCollection.Count; a++)
                     {
                         spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);

@@ -88,10 +88,11 @@ namespace Dungeon_Crawlers
                     height),           //     draw the whole thing)
                 Color.White,                    // - The color
                 rotation,                              // - Rotation
-                new Vector2(width / 2, height / 2),                   // - Origin inside the image (top left)
+                Vector2.Zero,
+                //new Vector2(width / 2, height / 2),                   // - Origin inside the image (top left)
                 1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
+                0); ;                             // - Layer depth (unused)
 
             /*
             switch (type)
