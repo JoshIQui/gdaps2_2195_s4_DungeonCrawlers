@@ -148,7 +148,7 @@ namespace LevelCreator
                         break;
                     case 7:
                         label.Text = "Stair end";
-                        b.BackColor = Color.Black;
+                        b.BackColor = Color.Crimson;
                         break;
                     case 8:
                         label.Text = "Platform";
@@ -199,9 +199,18 @@ namespace LevelCreator
                     //IF the color is not white, do normal things
                     if (clickColor != Color.White)
                     {
-                        //Sets the color of the button to the color type
-                        tempButton.BackColor = clickColor;
-                        tempButton.Text = "1";
+                        if (clickColor == Color.DarkViolet)
+                        {
+                            //Sets the color of the button to the color type
+                            tempButton.BackColor = clickColor;
+                            tempButton.Text = "G";
+                        }
+                        else
+                        {
+                            //Sets the color of the button to the color type
+                            tempButton.BackColor = clickColor;
+                            tempButton.Text = "1";
+                        }
                     }
                     //If the click color is white, rotate or flip the space based on the color
                     else
@@ -240,7 +249,7 @@ namespace LevelCreator
                             }
                         }
                         //Can flip horizontally
-                        else if (tempButton.BackColor == Color.Teal || tempButton.BackColor == Color.Black || tempButton.BackColor == Color.Brown ||
+                        else if (tempButton.BackColor == Color.Teal || tempButton.BackColor == Color.Crimson || tempButton.BackColor == Color.Brown ||
                                 tempButton.BackColor == Color.Salmon)
                         {
                             switch (tempButton.Text)
@@ -270,14 +279,14 @@ namespace LevelCreator
                         {
                             switch (tempButton.Text)
                             {
-                                case "1":
-                                    tempButton.Text = "2";
+                                case "G":
+                                    tempButton.Text = "S";
                                     break;
-                                case "2":
-                                    tempButton.Text = "3";
+                                case "S":
+                                    tempButton.Text = "W";
                                     break;
-                                case "3":
-                                    tempButton.Text = "1";
+                                case "W":
+                                    tempButton.Text = "G";
                                     break;
                             }
                         }
@@ -417,7 +426,7 @@ namespace LevelCreator
                                         break;
                                 }
                                 break;
-                            case "Black":
+                            case "Crimson":
                                 switch (button.Text)
                                 {
                                     case "1":
