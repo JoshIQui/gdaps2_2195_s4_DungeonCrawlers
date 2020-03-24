@@ -95,6 +95,9 @@ namespace Dungeon_Crawlers
             Hitbox tileBox2 = new Hitbox(new Rectangle(700, 336, 64, 64), BoxType.Collision);
             tile2 = new Tile(tileTextures, tileBox2, TileType.Floor);
             hitBoxes.Add(tileBox2);
+
+            Hitbox enemyBox = new Hitbox(new Rectangle(800, 200, 36 * 2, 45 * 2), BoxType.Hitbox);
+            enemy = new Enemy(charTextures, enemyBox, screenWidth, screenHeight);
         }
 
         /// <summary>
@@ -120,6 +123,8 @@ namespace Dungeon_Crawlers
             hero.UpdateAnimation(gameTime);
             player.UpdateAnimation(gameTime);
             player.CheckCollision(hitBoxes);
+            enemy.UpdateAnimation(gameTime);
+            enemy.CheckCollision(hitBoxes);
             
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
@@ -184,6 +189,7 @@ namespace Dungeon_Crawlers
                         StateManager.Instance.ChangeState(GameState.Pause);
                     }
                     player.Update(gameTime);
+                    enemy.Update(gameTime);
                     break;
 
                 //Pause updates
@@ -280,6 +286,7 @@ namespace Dungeon_Crawlers
                 case GameState.Game:
                     hero.Draw(spriteBatch);
                     player.Draw(spriteBatch);
+                    enemy.Draw(spriteBatch);
                     tile1.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
                     tile2.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
                     for (int a = 0; a < squareCollection.Count; a++)
