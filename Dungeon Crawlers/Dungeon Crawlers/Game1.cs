@@ -80,7 +80,7 @@ namespace Dungeon_Crawlers
 
             //Loads the hero and his textures
             charTextures = Content.Load<Texture2D>("Character-Spritesheet");
-            Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hitbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
+            Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
             Hitbox playerBox = new Hitbox(new Rectangle(700, 200, 36*2, 45*2), BoxType.Hitbox);

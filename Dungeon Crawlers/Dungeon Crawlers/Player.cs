@@ -307,7 +307,7 @@ namespace Dungeon_Crawlers
                     PlayerRectOffsetWalk * 5,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
-                Color.White,                    // - The color
+                Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 2.0f,                           // - Scale (100% - no change)
@@ -326,7 +326,7 @@ namespace Dungeon_Crawlers
                     PlayerRectOffsetWalk * 6,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
-                Color.White,                    // - The color
+                Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 2.0f,                           // - Scale (100% - no change)
@@ -345,7 +345,7 @@ namespace Dungeon_Crawlers
                     PlayerRectOffsetWalk * 7,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
-                Color.White,                    // - The color
+                Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 2.0f,                           // - Scale (100% - no change)
@@ -364,7 +364,7 @@ namespace Dungeon_Crawlers
                     PlayerRectOffsetWalk * 6,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
-                Color.White,                    // - The color
+                Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 2.0f,                           // - Scale (100% - no change)
