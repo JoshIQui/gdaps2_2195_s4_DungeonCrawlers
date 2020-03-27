@@ -91,15 +91,15 @@ namespace Dungeon_Crawlers
             squareObject = Content.Load<Texture2D>("Square");
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
-            manager.LoadLevel(tileTextures);
+            //manager.LoadLevel(tileTextures);
             
-            /*Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
+            Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
             tile1 = new Tile(tileTextures, tileBox1, TileType.Floor);
             hitBoxes.Add(tileBox1);
             Hitbox tileBox2 = new Hitbox(new Rectangle(700, 336, 64, 64), BoxType.Collision);
             tile2 = new Tile(tileTextures, tileBox2, TileType.Floor);
             hitBoxes.Add(tileBox2);
-            */
+            
             Hitbox enemyBox = new Hitbox(new Rectangle(800, 200, 36 * 2, 45 * 2), BoxType.Hitbox);
             enemy = new Enemy(charTextures, enemyBox, screenWidth, screenHeight);
         }
@@ -124,7 +124,11 @@ namespace Dungeon_Crawlers
                 Exit();
 
             // TODO: Add your update logic here'
-            
+            hero.UpdateAnimation(gameTime);
+            player.UpdateAnimation(gameTime);
+            player.CheckCollision(hitBoxes);
+            enemy.UpdateAnimation(gameTime);
+            enemy.CheckCollision(hitBoxes);
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
@@ -288,9 +292,9 @@ namespace Dungeon_Crawlers
                     hero.Draw(spriteBatch);
                     player.Draw(spriteBatch);
                     enemy.Draw(spriteBatch);
-                    /*tile1.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
+                    tile1.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
                     tile2.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
-                    */
+                    
                     for (int a = 0; a < squareCollection.Count; a++)
                     {
                         spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
