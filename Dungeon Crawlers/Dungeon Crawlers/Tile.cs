@@ -29,10 +29,14 @@ namespace Dungeon_Crawlers
     class Tile
     {
         // Fields
-        protected bool isDamageable;
-        protected Texture2D asset;
-        protected Hitbox position;
-        protected TileType type;
+        private bool isDamageable;
+        private Texture2D asset;
+        private Hitbox position;
+        private TileType type;
+        private Single rotation;
+        private SpriteEffects flipSprite;
+        private int spriteNumWidth;
+        private int spriteNumHeight;
 
         private int width = 64;
         private int height = 64;
@@ -50,15 +54,19 @@ namespace Dungeon_Crawlers
         }
 
         // Constructor
-        public Tile(Texture2D asset, Hitbox position, TileType type)
+        public Tile(Texture2D asset, Hitbox position, TileType type, Single rotation, SpriteEffects flipSprite, int spriteNumWidth, int spriteNumHeight)
         {
             this.asset = asset;
             this.position = position;
             this.type = type;
+            this.rotation = rotation;
+            this.flipSprite = flipSprite;
+            this.spriteNumWidth = spriteNumWidth;
+            this.spriteNumHeight = spriteNumHeight;
         }
 
         // Method that draws the asset depending on the tile type
-        public void Draw(SpriteBatch sb, int spriteNumWidth, int spriteNumHeight, SpriteEffects flipSprite, Single rotation)
+        public void Draw(SpriteBatch sb)
         {
             if (position == null)
             {
@@ -68,7 +76,7 @@ namespace Dungeon_Crawlers
                 asset,                    // - The texture to draw
                 new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    spriteNumWidth * width,     //   - This rectangle specifies
+                    spriteNumWidth * offset,     //   - This rectangle specifies
                     offset * spriteNumHeight,           //	   where "inside" the texture
                     width,             //     to get pixels (We don't want to
                     height),           //     draw the whole thing)

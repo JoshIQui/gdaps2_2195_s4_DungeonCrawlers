@@ -86,41 +86,49 @@ namespace Dungeon_Crawlers
                         if (characters[j] == '1' || characters[j] == 'Q' || characters[j] == 'A' || characters[j] == 'Z')
                         {
                             type = TileType.Floor;
+                            spriteNumWidth = 0;
+                            spriteNumHeight = 0;
                         }
                         // ~~~~~~~~~~~~Half Tiles ~~~~~~~~~~~~
                         else if (characters[j] == '2' || characters[j] == 'W' || characters[j] == 'S' || characters[j] == 'X')
                         {
                             type = TileType.HalfTile;
                             spriteNumWidth = 1;
+                            spriteNumHeight = 0;
                         }
                         // ~~~~~~~~~~~~ Divider ~~~~~~~~~~~~~
                         else if (characters[j] == '3' || characters[j] == 'E')
                         {
                             type = TileType.Divider;
                             spriteNumWidth = 2;
+                            spriteNumHeight = 0;
                         }
                         // ~~~~~~~~~~~ Slant Corner ~~~~~~~~~~~~
                         else if (characters[j] == '4' || characters[j] == 'R' || characters[j] == 'F' || characters[j] == 'V')
                         {
                             type = TileType.SlantCorner;
                             spriteNumWidth = 3;
+                            spriteNumHeight = 0;
                         }
                         //~~~~~~~~~~~~ Full Corner ~~~~~~~~~~~~~~~
                         else if (characters[j] == '5' || characters[j] == 'T' || characters[j] == 'G' || characters[j] == 'B')
                         {
                             type = TileType.FullCorner;
                             spriteNumWidth = 4;
+                            spriteNumHeight = 0;
                         }
                         //~~~~~~~~~~~ Black Space ~~~~~~~~~~~~~~
                         else if (characters[j] == '6')
                         {
                             type = TileType.BlackBlock;
                             spriteNumWidth = 5;
+                            spriteNumHeight = 0;
                         }
                         //~~~~~~~~~~~~~~ Stairs ~~~~~~~~~~~~~~~~
                         else if (characters[j] == '7' || characters[j] == 'U')
                         {
                             type = TileType.Stairs;
+                            spriteNumWidth = 0;
                             spriteNumHeight = 1;
                         }
                         //~~~~~~~~~~~ Stair Corner ~~~~~~~~~~~~~~
@@ -179,7 +187,7 @@ namespace Dungeon_Crawlers
                             rotation = (Single)(3 * Math.PI / 2);
                         }
                         //~~~~~~~~~~~~~ No Rotation ~~~~~~~~~~~~~~
-                        else if (characters[j] == '~')
+                        else
                         {
                             rotation = 0;
                         }
@@ -196,7 +204,7 @@ namespace Dungeon_Crawlers
                             flipSprite = SpriteEffects.FlipVertically;
                         }
                         //~~~~~~~~~~~~~~~ No Transformation ~~~~~~~~~~~~~~
-                        else if (characters[j] == '~')
+                        else
                         {
                             flipSprite = SpriteEffects.None;
                         }
@@ -230,7 +238,7 @@ namespace Dungeon_Crawlers
                         }
 
                         hitBoxes.Add(position);
-                        tiles.Add(new Tile(asset, position, type));
+                        tiles.Add(new Tile(asset, position, type, rotation, flipSprite, spriteNumWidth, spriteNumHeight));
 
                     }
                 }
@@ -250,7 +258,7 @@ namespace Dungeon_Crawlers
         {
             foreach (Tile tile in tiles)
             {
-                tile.Draw(sb, spriteNumWidth, spriteNumHeight, flipSprite, rotation);
+                tile.Draw(sb);
             }
         }
     }
