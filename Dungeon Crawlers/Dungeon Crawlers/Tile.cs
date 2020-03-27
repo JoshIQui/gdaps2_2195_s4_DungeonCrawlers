@@ -15,31 +15,13 @@ namespace Dungeon_Crawlers
         Floor,
         Spikes,
         Stairs,
-        //LeftStairs,
-        //RightStairs,
         PlatformEdge,
-        //LeftLedge,
-        //RightLedge,
         Platform,
         Divider,
         HalfTile,
-        //TopHalfTile,
-        //BottomHalfTile,
         SlantCorner,
-        //TopLeftSlantCorner,
-        //TopRightSlantCorner,
-        //BottomRightSlantCorner,
-        //BottomLeftSlantCorner,
         FullCorner,
-        //TopLeftFullCorner,
-        //TopRightFullCorner,
-        //BottomRightFullCorner,
-        //BottomLeftFullCorner,
         StairTriangle,
-        //TopLeftTriangle,
-        //TopRightTriangle,
-        //BottomRightTriangle,
-        //BottomLeftTriangle,
         BlackBlock,
         Enemy,
         None
@@ -78,6 +60,10 @@ namespace Dungeon_Crawlers
         // Method that draws the asset depending on the tile type
         public void Draw(SpriteBatch sb, int spriteNumWidth, int spriteNumHeight, SpriteEffects flipSprite, Single rotation)
         {
+            if (position == null)
+            {
+                return;
+            }
             sb.Draw(
                 asset,                    // - The texture to draw
                 new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
@@ -92,7 +78,7 @@ namespace Dungeon_Crawlers
                 //new Vector2(width / 2, height / 2),                   // - Origin inside the image (top left)
                 1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
-                0); ;                             // - Layer depth (unused)
+                0);                             // - Layer depth (unused)
 
             /*
             switch (type)

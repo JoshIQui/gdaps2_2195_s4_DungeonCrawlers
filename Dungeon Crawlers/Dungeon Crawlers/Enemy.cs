@@ -62,6 +62,7 @@ namespace Dungeon_Crawlers
         public override void Update(GameTime gametime)
         {
             position.BoxY += 2;
+            UpdateAnimation(gametime);
         }
         // Drawing enemy
         public override void Draw(SpriteBatch sb)

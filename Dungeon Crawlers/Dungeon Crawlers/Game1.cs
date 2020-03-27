@@ -32,6 +32,7 @@ namespace Dungeon_Crawlers
         List<Hitbox> hitBoxes;
         Tile tile1;
         Tile tile2;
+        TileManager manager;
 
         List<Item> squareCollection = new List<Item>();
         
@@ -54,6 +55,7 @@ namespace Dungeon_Crawlers
             // TODO: Add your initialization logic here
             screenWidth = graphics.GraphicsDevice.Viewport.Width;
             screenHeight = graphics.GraphicsDevice.Viewport.Height;
+            manager = TileManager.Instance;
 
             //Sets up the positions for text
             titlePosition = new Vector2((screenWidth / 2), (screenHeight / 2));
@@ -89,13 +91,15 @@ namespace Dungeon_Crawlers
             squareObject = Content.Load<Texture2D>("Square");
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
-            Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
+            manager.LoadLevel(tileTextures);
+            
+            /*Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
             tile1 = new Tile(tileTextures, tileBox1, TileType.Floor);
             hitBoxes.Add(tileBox1);
             Hitbox tileBox2 = new Hitbox(new Rectangle(700, 336, 64, 64), BoxType.Collision);
             tile2 = new Tile(tileTextures, tileBox2, TileType.Floor);
             hitBoxes.Add(tileBox2);
-
+            */
             Hitbox enemyBox = new Hitbox(new Rectangle(800, 200, 36 * 2, 45 * 2), BoxType.Hitbox);
             enemy = new Enemy(charTextures, enemyBox, screenWidth, screenHeight);
         }
@@ -120,11 +124,6 @@ namespace Dungeon_Crawlers
                 Exit();
 
             // TODO: Add your update logic here'
-            hero.UpdateAnimation(gameTime);
-            player.UpdateAnimation(gameTime);
-            player.CheckCollision(hitBoxes);
-            enemy.UpdateAnimation(gameTime);
-            enemy.CheckCollision(hitBoxes);
             
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
@@ -182,7 +181,7 @@ namespace Dungeon_Crawlers
 
                 //Game updates
                 case GameState.Game:
-                    //If esc is pressed
+                    //If P is pressed
                     if (kbState.IsKeyDown(Keys.P) && kbState != prevKbState)
                     {
                         //Pause the game
@@ -190,6 +189,8 @@ namespace Dungeon_Crawlers
                     }
                     player.Update(gameTime);
                     enemy.Update(gameTime);
+                    hero.UpdateAnimation(gameTime);
+                    enemy.CheckCollision(hitBoxes);
                     break;
 
                 //Pause updates
@@ -287,12 +288,14 @@ namespace Dungeon_Crawlers
                     hero.Draw(spriteBatch);
                     player.Draw(spriteBatch);
                     enemy.Draw(spriteBatch);
-                    tile1.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
+                    /*tile1.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
                     tile2.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
+                    */
                     for (int a = 0; a < squareCollection.Count; a++)
                     {
                         spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
                     }
+                    manager.DrawLevel(spriteBatch);
                     break;
 
                 case GameState.Pause:

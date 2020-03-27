@@ -26,21 +26,47 @@ namespace Dungeon_Crawlers
         private int spriteNumHeight;
         private Single rotation = 0;
         private SpriteEffects flipSprite = SpriteEffects.None;
+        private List<Hitbox> hitBoxes;
 
-        // Constructor
-        public TileManager()
+        // Properties
+        public static TileManager Instance
         {
-            tiles = new List<Tile>();
+            get
+            {
+                if (mgrInstance == null)
+                {
+                    mgrInstance = new TileManager();
+                }
+                return mgrInstance;
+            }
         }
 
+        public List<Hitbox> HitBoxes
+        {
+            get
+            {
+                return hitBoxes;
+            }
+        }
+
+        // Constructor
+        private TileManager()
+        {
+            tiles = new List<Tile>();
+            hitBoxes = new List<Hitbox>();
+        }
+
+        // Static Instance
+        public static TileManager mgrInstance;
+
         // Methods
-        private void LoadLevel(Texture2D asset)
+        public void LoadLevel(Texture2D asset)
         {
             StreamReader reader = null;
 
             try
             {
-                reader = new StreamReader("test.txt");
+                reader = new StreamReader("testLevel.txt");
 
                 string line;
                 if ((line = reader.ReadLine()) != null)
@@ -51,148 +77,160 @@ namespace Dungeon_Crawlers
                 }
                 for (int i = 0; i < numTilesHeight; i++)
                 {
+                    string row = reader.ReadLine();
+                    char[] characters = row.ToCharArray();
                     for (int j = 0; j < numTilesWidth; j++)
                     {
-                        string row = reader.ReadLine();
-                        char[] characters = row.ToCharArray();
 
-                        foreach (char tile in characters)
+                        // ~~~~~~~~~~~~~ Floors ~~~~~~~~~~~~~~
+                        if (characters[j] == '1' || characters[j] == 'Q' || characters[j] == 'A' || characters[j] == 'Z')
                         {
-                            // ~~~~~~~~~~~~~ Floors ~~~~~~~~~~~~~~
-                            if (tile == '1' || tile == 'Q' || tile == 'A' || tile == 'Z')
-                            {
-                                type = TileType.Floor;
-                            }
-                            // ~~~~~~~~~~~~Half Tiles ~~~~~~~~~~~~
-                            else if (tile == '2' || tile == 'W' || tile == 'S' || tile == 'X')
-                            {
-                                type = TileType.HalfTile;
-                                spriteNumWidth = 1;
-                            }
-                            // ~~~~~~~~~~~~ Divider ~~~~~~~~~~~~~
-                            else if (tile == '3' || tile == 'E')
-                            {
-                                type = TileType.Divider;
-                                spriteNumWidth = 2;
-                            }
-                            // ~~~~~~~~~~~ Slant Corner ~~~~~~~~~~~~
-                            else if (tile == '4' || tile == 'R' || tile == 'F' || tile == 'V')
-                            {
-                                type = TileType.SlantCorner;
-                                spriteNumWidth = 3;
-                            }
-                            //~~~~~~~~~~~~ Full Corner ~~~~~~~~~~~~~~~
-                            else if (tile == '5' || tile == 'T' || tile == 'G' || tile == 'B')
-                            {
-                                type = TileType.FullCorner;
-                                spriteNumWidth = 4;
-                            }
-                            //~~~~~~~~~~~ Black Space ~~~~~~~~~~~~~~
-                            else if (tile == '6')
-                            {
-                                type = TileType.BlackBlock;
-                                spriteNumWidth = 5;
-                            }
-                            //~~~~~~~~~~~~~~ Stairs ~~~~~~~~~~~~~~~~
-                            else if (tile == '7' || tile == 'U')
-                            {
-                                type = TileType.Stairs;
-                                spriteNumHeight = 1;
-                            }
-                            //~~~~~~~~~~~ Stair Corner ~~~~~~~~~~~~~~
-                            else if (tile == '8' || tile == 'I')
-                            {
-                                type = TileType.StairTriangle;
-                                spriteNumWidth = 1;
-                                spriteNumHeight = 1;
-                            }
-                            //~~~~~~~~~~~~~ Platform ~~~~~~~~~~~~~~
-                            else if (tile == '9' || tile == 'O')
-                            {
-                                type = TileType.Platform;
-                                spriteNumWidth = 2;
-                                spriteNumHeight = 1;
-                            }
-                            //~~~~~~~~~~ Platform Edge ~~~~~~~~~~~~~
-                            else if (tile == '0' || tile == 'P')
-                            {
-                                type = TileType.PlatformEdge;
-                                spriteNumWidth = 3;
-                                spriteNumHeight = 1;
-                            }
-                            //~~~~~~~~~~~~~ Spikes ~~~~~~~~~~~~~~~~~
-                            else if (tile == '-' || tile == '[')
-                            {
-                                type = TileType.Spikes;
-                                spriteNumWidth = 4;
-                                spriteNumHeight = 1;
-                            }
-                            //~~~~~~~~~~~~~ Enemy ~~~~~~~~~~~~~~~~
-                            else if (tile == '=' || tile == '+' || tile == ']')
-                            {
-                                type = TileType.Enemy;
-                            }
-
-
-                            //~~~~~~~~~~ Rotation 90 Degrees ~~~~~~~~~~~
-                            if (tile == 'Q' || tile == 'W' || tile == 'E' || tile == 'R' || tile == 'T')
-                            {
-                                rotation = (Single)Math.PI / 2;
-                            }
-                            //~~~~~~~~~~ Rotation 180 Degrees ~~~~~~~~~~
-                            else if (tile == 'A' || tile == 'S' || tile == 'F' || tile == 'G')
-                            {
-                                rotation = (Single)Math.PI;
-                            }
-                            //~~~~~~~~~~ Rotation 270 Degrees ~~~~~~~~~~
-                            else if (tile == 'Z' || tile == 'X' || tile == 'V' || tile == 'B')
-                            {
-                                rotation = (Single)(3 * Math.PI / 2);
-                            }
-
-
-                            //~~~~~~~~~~~~ Flip Horizontally ~~~~~~~~~~~~
-                            if (tile == 'U' || tile == 'I' || tile == 'O' || tile == 'P')
-                            {
-                                flipSprite = SpriteEffects.FlipHorizontally;
-                            }
-                            //~~~~~~~~~~~~~ Flip Vertically ~~~~~~~~~~~~~~
-                            else if (tile == '[')
-                            {
-                                flipSprite = SpriteEffects.FlipVertically;
-                            }
-
-
-                            Hitbox position = null;
-                            // Tiles that are 64x64
-                            if (type == TileType.Floor || type == TileType.Divider || type == TileType.SlantCorner || type == TileType.FullCorner
-                                || type == TileType.BlackBlock || type == TileType.Stairs)
-                            {
-                                position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, tileWidth, tileHeight), BoxType.Collision);
-                            }
-                            // Tiles that are 64x32
-                            else if (type == TileType.HalfTile || type == TileType.Platform)
-                            {
-                                position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, tileWidth, shortTileHeight), BoxType.Collision);
-                            }
-                            // Tiles that are 48x32
-                            else if (type == TileType.PlatformEdge)
-                            {
-                                position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, shortTileWidth, shortTileHeight), BoxType.Collision);
-                            }
-                            // Tiles that are 64x26
-                            else if (type == TileType.Spikes)
-                            {
-                                position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, tileWidth, spikesHeight), BoxType.Hurtbox);
-                            }
-                            else if (type == TileType.StairTriangle)
-                            {
-                                position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, 15, 15), BoxType.Collision);
-                            }
-
-                            tiles.Add(new Tile(asset, position, type));
-                                
+                            type = TileType.Floor;
                         }
+                        // ~~~~~~~~~~~~Half Tiles ~~~~~~~~~~~~
+                        else if (characters[j] == '2' || characters[j] == 'W' || characters[j] == 'S' || characters[j] == 'X')
+                        {
+                            type = TileType.HalfTile;
+                            spriteNumWidth = 1;
+                        }
+                        // ~~~~~~~~~~~~ Divider ~~~~~~~~~~~~~
+                        else if (characters[j] == '3' || characters[j] == 'E')
+                        {
+                            type = TileType.Divider;
+                            spriteNumWidth = 2;
+                        }
+                        // ~~~~~~~~~~~ Slant Corner ~~~~~~~~~~~~
+                        else if (characters[j] == '4' || characters[j] == 'R' || characters[j] == 'F' || characters[j] == 'V')
+                        {
+                            type = TileType.SlantCorner;
+                            spriteNumWidth = 3;
+                        }
+                        //~~~~~~~~~~~~ Full Corner ~~~~~~~~~~~~~~~
+                        else if (characters[j] == '5' || characters[j] == 'T' || characters[j] == 'G' || characters[j] == 'B')
+                        {
+                            type = TileType.FullCorner;
+                            spriteNumWidth = 4;
+                        }
+                        //~~~~~~~~~~~ Black Space ~~~~~~~~~~~~~~
+                        else if (characters[j] == '6')
+                        {
+                            type = TileType.BlackBlock;
+                            spriteNumWidth = 5;
+                        }
+                        //~~~~~~~~~~~~~~ Stairs ~~~~~~~~~~~~~~~~
+                        else if (characters[j] == '7' || characters[j] == 'U')
+                        {
+                            type = TileType.Stairs;
+                            spriteNumHeight = 1;
+                        }
+                        //~~~~~~~~~~~ Stair Corner ~~~~~~~~~~~~~~
+                        else if (characters[j] == '8' || characters[j] == 'I')
+                        {
+                            type = TileType.StairTriangle;
+                            spriteNumWidth = 1;
+                            spriteNumHeight = 1;
+                        }
+                        //~~~~~~~~~~~~~ Platform ~~~~~~~~~~~~~~
+                        else if (characters[j] == '9' || characters[j] == 'O')
+                        {
+                            type = TileType.Platform;
+                            spriteNumWidth = 2;
+                            spriteNumHeight = 1;
+                        }
+                        //~~~~~~~~~~ Platform Edge ~~~~~~~~~~~~~
+                        else if (characters[j] == '0' || characters[j] == 'P')
+                        {
+                            type = TileType.PlatformEdge;
+                            spriteNumWidth = 3;
+                            spriteNumHeight = 1;
+                        }
+                        //~~~~~~~~~~~~~ Spikes ~~~~~~~~~~~~~~~~~
+                        else if (characters[j] == '-' || characters[j] == '[')
+                        {
+                            type = TileType.Spikes;
+                            spriteNumWidth = 4;
+                            spriteNumHeight = 1;
+                        }
+                        //~~~~~~~~~~~~~ Enemy ~~~~~~~~~~~~~~~~
+                        else if (characters[j] == '=' || characters[j] == '+' || characters[j] == ']')
+                        {
+                            type = TileType.Enemy;
+                        }
+                        //~~~~~~~~~~~ Blank Space ~~~~~~~~~~~~~
+                        else if (characters[j] == '~')
+                        {
+                            type = TileType.None;
+                        }
+
+
+                        //~~~~~~~~~~ Rotation 90 Degrees ~~~~~~~~~~~
+                        if (characters[j] == 'Q' || characters[j] == 'W' || characters[j] == 'E' || characters[j] == 'R' || characters[j] == 'T')
+                        {
+                            rotation = (Single)Math.PI / 2;
+                        }
+                        //~~~~~~~~~~ Rotation 180 Degrees ~~~~~~~~~~
+                        else if (characters[j] == 'A' || characters[j] == 'S' || characters[j] == 'F' || characters[j] == 'G')
+                        {
+                            rotation = (Single)Math.PI;
+                        }
+                        //~~~~~~~~~~ Rotation 270 Degrees ~~~~~~~~~~
+                        else if (characters[j] == 'Z' || characters[j] == 'X' || characters[j] == 'V' || characters[j] == 'B')
+                        {
+                            rotation = (Single)(3 * Math.PI / 2);
+                        }
+                        //~~~~~~~~~~~~~ No Rotation ~~~~~~~~~~~~~~
+                        else if (characters[j] == '~')
+                        {
+                            rotation = 0;
+                        }
+
+
+                        //~~~~~~~~~~~~ Flip Horizontally ~~~~~~~~~~~~
+                        if (characters[j] == 'U' || characters[j] == 'I' || characters[j] == 'O' || characters[j] == 'P')
+                        {
+                            flipSprite = SpriteEffects.FlipHorizontally;
+                        }
+                        //~~~~~~~~~~~~~ Flip Vertically ~~~~~~~~~~~~~~
+                        else if (characters[j] == '[')
+                        {
+                            flipSprite = SpriteEffects.FlipVertically;
+                        }
+                        //~~~~~~~~~~~~~~~ No Transformation ~~~~~~~~~~~~~~
+                        else if (characters[j] == '~')
+                        {
+                            flipSprite = SpriteEffects.None;
+                        }
+
+
+                        Hitbox position = null;
+                        // Tiles that are 64x64
+                        if (type == TileType.Floor || type == TileType.Divider || type == TileType.SlantCorner || type == TileType.FullCorner
+                            || type == TileType.BlackBlock || type == TileType.Stairs)
+                        {
+                            position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, tileWidth, tileHeight), BoxType.Collision);
+                        }
+                        // Tiles that are 64x32
+                        else if (type == TileType.HalfTile || type == TileType.Platform)
+                        {
+                            position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, tileWidth, shortTileHeight), BoxType.Collision);
+                        }
+                        // Tiles that are 48x32
+                        else if (type == TileType.PlatformEdge)
+                        {
+                            position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, shortTileWidth, shortTileHeight), BoxType.Collision);
+                        }
+                        // Tiles that are 64x26
+                        else if (type == TileType.Spikes)
+                        {
+                            position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, tileWidth, spikesHeight), BoxType.Hurtbox);
+                        }
+                        else if (type == TileType.StairTriangle)
+                        {
+                            position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, 15, 15), BoxType.Collision);
+                        }
+
+                        hitBoxes.Add(position);
+                        tiles.Add(new Tile(asset, position, type));
 
                     }
                 }
@@ -201,9 +239,14 @@ namespace Dungeon_Crawlers
             {
                 Console.WriteLine("Error: {0}", e.Message);
             }
+
+            if (reader != null)
+            {
+                reader.Close();
+            }
         }
 
-        private void DrawLevel(SpriteBatch sb)
+        public void DrawLevel(SpriteBatch sb)
         {
             foreach (Tile tile in tiles)
             {

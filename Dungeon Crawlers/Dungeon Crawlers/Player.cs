@@ -21,7 +21,7 @@ namespace Dungeon_Crawlers
         AttackingRight,
         AttackingLeft
     }
-    
+
     class Player : GameObject
     {
         // Fields
@@ -33,6 +33,13 @@ namespace Dungeon_Crawlers
         private bool canJump;
         private bool jumping = false;
         private int jumpHeight = 0;
+        private double timer = 0;
+        private double velocity = -900;
+        private double acceleration = 1200;
+        private int height;
+        private double JumpDelay = 0.0333334;
+        private TileManager manager;
+
 
         // Animation Variables
         int frame;              // The current animation frame
@@ -69,10 +76,11 @@ namespace Dungeon_Crawlers
             this.health = health;
             this.numEnemies = numEnemies;
             playerState = PlayerState.FacingRight;
-            canJump = true;
+            canJump = false;
             // Initialize
             fps = 5.0;                     // Will cycle through 5 frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
+            manager = TileManager.Instance;
         }
 
         // Methods
@@ -83,17 +91,9 @@ namespace Dungeon_Crawlers
             // Get Keyboard state for user input
             KeyboardState kbState = Keyboard.GetState();
             position.BoxY += 2;
-            if(jumping && jumpHeight >0)
-            {
-                position.BoxY -= 10;
-                jumpHeight -= 10;
-            }
-            else
-            {
-                jumping = false;
-            }
+
             // Logic for switching player states and player movement
-            switch(playerState)
+            switch (playerState)
             {
                 case PlayerState.FacingRight:
                     if (kbState.IsKeyDown(Keys.D))
@@ -104,11 +104,14 @@ namespace Dungeon_Crawlers
                     {
                         playerState = PlayerState.FacingLeft;
                     }
-                    if (kbState.IsKeyDown(Keys.W)) 
+                    if (kbState.IsKeyDown(Keys.W))
                     {
-                        if(canJump) // Jumps if on the ground
+                        if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingRight;
+                            height = position.BoxY;
+                            timer = 0;
+                            canJump = false;
                             jumpHeight = 100;
                         }
                     }
@@ -129,9 +132,12 @@ namespace Dungeon_Crawlers
                     }
                     if (kbState.IsKeyDown(Keys.W))
                     {
-                        if(canJump) // Jumps if on the ground
+                        if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingLeft;
+                            height = position.BoxY;
+                            timer = 0;
+                            canJump = false;
                             jumpHeight = 100;
                         }
                     }
@@ -145,9 +151,12 @@ namespace Dungeon_Crawlers
                     position.BoxX += 5;
                     if (kbState.IsKeyDown(Keys.W))
                     {
-                        if(canJump) // Jumps if on the ground
+                        if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingRight;
+                            height = position.BoxY;
+                            timer = 0;
+                            canJump = false;
                             jumpHeight = 100;
                         }
                     }
@@ -161,9 +170,12 @@ namespace Dungeon_Crawlers
                     position.BoxX -= 5;
                     if (kbState.IsKeyDown(Keys.W))
                     {
-                        if(canJump) // Jumps if on the ground
+                        if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingLeft;
+                            height = position.BoxY;
+                            timer = 0;
+                            canJump = false;
                             jumpHeight = 100;
                         }
                     }
@@ -187,14 +199,9 @@ namespace Dungeon_Crawlers
                     }
                     break;
                 case PlayerState.JumpingRight:
-                    canJump = false;
-                    position.BoxY -= 10;
-                    jumpHeight -= 10;
-                    jumping = true;
-                    if (kbState.IsKeyDown(Keys.W)) // Puts player out of jump state to prevent double jumping
-                    {
-                        playerState = PlayerState.FacingRight;
-                    }
+                        position.BoxY = (int)(velocity * timer + acceleration * Math.Pow(timer, 2) + height);
+                        timer += gametime.ElapsedGameTime.TotalSeconds;
+
                     if (kbState.IsKeyDown(Keys.D))
                     {
                         position.BoxX += 5;
@@ -207,32 +214,26 @@ namespace Dungeon_Crawlers
                     break;
 
                 case PlayerState.JumpingLeft:
-                    canJump = false;
-                    position.BoxY -= 10;
-                    jumpHeight -= 10;
-                    jumping = true;
-                    if (kbState.IsKeyDown(Keys.W)) // Puts player out of jump state to prevent double jumping
+                        position.BoxY = (int)(velocity * timer + acceleration * Math.Pow(timer, 2) + height);
+                        timer += gametime.ElapsedGameTime.TotalSeconds;
+
+                    if (kbState.IsKeyDown(Keys.D))
                     {
-                        playerState = PlayerState.FacingLeft;
+                        position.BoxX += 5;
                     }
                     if (kbState.IsKeyDown(Keys.A))
                     {
                         position.BoxX -= 5;
-                    }
-                    if (kbState.IsKeyDown(Keys.D))
-                    {
-                        position.BoxX += 5;
-                        playerState = PlayerState.JumpingRight;
-                    }
-                    if (kbState.IsKeyUp(Keys.W) && playerState == PlayerState.JumpingLeft)
-                    {
-                        playerState = PlayerState.FacingLeft;
+                        playerState = PlayerState.JumpingLeft;
                     }
                     break;
             }
 
+            List<Hitbox> hitboxes = manager.HitBoxes;
+            UpdateAnimation(gametime);
+            CheckCollision(hitboxes);
             // If player dies then go to GameOver Screen
-            if(health <= 0)
+            if (health <= 0)
             {
                 StateManager.Instance.ChangeState(GameState.GameOver);
             }
@@ -377,37 +378,44 @@ namespace Dungeon_Crawlers
         {
             for (int i = 0; i < objects.Count; i++)
             {
-                if (objects[i].BoxType == BoxType.Collision) // Immobile Tiles
+                if (objects[i] != null)
                 {
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height < objects[i].BoxY * 2 + objects[i].Box.Height
-                        && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width -10) // Top of Tile
+                    if (objects[i].BoxType == BoxType.Collision) // Immobile Tiles
                     {
-                        position.BoxY = objects[i].BoxY - position.Box.Height;
-                        canJump = true; // If player is on top of a block let them be able to jump
+                        if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height < objects[i].BoxY * 2 + objects[i].Box.Height
+                            && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10) // Top of Tile
+                        {
+                            position.BoxY = objects[i].BoxY - position.Box.Height;
+                            if ((playerState == PlayerState.JumpingRight || playerState == PlayerState.JumpingLeft) && timer >= JumpDelay)
+                            {
+                                playerState = PlayerState.FacingRight;
+                            }
+                            canJump = true; // If player is on top of a block let them be able to jump                    
+                        }
+                        if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height > objects[i].BoxY * 2 + objects[i].Box.Height
+                            && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
+                        {
+                            position.BoxY = objects[i].BoxY + objects[i].Box.Height;
+                        }
+                        if (position.Box.Intersects(objects[i].Box) && position.BoxX * 2 + position.Box.Width < objects[i].BoxX * 2 + objects[i].Box.Width
+                            && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Left of Tile
+                        {
+                            position.BoxX = objects[i].BoxX - position.Box.Width;
+                        }
+                        if (position.Box.Intersects(objects[i].Box) && position.BoxX * 2 + position.Box.Width > objects[i].BoxX * 2 + objects[i].Box.Width
+                            && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
+                        {
+                            position.BoxX = objects[i].BoxX + objects[i].Box.Width;
+                        }
                     }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height > objects[i].BoxY * 2 + objects[i].Box.Height
-                        && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width -10)// Bottom of Tile
+                    if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player
                     {
-                        position.BoxY = objects[i].BoxY+ objects[i].Box.Height;
-                    }
-                    if(position.Box.Intersects(objects[i].Box) && position.BoxX  * 2 + position.Box.Width < objects[i].BoxX * 2 + objects[i].Box.Width
-                        && position.BoxY > objects[i].BoxY - position.Box.Height +10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height -10) // Left of Tile
-                    {
-                        position.BoxX = objects[i].BoxX - position.Box.Width;
-                    }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxX * 2 + position.Box.Width > objects[i].BoxX * 2 + objects[i].Box.Width
-                        && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
-                    {
-                        position.BoxX = objects[i].BoxX+ objects[i].Box.Width;
+                        if (position.Box.Intersects(objects[i].Box))
+                        {
+                            health--;
+                        }
                     }
                 }
-                if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player
-                {
-                    if (position.Box.Intersects(objects[i].Box))
-                    {
-                        health--;
-                    }
-                } 
             }
         }
     }
