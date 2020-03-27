@@ -118,6 +118,9 @@ namespace Dungeon_Crawlers
                         if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingRight;
+                            height = position.BoxY;
+                            timer = 0;
+                            canJump = false;
                             jumpHeight = 100;
                         }
                     }
@@ -141,6 +144,9 @@ namespace Dungeon_Crawlers
                         if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingLeft;
+                            height = position.BoxY;
+                            timer = 0;
+                            canJump = false;
                             jumpHeight = 100;
                         }
                     }
