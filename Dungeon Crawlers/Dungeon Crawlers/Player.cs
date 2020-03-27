@@ -117,10 +117,7 @@ namespace Dungeon_Crawlers
                     {
                         if (canJump) // Jumps if on the ground
                         {
-                            playerState = PlayerState.JumpingRight;
-                            height = position.BoxY;
-                            timer = 0;
-                            canJump = false;
+                            playerState = PlayerState.JumpingRight;                          
                             jumpHeight = 100;
                         }
                     }
@@ -144,9 +141,6 @@ namespace Dungeon_Crawlers
                         if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingLeft;
-                            height = position.BoxY;
-                            timer = 0;
-                            canJump = false;
                             jumpHeight = 100;
                         }
                     }
@@ -163,9 +157,6 @@ namespace Dungeon_Crawlers
                         if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingRight;
-                            height = position.BoxY;
-                            timer = 0;
-                            canJump = false;
                             jumpHeight = 100;
                         }
                     }
@@ -182,9 +173,6 @@ namespace Dungeon_Crawlers
                         if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingLeft;
-                            height = position.BoxY;
-                            timer = 0;
-                            canJump = false;
                             jumpHeight = 100;
                         }
                     }
@@ -220,18 +208,9 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.A))
                     {
                         position.BoxX -= 5;
-                    }
-
-                    if (kbState.IsKeyDown(Keys.D))
-                    {
-                        position.BoxX += 5;
-                    }
-                    if (kbState.IsKeyDown(Keys.A))
-                    {
-                        position.BoxX -= 5;
                         playerState = PlayerState.JumpingLeft;
                     }
-                    break;
+                    break;                   
 
                 case PlayerState.JumpingLeft:
                     canJump = false;
@@ -401,38 +380,43 @@ namespace Dungeon_Crawlers
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
-
+        
         // Method for Collision Checks for player
         public override void CheckCollision(List<Hitbox> objects)
         {
+            int notCollide = 0;
             for (int i = 0; i < objects.Count; i++)
             {
-                if (objects[i].BoxType == BoxType.Collision) // Immobile Tiles
+                if (objects[i].BoxType == BoxType.Collision && position.Box.Intersects(objects[i].Box)) // Immobile Tiles
                 {
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height < objects[i].BoxY * 2 + objects[i].Box.Height
+                    if (position.BoxY * 2 + position.Box.Height < objects[i].BoxY * 2 + objects[i].Box.Height
                         && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10) // Top of Tile
                     {
                         position.BoxY = objects[i].BoxY - position.Box.Height;
                         canJump = true; // If player is on top of a block let them be able to jump
                     }
-                    else
-                    {
-                        canJump = false;
-                    }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height > objects[i].BoxY * 2 + objects[i].Box.Height
+                    if (position.BoxY * 2 + position.Box.Height > objects[i].BoxY * 2 + objects[i].Box.Height
                         && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
                     {
                         position.BoxY = objects[i].BoxY + objects[i].Box.Height;
                     }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxX * 2 + position.Box.Width < objects[i].BoxX * 2 + objects[i].Box.Width
+                    if (position.BoxX * 2 + position.Box.Width < objects[i].BoxX * 2 + objects[i].Box.Width
                         && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Left of Tile
                     {
                         position.BoxX = objects[i].BoxX - position.Box.Width;
                     }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxX * 2 + position.Box.Width > objects[i].BoxX * 2 + objects[i].Box.Width
+                    if (position.BoxX * 2 + position.Box.Width > objects[i].BoxX * 2 + objects[i].Box.Width
                         && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
                     {
                         position.BoxX = objects[i].BoxX + objects[i].Box.Width;
+                    }
+                }
+                else //if not colliding with ALL block
+                {
+                    notCollide += 1;
+                    if(notCollide == objects.Count)
+                    {
+                        canJump = false;
                     }
                 }
                 if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player
