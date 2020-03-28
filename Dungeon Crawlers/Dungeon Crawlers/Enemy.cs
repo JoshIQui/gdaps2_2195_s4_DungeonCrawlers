@@ -197,6 +197,49 @@ namespace Dungeon_Crawlers
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
         }
+
+        // Logic for Enemy pathfinding
+        public void Logic(Hero target)
+        {
+            if(target.Position.Box.Intersects(position.Box))
+            {
+                enemyState = EnemyState.AttackingLeft;
+                /*
+                target.Health--;
+                health -= 2;
+                */
+            }
+
+            if(target.Position.BoxX < position.BoxX)
+            {
+                position.BoxX -= 4;
+                enemyState = EnemyState.WalkingLeft;
+                if (target.Position.BoxY < position.BoxY)
+                {
+                    position.BoxY -= 4;
+                }
+                if (target.Position.BoxY > position.BoxY)
+                {
+                    position.BoxX += 4;
+                }
+            }
+            if(target.Position.BoxX > position.BoxX)
+            {
+                position.BoxX += 4;
+                enemyState = EnemyState.WalkingRight;
+                if (target.Position.BoxY < position.BoxY)
+                {
+                    position.BoxY -= 4;
+                }
+                if (target.Position.BoxY > position.BoxY)
+                {
+                    position.BoxX += 4;
+                }
+            }
+            
+        }
+
+        // Logic for Enemy Collisions
         public override void CheckCollision(List<Hitbox> objects)
         {
             for (int i = 0; i < objects.Count; i++)

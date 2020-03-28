@@ -47,6 +47,7 @@ namespace Dungeon_Crawlers
         public int Health
         {
             get { return health; }
+            set { health = value; }
         }
        
         public Hero(Texture2D asset, Hitbox position, int screenWidth, int screenHeight, int health = 100)
@@ -158,6 +159,10 @@ namespace Dungeon_Crawlers
                 }  
             }
             speed = 5;
+            if(health <= 0)
+            {
+                StateManager.Instance.ChangeState(GameState.Win);
+            }
         }
         public override void Update(GameTime gametime)
         {

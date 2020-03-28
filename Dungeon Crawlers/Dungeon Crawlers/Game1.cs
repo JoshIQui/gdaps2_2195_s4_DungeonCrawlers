@@ -193,6 +193,7 @@ namespace Dungeon_Crawlers
                     }
                     player.Update(gameTime);
                     enemy.Update(gameTime);
+                    enemy.Logic(hero);
                     hero.UpdateAnimation(gameTime);
                     break;
 
@@ -290,7 +291,10 @@ namespace Dungeon_Crawlers
                 case GameState.Game:
                     hero.Draw(spriteBatch);
                     player.Draw(spriteBatch);
-                    enemy.Draw(spriteBatch);
+                    if(enemy.Health > 0)
+                    {
+                        enemy.Draw(spriteBatch);
+                    }
                     manager.DrawLevel(spriteBatch);
                     /*
                     tile1.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
