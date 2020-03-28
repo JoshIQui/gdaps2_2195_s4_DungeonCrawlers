@@ -28,6 +28,7 @@ namespace Dungeon_Crawlers
         private int width;
         private int height;
         private EnemyState enemyState;
+        private TileManager manager;
 
         // Animation Variables
         int frame;              // The current animation frame
@@ -54,6 +55,7 @@ namespace Dungeon_Crawlers
             this.width = screenWidth;
             this.height = screenHeight;
             enemyState = EnemyState.FacingRight;
+            manager = TileManager.Instance;
 
             // Initialize
             fps = 5.0;                     // Will cycle through 5 frames per second
@@ -61,8 +63,10 @@ namespace Dungeon_Crawlers
         }
         public override void Update(GameTime gametime)
         {
+            List<Hitbox> hitboxes = manager.HitBoxes;
             position.BoxY += 2;
             UpdateAnimation(gametime);
+            CheckCollision(hitboxes);
         }
         // Drawing enemy
         public override void Draw(SpriteBatch sb)
@@ -197,34 +201,41 @@ namespace Dungeon_Crawlers
         {
             for (int i = 0; i < objects.Count; i++)
             {
-                if (objects[i].BoxType == BoxType.Collision) // Immobile Tiles
+                if (objects[i] != null)
                 {
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height < objects[i].BoxY * 2 + objects[i].Box.Height
-                        && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10) // Top of Tile
+                    if (objects[i].BoxType == BoxType.Collision && position.Box.Intersects(objects[i].Box)) // Immobile Tiles
                     {
-                        position.BoxY = objects[i].BoxY - position.Box.Height;
-                    }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxY * 2 + position.Box.Height > objects[i].BoxY * 2 + objects[i].Box.Height
-                        && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
-                    {
-                        position.BoxY = objects[i].BoxY + objects[i].Box.Height;
-                    }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxX * 2 + position.Box.Width < objects[i].BoxX * 2 + objects[i].Box.Width
-                        && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Left of Tile
-                    {
-                        position.BoxX = objects[i].BoxX - position.Box.Width;
-                    }
-                    if (position.Box.Intersects(objects[i].Box) && position.BoxX * 2 + position.Box.Width > objects[i].BoxX * 2 + objects[i].Box.Width
-                        && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
-                    {
-                        position.BoxX = objects[i].BoxX + objects[i].Box.Width;
+                        if (position.BoxY * 2 + position.Box.Height < objects[i].BoxY * 2 + objects[i].Box.Height
+                            && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10) // Top of Tile
+                        {
+                            position.BoxY = objects[i].BoxY - position.Box.Height;
+                        }
+                        if (position.BoxY * 2 + position.Box.Height > objects[i].BoxY * 2 + objects[i].Box.Height
+                            && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
+                        {
+                            position.BoxY = objects[i].BoxY + objects[i].Box.Height;
+                        }
+                        if (position.BoxX * 2 + position.Box.Width < objects[i].BoxX * 2 + objects[i].Box.Width
+                            && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Left of Tile
+                        {
+                            position.BoxX = objects[i].BoxX - position.Box.Width;
+                        }
+                        if (position.BoxX * 2 + position.Box.Width > objects[i].BoxX * 2 + objects[i].Box.Width
+                            && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
+                        {
+                            position.BoxX = objects[i].BoxX + objects[i].Box.Width;
+                        }
                     }
                 }
-                if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player
+
+                if (objects[i] != null)
                 {
-                    if (position.Box.Intersects(objects[i].Box))
+                    if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the enemy
                     {
-                        health--;
+                        if (position.Box.Intersects(objects[i].Box))
+                        {
+                            health--;
+                        }
                     }
                 }
             }

@@ -194,7 +194,6 @@ namespace Dungeon_Crawlers
                     player.Update(gameTime);
                     enemy.Update(gameTime);
                     hero.UpdateAnimation(gameTime);
-                    enemy.CheckCollision(hitBoxes);
                     break;
 
                 //Pause updates
