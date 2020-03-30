@@ -31,6 +31,7 @@ namespace Dungeon_Crawlers
         private KeyboardState prevKbState;
         private PlayerState playerState;
         private bool canJump;
+        private bool hitCeiling;
         private bool jumping = false;
         private int jumpHeight = 0;
         private double timer = 0;
@@ -39,6 +40,7 @@ namespace Dungeon_Crawlers
         private int height;
         private double JumpDelay = 0.0333334;
         private TileManager manager;
+        List<Hitbox> hitboxes;
 
 
         // Animation Variables
@@ -81,6 +83,7 @@ namespace Dungeon_Crawlers
             fps = 5.0;                     // Will cycle through 5 frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
             manager = TileManager.Instance;
+            hitboxes = manager.HitBoxes;
         }
 
         // Methods
@@ -121,6 +124,7 @@ namespace Dungeon_Crawlers
                             height = position.BoxY;
                             timer = 0;
                             canJump = false;
+                            velocity = -900;
                             //jumpHeight = 100;
                         }
                     }
@@ -147,6 +151,7 @@ namespace Dungeon_Crawlers
                             height = position.BoxY;
                             timer = 0;
                             canJump = false;
+                            velocity = -900;
                             //jumpHeight = 100;
                         }
                     }
@@ -166,6 +171,7 @@ namespace Dungeon_Crawlers
                             height = position.BoxY;
                             timer = 0;
                             canJump = false;
+                            velocity = -900;
                             //jumpHeight = 100;
                         }
                     }
@@ -185,6 +191,7 @@ namespace Dungeon_Crawlers
                             height = position.BoxY;
                             timer = 0;
                             canJump = false;
+                            velocity = -900;
                             //jumpHeight = 100;
                         }
                     }
@@ -208,8 +215,8 @@ namespace Dungeon_Crawlers
                     }
                     break;
                 case PlayerState.JumpingRight:
-                    position.BoxY = (int)(velocity * timer + acceleration * Math.Pow(timer, 2) + height);
-                    timer += gametime.ElapsedGameTime.TotalSeconds;
+                        position.BoxY = (int)(velocity * timer + acceleration * Math.Pow(timer, 2) + height);
+                        timer += gametime.ElapsedGameTime.TotalSeconds;
 
                     if (kbState.IsKeyDown(Keys.D))
                     {
@@ -229,16 +236,15 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.D))
                     {
                         position.BoxX += 5;
+                        playerState = PlayerState.JumpingRight;
                     }
                     if (kbState.IsKeyDown(Keys.A))
                     {
                         position.BoxX -= 5;
-                        playerState = PlayerState.JumpingLeft;
                     }
                     break;
             }
 
-            List<Hitbox> hitboxes = manager.HitBoxes;
             UpdateAnimation(gametime);
             CheckCollision(hitboxes);
             // If player dies then go to GameOver Screen
@@ -385,7 +391,8 @@ namespace Dungeon_Crawlers
         // Method for Collision Checks for player
         public override void CheckCollision(List<Hitbox> objects)
         {
-            int collide = 0;
+            int floorCollide = 0;
+            int ceilingCollide = 0;
             for (int i = 0; i < objects.Count; i++)
             {
                 if (objects[i] != null)
@@ -405,11 +412,11 @@ namespace Dungeon_Crawlers
                                 playerState = PlayerState.FacingLeft;
                             }
                             canJump = true; // If player is on top of a block let them be able to jump
-                            collide += 1;
+                            floorCollide += 1;
                         }
                         else //if not colliding with ALL block
                         {
-                            if (collide == 0)
+                            if (floorCollide == 0)
                             {
                                 canJump = false;
                             }
@@ -418,6 +425,22 @@ namespace Dungeon_Crawlers
                             && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
                         {
                             position.BoxY = objects[i].BoxY + objects[i].Box.Height;
+                            // Only changes values the first time the player collides with a ceiling, within one interaction
+                            // Makes the player reach its max height at the ceiling's height and starts its fall
+                            if (!hitCeiling)
+                            {
+                                timer = 0;
+                                velocity = 0;
+                                height = position.BoxY;
+                            }
+                            hitCeiling = true;
+                        }
+                        else //if not colliding with ALL block
+                        {
+                            if (ceilingCollide == 0)
+                            {
+                                hitCeiling = false;
+                            }
                         }
                         if (position.BoxX * 2 + position.Box.Width < objects[i].BoxX * 2 + objects[i].Box.Width
                             && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Left of Tile
