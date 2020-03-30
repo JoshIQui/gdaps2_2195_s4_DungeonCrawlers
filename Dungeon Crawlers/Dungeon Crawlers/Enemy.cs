@@ -122,7 +122,7 @@ namespace Dungeon_Crawlers
                                                 // This keeps the time passed 
             }
         }
-        // Method for Drawing the Player Idle Animation
+        // Method for Drawing the Enemy Idle Animation
         private void DrawStanding(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
@@ -141,7 +141,7 @@ namespace Dungeon_Crawlers
                 0);                             // - Layer depth (unused)
         }
 
-        // Method for Drawing the Player Walk Animation
+        // Method for Drawing the Enemy Walk Animation
         private void DrawWalking(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
@@ -160,7 +160,7 @@ namespace Dungeon_Crawlers
                 0);                             // - Layer depth (unused)
         }
 
-        // Method for Drawing the Player Attack Animation
+        // Method for Drawing the Enemy Attack Animation
         private void DrawAttacking(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
@@ -179,7 +179,7 @@ namespace Dungeon_Crawlers
                 0);                             // - Layer depth (unused)
         }
 
-        // Method for Drawing the Player Jump Animation
+        // Method for Drawing the Enemy Jump Animation
         private void DrawJumping(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
@@ -206,8 +206,9 @@ namespace Dungeon_Crawlers
                 enemyState = EnemyState.AttackingLeft;
                 /*
                 target.Health--;
-                health -= 2;
                 */
+                health -= 2;
+                
             }
 
             if(target.Position.BoxX < position.BoxX)

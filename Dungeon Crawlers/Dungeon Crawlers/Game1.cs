@@ -32,6 +32,9 @@ namespace Dungeon_Crawlers
         List<Hitbox> hitBoxes;
         Tile tile1;
         Tile tile2;
+        EnemyPickUp pickUp;
+        List<EnemyPickUp> pickups = new List<EnemyPickUp>();
+        List<Enemy> enemies = new List<Enemy>();
         TileManager manager;
 
         List<Item> squareCollection = new List<Item>();
@@ -102,6 +105,11 @@ namespace Dungeon_Crawlers
             */
             Hitbox enemyBox = new Hitbox(new Rectangle(800, 200, 36 * 2, 45 * 2), BoxType.Hitbox);
             enemy = new Enemy(charTextures, enemyBox, screenWidth, screenHeight);
+            enemies.Add(enemy);
+
+            Hitbox pickupBox = new Hitbox(new Rectangle(1000, 200, 36 * 2, 45 * 2), BoxType.Hitbox);
+            pickUp = new EnemyPickUp(charTextures, pickupBox);
+            pickups.Add(pickUp);
         }
 
         /// <summary>
@@ -192,9 +200,31 @@ namespace Dungeon_Crawlers
                         StateManager.Instance.ChangeState(GameState.Pause);
                     }
                     player.Update(gameTime);
-                    enemy.Update(gameTime);
-                    enemy.Logic(hero);
                     hero.UpdateAnimation(gameTime);
+
+                    foreach(EnemyPickUp p in pickups)
+                    {
+                        p.Logic(player);
+                    }
+
+                    // If E is pressed then if possible spawn an Enemy
+                    if(kbState.IsKeyUp(Keys.E) && prevKbState.IsKeyDown(Keys.E))
+                    {
+                        if(player.NumEnemies > 0)
+                        {
+                            Hitbox enemyBox = new Hitbox(new Rectangle(player.Position.BoxX, player.Position.BoxY, 36 * 2, 45 * 2), BoxType.Hitbox);
+                            enemy = new Enemy(charTextures, enemyBox, screenWidth, screenHeight);
+                            enemies.Add(enemy);
+                            player.NumEnemies--;
+                        }
+                    }
+
+                    // Update Logic for each Enemy
+                    foreach(Enemy enemy in enemies)
+                    {
+                        enemy.Update(gameTime);
+                        enemy.Logic(hero);
+                    }
                     break;
 
                 //Pause updates
@@ -291,9 +321,12 @@ namespace Dungeon_Crawlers
                 case GameState.Game:
                     hero.Draw(spriteBatch);
                     player.Draw(spriteBatch);
-                    if(enemy.Health > 0)
+                    foreach(Enemy enemy in enemies)
                     {
-                        enemy.Draw(spriteBatch);
+                        if (enemy.Health > 0)
+                        {
+                            enemy.Draw(spriteBatch);
+                        }
                     }
                     manager.DrawLevel(spriteBatch);
                     /*
@@ -305,6 +338,14 @@ namespace Dungeon_Crawlers
                         spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
                     }
                     manager.DrawLevel(spriteBatch);
+
+                    foreach(EnemyPickUp p in pickups)
+                    {
+                        if(p.PickedUp == false)
+                        {
+                            p.Draw(spriteBatch);
+                        }
+                    }
                     break;
 
                 case GameState.Pause:
