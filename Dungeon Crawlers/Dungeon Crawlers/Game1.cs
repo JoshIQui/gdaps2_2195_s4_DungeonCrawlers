@@ -164,12 +164,6 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
                     {
                         //Start the game
-                        StateManager.Instance.ChangeState(GameState.Game);
-                    }
-                    //If I is pressed
-                    if (kbState.IsKeyDown(Keys.I) && kbState != prevKbState)
-                    {
-                        //Show the instructions
                         StateManager.Instance.ChangeState(GameState.Instructions);
                     }
                     
