@@ -66,7 +66,17 @@ namespace Dungeon_Crawlers
         public int NumEnemies
         {
             get { return numEnemies; }
-            set { numEnemies = value; }
+            set 
+            { 
+                if(numEnemies > 5) // Sets maximum amount of enemies a player can use at once
+                {
+                    numEnemies = 4;
+                }
+                else
+                {
+                    numEnemies = value;
+                } 
+            }
         }
 
         // Constructor
