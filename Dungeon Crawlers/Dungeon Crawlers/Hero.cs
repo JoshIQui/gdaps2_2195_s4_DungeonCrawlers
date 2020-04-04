@@ -34,7 +34,7 @@ namespace Dungeon_Crawlers
         private double jumpSpd = 12;
         private double fallSpd = 1;
         const double gravityAccel = 0.5;
-       
+
         // Animation
         int frame;              // The current animation frame
         double timeCounter;     // The amount of time that has passed
@@ -46,13 +46,12 @@ namespace Dungeon_Crawlers
         const int HeroRectOffset = 48;   // How far down in the image are the frames?
         const int HeroRectHeight = 48;     // The height of a single frame
         const int HeroRectWidth = 48;
-        Rectangle debug;
 
         HeroState currentState = HeroState.WalkRight;
-        int moveSpd = 5;
         //int gravity = 9;
         bool[,] obstacle;
 
+        List<Hitbox> hitboxes;
         public int Health
         {
             get { return health; }
@@ -64,7 +63,7 @@ namespace Dungeon_Crawlers
         {
             this.health = health;
             this.width = screenWidth;
-            this.height = screenHeight;
+            this.height = screenHeight;                       
 
             obstacle = new bool[height+1, width+1];
             // Initialize
@@ -73,6 +72,7 @@ namespace Dungeon_Crawlers
         }
         public void logic(Player target,List<Hitbox> square)
         {
+            
             //debug.X = target.Position.BoxX;
             //debug.Y = target.Position.BoxY;
             //debug.Width = 1;
@@ -85,16 +85,19 @@ namespace Dungeon_Crawlers
 
                 for (int a = 0; a < square.Count; a++)
                 {
-                    if (square[a].Box.Intersects(position.Box))
+                    if (square[a] != null)
                     {
-                        position.BoxY = square[a].BoxY - HeroRectHeight * 2;// *2 because i use 200% scaling
-                        onGround = true;
-                        fallSpd = 1;
-                        break; //whan its on at least 1 ground, break it.
-                    }
-                    else
-                    {
-                        onGround = false;
+                        if (square[a].Box.Intersects(position.Box))
+                        {
+                            position.BoxY = square[a].BoxY - position.Box.Height;//
+                            onGround = true;
+                            fallSpd = 1;
+                            break; //whan its on at least 1 ground, break it.
+                        }
+                        else
+                        {
+                            onGround = false;
+                        }
                     }
                 }
             }
@@ -107,10 +110,13 @@ namespace Dungeon_Crawlers
                 
                 for (int a = 0; a < square.Count; a++)
                 {
-                    if (square[a].Box.Intersects(position.Box))
+                    if (square[a] != null)
                     {
-                        position.BoxY = square[a].BoxY + square[a].Box.Height;// *2 because i use 200% scaling
-                        
+                        if (square[a].Box.Intersects(position.Box))
+                        {
+                            position.BoxY = square[a].BoxY + square[a].Box.Height;// *2 because i use 200% scaling
+
+                        }
                     }
                 }
                 //jumpHeight -= 10;
@@ -135,7 +141,7 @@ namespace Dungeon_Crawlers
             }
             if (position.BoxX < target.Position.BoxX) //GO RIGHT 
             {
-                position.BoxX += 2;
+                position.BoxX += 5;
                 if (onGround == true)
                 {
                     currentState = HeroState.WalkRight;
@@ -146,29 +152,31 @@ namespace Dungeon_Crawlers
                 }
                 for (int a = 0; a < square.Count; a++)
                 {
-
-                    if (square[a].Box.Intersects(position.Box))
+                    if (square[a] != null)
                     {
-                        position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
-                        /*  //Extra features that allow hero to "jump" for small obstacle
-                         *  
-                        if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
+                        if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxY = square[a].BoxY - HeroRectHeight * 2;
-                        }
-                        else
-                        {
-                            position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
-                        }
-                        */
+                            position.BoxX = square[a].BoxX - position.Box.Width;// 
+                            /*  //Extra features that allow hero to "jump" for small obstacle
+                             *  
+                            if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
+                            {
+                                position.BoxY = square[a].BoxY - HeroRectHeight * 2;
+                            }
+                            else
+                            {
+                                position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
+                            }
+                            */
 
+                        }
                     }
                 }
             }
 
             if (position.BoxX > target.Position.BoxX) //GO LEFT
             {
-                position.BoxX -= 2;
+                position.BoxX -= 5;
                 if (onGround == true)
                 {
                     currentState = HeroState.WalkLeft;
@@ -179,22 +187,25 @@ namespace Dungeon_Crawlers
                 }
                 for (int a = 0; a < square.Count; a++)
                 {
-                    if (square[a].Box.Intersects(position.Box))
+                    if (square[a] != null)
                     {
-                        position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
-
-                        /* //Extra features that allow hero to "jump" for small obstacle
-
-                        if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
-                        {
-                            position.BoxY = square[a].BoxY - HeroRectHeight * 2;
-                        }
-                        else
+                        if (square[a].Box.Intersects(position.Box))
                         {
                             position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
-                        }
-                        */
 
+                            /* //Extra features that allow hero to "jump" for small obstacle
+
+                            if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
+                            {
+                                position.BoxY = square[a].BoxY - HeroRectHeight * 2;
+                            }
+                            else
+                            {
+                                position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
+                            }
+                            */
+
+                        }
                     }
                 }
             }

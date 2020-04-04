@@ -65,7 +65,7 @@ namespace Dungeon_Crawlers
             IsMouseVisible = true;
 
             // Initializes collection of hitboxes
-            hitBoxes = new List<Hitbox>();
+            hitBoxes = manager.HitBoxes;
 
             base.Initialize();
         }
@@ -85,7 +85,7 @@ namespace Dungeon_Crawlers
 
             //Loads the hero and his textures
             charTextures = Content.Load<Texture2D>("Character-Spritesheet");
-            Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
+            Hitbox heroBox = new Hitbox(new Rectangle(0,0,90,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
             Hitbox playerBox = new Hitbox(new Rectangle(700, 200, 36*2, 45*2), BoxType.Hitbox);
@@ -95,6 +95,8 @@ namespace Dungeon_Crawlers
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
             manager.LoadLevel(tileTextures);
+
+            
             /*
             Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
             tile1 = new Tile(tileTextures, tileBox1, TileType.Floor);
