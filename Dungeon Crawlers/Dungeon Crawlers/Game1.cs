@@ -137,6 +137,7 @@ namespace Dungeon_Crawlers
             //player.CheckCollision(hitBoxes);
             enemy.UpdateAnimation(gameTime);
             enemy.CheckCollision(hitBoxes);
+            player.CheckCollision(hitBoxes);
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
