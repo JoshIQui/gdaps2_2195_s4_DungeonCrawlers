@@ -201,14 +201,14 @@ namespace Dungeon_Crawlers
         // Logic for Enemy pathfinding
         public void Logic(Hero target)
         {
-            if(target.Position.Box.Intersects(position.Box))
+            if(target.Position.Box.Intersects(position.Box) && health > 0)
             {
                 enemyState = EnemyState.AttackingLeft;
                 /*
                 target.Health--;
                 */
                 health -= 2;
-                
+                target.Position.BoxX = position.BoxX;
             }
 
             if(target.Position.BoxX < position.BoxX)
