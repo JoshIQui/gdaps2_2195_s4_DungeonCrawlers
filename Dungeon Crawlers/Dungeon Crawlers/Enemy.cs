@@ -29,6 +29,12 @@ namespace Dungeon_Crawlers
         private int height;
         private EnemyState enemyState;
         private TileManager manager;
+        private bool isJumping = false;
+        private int jumpHeight = 300;
+        private bool canJump = false;
+        private double jumpVelocity = 12;
+        private double fallVelocity = 1;
+        const double gravity = 0.5;
 
         // Animation Variables
         int frame;              // The current animation frame
@@ -201,6 +207,29 @@ namespace Dungeon_Crawlers
         // Logic for Enemy pathfinding
         public void Logic(Hero target)
         {
+            // If the enemy isn't jumping make the enemy fall
+            if(!isJumping)
+            {
+                fallVelocity += gravity;
+                position.WorldPositionY += (int)fallVelocity;
+            }
+
+            // If enemy is jumping make enemy go up
+            if(isJumping)
+            {
+                canJump = false;
+                jumpVelocity -= gravity;
+                position.WorldPositionY -= (int)jumpVelocity;
+            }
+
+            // Resets enemy jump speed at peak of jump and makes enemy begin to fall
+            if(jumpVelocity <= 0)
+            {
+                isJumping = false;
+                jumpVelocity = 12;
+            }
+
+            // If the enemy collides with the hero then make it attack the hero
             if(target.Position.Box.Intersects(position.Box) && health > 0)
             {
                 enemyState = EnemyState.AttackingLeft;
@@ -208,33 +237,33 @@ namespace Dungeon_Crawlers
                 target.Health--;
                 */
                 health -= 2;
-                target.Position.WorldPositionX = position.WorldPositionX;
+                target.Position.WorldPositionX = position.WorldPositionX; // Makes hero stop to fight the enemy
             }
 
-            if(target.Position.WorldPositionX < position.WorldPositionX)
+            if(target.Position.WorldPositionX < position.WorldPositionX) // Hero is to the left of the enemy
             {
                 position.WorldPositionX -= 4;
-                enemyState = EnemyState.WalkingLeft;
-                if (target.Position.WorldPositionY < position.WorldPositionY)
+                if (canJump) // If on the ground move left
                 {
-                    position.WorldPositionY -= 4;
+                    enemyState = EnemyState.WalkingLeft;
                 }
-                if (target.Position.WorldPositionY > position.WorldPositionY)
+                if (target.Position.WorldPositionY < position.WorldPositionY && canJump) // If hero is above the enemy and is able to jump then jump
                 {
-                    position.WorldPositionX += 4;
+                    isJumping = true;
+                    enemyState = EnemyState.JumpingLeft;
                 }
             }
-            if(target.Position.WorldPositionX > position.WorldPositionX)
+            if(target.Position.WorldPositionX > position.WorldPositionX) // Hero is to the left of the enemy
             {
-                position.WorldPositionX += 4;
-                enemyState = EnemyState.WalkingRight;
-                if (target.Position.WorldPositionY < position.WorldPositionY)
+                if(canJump) // If on te ground move right
                 {
-                    position.WorldPositionY -= 4;
+                    enemyState = EnemyState.WalkingRight;
                 }
-                if (target.Position.WorldPositionY > position.WorldPositionY)
+                position.WorldPositionX += 4;
+                if (target.Position.WorldPositionY < position.WorldPositionY) // If hero is above the enemy and is able to jump then jump
                 {
-                    position.WorldPositionX += 4;
+                    isJumping = true;
+                    enemyState = EnemyState.JumpingRight;
                 }
             }
             
@@ -253,6 +282,7 @@ namespace Dungeon_Crawlers
                             && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10) // Top of Tile
                         {
                             position.WorldPositionY = objects[i].WorldPositionY - position.Box.Height;
+                            canJump = true;
                         }
                         if (position.WorldPositionY * 2 + position.Box.Height > objects[i].WorldPositionY * 2 + objects[i].Box.Height
                             && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
