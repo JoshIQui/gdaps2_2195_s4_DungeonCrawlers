@@ -81,7 +81,7 @@ namespace Dungeon_Crawlers
             if (jumping == false)
             {
                 fallSpd = fallSpd + gravityAccel;
-                position.BoxY += (int)fallSpd; //gravity
+                position.WorldPositionY += (int)fallSpd; //gravity
 
                 for (int a = 0; a < square.Count; a++)
                 {
@@ -89,7 +89,7 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxY = square[a].BoxY - position.Box.Height;//
+                            position.WorldPositionY = square[a].WorldPositionY - position.Box.Height;//
                             onGround = true;
                             fallSpd = 1;
                             break; //whan its on at least 1 ground, break it.
@@ -106,7 +106,7 @@ namespace Dungeon_Crawlers
             {
                 onGround = false;
                 jumpSpd = jumpSpd - gravityAccel;
-                position.BoxY -= (int)jumpSpd;
+                position.WorldPositionY -= (int)jumpSpd;
                 
                 for (int a = 0; a < square.Count; a++)
                 {
@@ -114,7 +114,7 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxY = square[a].BoxY + square[a].Box.Height;// *2 because i use 200% scaling
+                            position.WorldPositionY = square[a].WorldPositionY + square[a].Box.Height;// *2 because i use 200% scaling
 
                         }
                     }
@@ -127,11 +127,11 @@ namespace Dungeon_Crawlers
                 jumpSpd = 12;
             }
            
-            if (position.BoxY < target.Position.BoxY) //going down
+            if (position.WorldPositionY < target.Position.WorldPositionY) //going down
             {
                 
             }
-            if (position.BoxY > target.Position.BoxY && onGround == true) //going up (jumping)
+            if (position.WorldPositionY > target.Position.WorldPositionY && onGround == true) //going up (jumping)
             {
                 if(jumping == false)
                 {
@@ -139,9 +139,9 @@ namespace Dungeon_Crawlers
                 }
                
             }
-            if (position.BoxX < target.Position.BoxX) //GO RIGHT 
+            if (position.WorldPositionX < target.Position.WorldPositionX) //GO RIGHT 
             {
-                position.BoxX += 5;
+                position.WorldPositionX += 5;
                 if (onGround == true)
                 {
                     currentState = HeroState.WalkRight;
@@ -156,7 +156,7 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxX = square[a].BoxX - position.Box.Width;// 
+                            position.WorldPositionX = square[a].WorldPositionX - position.Box.Width;// 
                             /*  //Extra features that allow hero to "jump" for small obstacle
                              *  
                             if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
@@ -174,9 +174,9 @@ namespace Dungeon_Crawlers
                 }
             }
 
-            if (position.BoxX > target.Position.BoxX) //GO LEFT
+            if (position.WorldPositionX > target.Position.WorldPositionX) //GO LEFT
             {
-                position.BoxX -= 5;
+                position.WorldPositionX -= 5;
                 if (onGround == true)
                 {
                     currentState = HeroState.WalkLeft;
@@ -191,7 +191,7 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
+                            position.WorldPositionX = square[a].WorldPositionX + square[a].Box.Width;// *2 because i use 200% scaling
 
                             /* //Extra features that allow hero to "jump" for small obstacle
 
@@ -255,7 +255,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset * 0,           //	   where "inside" the texture
@@ -272,7 +272,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset*1,           //	   where "inside" the texture
@@ -289,7 +289,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset*2,           //	   where "inside" the texture
@@ -306,7 +306,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset * 3,           //	   where "inside" the texture
@@ -323,7 +323,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     5 * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset * 4,           //	   where "inside" the texture

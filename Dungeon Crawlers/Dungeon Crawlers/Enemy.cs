@@ -64,7 +64,7 @@ namespace Dungeon_Crawlers
         public override void Update(GameTime gametime)
         {
             List<Hitbox> hitboxes = manager.HitBoxes;
-            position.BoxY += 2;
+            position.WorldPositionY += 2;
             UpdateAnimation(gametime);
             CheckCollision(hitboxes);
         }
@@ -127,7 +127,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * EnemyRectWidth,     //   - This rectangle specifies
                     EnemyRectOffsetWalk * 5,           //	   where "inside" the texture
@@ -146,7 +146,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * EnemyRectWidth,     //   - This rectangle specifies
                     EnemyRectOffsetWalk * 6,           //	   where "inside" the texture
@@ -165,7 +165,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * EnemyRectWidth,     //   - This rectangle specifies
                     EnemyRectOffsetWalk * 7,           //	   where "inside" the texture
@@ -184,7 +184,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     3 * EnemyRectWidth,     //   - This rectangle specifies
                     EnemyRectOffsetWalk * 6,           //	   where "inside" the texture
@@ -208,33 +208,33 @@ namespace Dungeon_Crawlers
                 target.Health--;
                 */
                 health -= 2;
-                target.Position.BoxX = position.BoxX;
+                target.Position.WorldPositionX = position.WorldPositionX;
             }
 
-            if(target.Position.BoxX < position.BoxX)
+            if(target.Position.WorldPositionX < position.WorldPositionX)
             {
-                position.BoxX -= 4;
+                position.WorldPositionX -= 4;
                 enemyState = EnemyState.WalkingLeft;
-                if (target.Position.BoxY < position.BoxY)
+                if (target.Position.WorldPositionY < position.WorldPositionY)
                 {
-                    position.BoxY -= 4;
+                    position.WorldPositionY -= 4;
                 }
-                if (target.Position.BoxY > position.BoxY)
+                if (target.Position.WorldPositionY > position.WorldPositionY)
                 {
-                    position.BoxX += 4;
+                    position.WorldPositionX += 4;
                 }
             }
-            if(target.Position.BoxX > position.BoxX)
+            if(target.Position.WorldPositionX > position.WorldPositionX)
             {
-                position.BoxX += 4;
+                position.WorldPositionX += 4;
                 enemyState = EnemyState.WalkingRight;
-                if (target.Position.BoxY < position.BoxY)
+                if (target.Position.WorldPositionY < position.WorldPositionY)
                 {
-                    position.BoxY -= 4;
+                    position.WorldPositionY -= 4;
                 }
-                if (target.Position.BoxY > position.BoxY)
+                if (target.Position.WorldPositionY > position.WorldPositionY)
                 {
-                    position.BoxX += 4;
+                    position.WorldPositionX += 4;
                 }
             }
             
@@ -249,25 +249,25 @@ namespace Dungeon_Crawlers
                 {
                     if (objects[i].BoxType == BoxType.Collision && position.Box.Intersects(objects[i].Box)) // Immobile Tiles
                     {
-                        if (position.BoxY * 2 + position.Box.Height < objects[i].BoxY * 2 + objects[i].Box.Height
-                            && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10) // Top of Tile
+                        if (position.WorldPositionY * 2 + position.Box.Height < objects[i].WorldPositionY * 2 + objects[i].Box.Height
+                            && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10) // Top of Tile
                         {
-                            position.BoxY = objects[i].BoxY - position.Box.Height;
+                            position.WorldPositionY = objects[i].WorldPositionY - position.Box.Height;
                         }
-                        if (position.BoxY * 2 + position.Box.Height > objects[i].BoxY * 2 + objects[i].Box.Height
-                            && position.BoxX > objects[i].BoxX - position.Box.Width + 10 && position.BoxX + position.Box.Width < objects[i].BoxX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
+                        if (position.WorldPositionY * 2 + position.Box.Height > objects[i].WorldPositionY * 2 + objects[i].Box.Height
+                            && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
                         {
-                            position.BoxY = objects[i].BoxY + objects[i].Box.Height;
+                            position.WorldPositionY = objects[i].WorldPositionY + objects[i].Box.Height;
                         }
-                        if (position.BoxX * 2 + position.Box.Width < objects[i].BoxX * 2 + objects[i].Box.Width
-                            && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Left of Tile
+                        if (position.WorldPositionX * 2 + position.Box.Width < objects[i].WorldPositionX * 2 + objects[i].Box.Width
+                            && position.WorldPositionY > objects[i].WorldPositionY - position.Box.Height + 10 && position.WorldPositionY + position.Box.Height < objects[i].WorldPositionY + objects[i].Box.Height + position.Box.Height - 10) // Left of Tile
                         {
-                            position.BoxX = objects[i].BoxX - position.Box.Width;
+                            position.WorldPositionX = objects[i].WorldPositionX - position.Box.Width;
                         }
-                        if (position.BoxX * 2 + position.Box.Width > objects[i].BoxX * 2 + objects[i].Box.Width
-                            && position.BoxY > objects[i].BoxY - position.Box.Height + 10 && position.BoxY + position.Box.Height < objects[i].BoxY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
+                        if (position.WorldPositionX * 2 + position.Box.Width > objects[i].WorldPositionX * 2 + objects[i].Box.Width
+                            && position.WorldPositionY > objects[i].WorldPositionY - position.Box.Height + 10 && position.WorldPositionY + position.Box.Height < objects[i].WorldPositionY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
                         {
-                            position.BoxX = objects[i].BoxX + objects[i].Box.Width;
+                            position.WorldPositionX = objects[i].WorldPositionX + objects[i].Box.Width;
                         }
                     }
                 }
