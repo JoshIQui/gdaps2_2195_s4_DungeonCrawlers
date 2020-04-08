@@ -28,21 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.infoBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
+            // 
+            // infoBox
+            // 
+            this.infoBox.Location = new System.Drawing.Point(21, 591);
+            this.infoBox.Name = "infoBox";
+            this.infoBox.Size = new System.Drawing.Size(240, 20);
+            this.infoBox.TabIndex = 0;
             // 
             // LevelCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1181, 623);
+            this.Controls.Add(this.infoBox);
             this.Name = "LevelCreator";
             this.Text = "Level Creator";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.TextBox infoBox;
     }
 }
 

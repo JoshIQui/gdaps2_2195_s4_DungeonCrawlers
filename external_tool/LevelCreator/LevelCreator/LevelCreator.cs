@@ -86,12 +86,12 @@ namespace LevelCreator
             }
 
             //Creates a toolbar of buttons that allow the user to change the color of the wall of buttons
-            for (int column = 0; column < 14; column++)
+            for (int column = 0; column < 15; column++)
             {
                 //Creates a new button and gives it a location and size
                 Button b = new Button();
                 b.Location = new Point(70 * (column + 1), 20);
-                b.Width = 70;
+                b.Width = 60;
                 b.Height = 20;
 
                 //Gives the button a name
@@ -109,7 +109,7 @@ namespace LevelCreator
 
                 //Location and size of the label
                 label.Location = new Point(70 * (column + 1), 5);
-                label.Width = 70;
+                label.Width = 60;
                 label.Height = 20;
 
                 //Gives the label a name
@@ -174,6 +174,10 @@ namespace LevelCreator
                         label.Text = "Eraser";
                         b.BackColor = Color.Empty;
                         break;
+                    case 14:
+                        label.Text = "Flag";
+                        b.BackColor = Color.HotPink;
+                        break;
                 }
 
                 //Makes the label appear
@@ -191,13 +195,13 @@ namespace LevelCreator
                 //Gets rid of the color if the button is clicked with the same color as the click color or if the color is empty
                 if (tempButton.BackColor == clickColor || clickColor.Name == "Control")
                 {
-                    tempButton.BackColor = Color.Empty;
-                    tempButton.Text = "";
+                        tempButton.BackColor = Color.Empty;
+                        tempButton.Text = "";
                 }
                 else
                 {
                     //IF the color is not white, do normal things
-                    if (clickColor != Color.White)
+                    if (clickColor != Color.White && clickColor != Color.HotPink)
                     {
                         if (clickColor == Color.DarkViolet)
                         {
@@ -210,6 +214,25 @@ namespace LevelCreator
                             //Sets the color of the button to the color type
                             tempButton.BackColor = clickColor;
                             tempButton.Text = "1";
+                        }
+                    }
+                    //Names the button as flagged if the flag template is used on it
+                    else if (clickColor == Color.HotPink)
+                    {
+                        if (tempButton.BackColor == Color.Red || tempButton.BackColor == Color.Salmon)
+                        {
+                            string[] name = tempButton.Name.Split(',');
+
+                            if (name.Length == 2)
+                            {
+                                tempButton.Name += ",Flagged";
+                                infoBox.Text = "Changed " + name[0] + "," + name[1] + "'s status to Flagged";
+                            }
+                            else
+                            {
+                                tempButton.Name = name[0] + "," + name[1];
+                                infoBox.Text = "Changed " + name[0] + "," + name[1] + "'s status to Unflagged";
+                            }
                         }
                     }
                     //If the click color is white, rotate or flip the space based on the color
@@ -330,6 +353,8 @@ namespace LevelCreator
 
                     foreach (Button button in buttons)
                     {
+                        string[] name = button.Name.Split(',');
+
                         //Determines the color and transformation of the box and writes to the file accordingly
                         switch (button.BackColor.Name)
                         {
@@ -337,7 +362,14 @@ namespace LevelCreator
                                 switch (button.Text)
                                 {
                                     case "1":
-                                        writer.Write("1");
+                                        if (name.Length == 2)
+                                        {
+                                            writer.Write("1");
+                                        }
+                                        else
+                                        {
+                                            writer.Write("!");
+                                        }
                                         break;
                                     case "2":
                                         writer.Write("Q");
@@ -452,10 +484,24 @@ namespace LevelCreator
                                 switch (button.Text)
                                 {
                                     case "1":
-                                        writer.Write("0");
+                                        if (name.Length == 2)
+                                        {
+                                            writer.Write("0");
+                                        }
+                                        else
+                                        {
+                                            writer.Write(")");
+                                        }
                                         break;
                                     case "H":
-                                        writer.Write("P");
+                                        if (name.Length == 2)
+                                        {
+                                            writer.Write("P");
+                                        }
+                                        else
+                                        {
+                                            writer.Write("p");
+                                        }
                                         break;
                                 }
                                 break;

@@ -25,6 +25,7 @@ namespace Dungeon_Crawlers
         Texture2D slimeTextures;        // The textures for the slime
         Texture2D wizardTextures;       // The textures for the wizard
         Texture2D tileTextures;         // The textures for the level tiles
+        Texture2D uI;                   // The textures for the game's UI
         KeyboardState kbState;          // Tracks the current state of the keyboard
         KeyboardState prevKbState;      // Tracks the state of the keyboard from the last frame
         MouseState mState;              // use only for debug
@@ -94,6 +95,9 @@ namespace Dungeon_Crawlers
             camera = new Camera(player.Position, screenWidth, screenHeight);
 
             squareObject = Content.Load<Texture2D>("Square");
+
+            //Loads the UI elements into the game
+            uI = Content.Load<Texture2D>("UI-Spritesheet");
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
             manager.LoadLevel(tileTextures);

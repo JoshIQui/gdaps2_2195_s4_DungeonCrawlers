@@ -36,7 +36,7 @@ THESE BUTTONS ARE AS SHOWN IN THE FILE:
 
 ------------------
 Floor (RED)
-1 - 1
+1 - 1 (Flagged - !)
 2 - Q
 3 - A
 4 - D
@@ -105,8 +105,8 @@ H - O
 
 ------------------
 Platform End (Salmon)
-1 - 0
-H - P
+1 - 0 (Flagged - ")") Yes it's a )
+H - P (Flagged - p)
 
 ------------------
 
