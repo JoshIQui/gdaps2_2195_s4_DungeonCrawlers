@@ -43,11 +43,12 @@ namespace Dungeon_Crawlers
         double timePerFrame;    // The amount of time (in fractional seconds) per frame
 
         // Constants for rectangle in the spritesheet
-        const int WalkFrameCount = 3;       // The number of frames in the animation
-        const int EnemyRectOffsetWalk = 48;   // How far down in the image are the frames? FOR THE RUN
-        const int EnemyRectHeight = 45;     // The height of a single frame
-        const int EnemyRectWidth = 88;     // The width of a single frame
-        const int OffsetX = 50;
+        const int LongFrameCount = 7;             // The number of frames in the longer animations
+        const int ShortFrameCount = 3;            // The number of frames in the shorter animations
+        const int PlayerSpriteSheetHeight = 241;  // How far down the first animation for the golbin is (IDLE)
+        const int PlayerRectHeight = 46;          // The height of a single frame
+        const int PlayerRectWidth = 88;           // The width of a single frame
+        const int Displacement = 37;              // How many pixels the sprite needs to move left to allign with its box
 
         public int Health
         {
@@ -65,7 +66,7 @@ namespace Dungeon_Crawlers
             manager = TileManager.Instance;
 
             // Initialize
-            fps = 5.0;                     // Will cycle through 5 frames per second
+            fps = 9.0;                     // Will cycle through 5 frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
         }
         public override void Update(GameTime gametime)
@@ -122,8 +123,8 @@ namespace Dungeon_Crawlers
             {
                 frame += 1;                     // Adjust the frame to the next image
 
-                if (frame > WalkFrameCount)     // Check the bounds - have we reached the end of walk cycle?
-                    frame = 1;                  // Back to 1 (since 0 is the "standing" frame)
+                if (frame > LongFrameCount)     // Check the bounds - have we reached the end of walk cycle?
+                    frame = 0;
 
                 timeCounter -= timePerFrame;    // Remove the time we "used" - don't reset to 0
                                                 // This keeps the time passed 
@@ -132,15 +133,19 @@ namespace Dungeon_Crawlers
         // Method for Drawing the Enemy Idle Animation
         private void DrawStanding(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
+            if (frame > ShortFrameCount)
+            {
+                frame = 0;
+            }
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * EnemyRectWidth,     //   - This rectangle specifies
-                    EnemyRectOffsetWalk * 5,           //	   where "inside" the texture
-                    EnemyRectWidth,             //     to get pixels (We don't want to
-                    EnemyRectHeight),           //     draw the whole thing)
-                Color.White,                    // - The color
+                    frame * PlayerRectWidth,     //   - This rectangle specifies
+                    PlayerSpriteSheetHeight,           //	   where "inside" the texture
+                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    PlayerRectHeight),           //     draw the whole thing)
+                Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 2.0f,                           // - Scale (100% - no change)
@@ -153,13 +158,13 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * EnemyRectWidth,     //   - This rectangle specifies
-                    EnemyRectOffsetWalk * 6,           //	   where "inside" the texture
-                    EnemyRectWidth,             //     to get pixels (We don't want to
-                    EnemyRectHeight),           //     draw the whole thing)
-                Color.White,                    // - The color
+                    frame * PlayerRectWidth,     //   - This rectangle specifies
+                    PlayerRectHeight + PlayerSpriteSheetHeight,           //	   where "inside" the texture
+                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    PlayerRectHeight),           //     draw the whole thing)
+                Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 2.0f,                           // - Scale (100% - no change)
@@ -172,13 +177,13 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * EnemyRectWidth,     //   - This rectangle specifies
-                    EnemyRectOffsetWalk * 7,           //	   where "inside" the texture
-                    EnemyRectWidth,             //     to get pixels (We don't want to
-                    EnemyRectHeight),           //     draw the whole thing)
-                Color.White,                    // - The color
+                    frame * PlayerRectWidth,     //   - This rectangle specifies
+                    PlayerRectHeight * 2 + PlayerSpriteSheetHeight,           //	   where "inside" the texture
+                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    PlayerRectHeight),           //     draw the whole thing)
+                Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 2.0f,                           // - Scale (100% - no change)
@@ -191,13 +196,13 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    3 * EnemyRectWidth,     //   - This rectangle specifies
-                    EnemyRectOffsetWalk * 6,           //	   where "inside" the texture
-                    EnemyRectWidth,             //     to get pixels (We don't want to
-                    EnemyRectHeight),           //     draw the whole thing)
-                Color.White,                    // - The color
+                    3 * PlayerRectWidth,     //   - This rectangle specifies
+                    PlayerRectHeight + PlayerSpriteSheetHeight,           //	   where "inside" the texture
+                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    PlayerRectHeight),           //     draw the whole thing)
+                Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 2.0f,                           // - Scale (100% - no change)

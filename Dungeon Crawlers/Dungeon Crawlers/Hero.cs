@@ -43,7 +43,7 @@ namespace Dungeon_Crawlers
 
         // Constants for "source" rectangle(inside the image)
         const int WalkFrameCount = 7;       // The number of frames in the animation
-        const int HeroRectOffset = 48;   // How far down in the image are the frames?
+        const int HeroRectOffset = 49;   // How far down in the image are the frames?
         const int HeroRectHeight = 48;     // The height of a single frame
         const int HeroRectWidth = 48;
 
@@ -67,7 +67,7 @@ namespace Dungeon_Crawlers
 
             obstacle = new bool[height+1, width+1];
             // Initialize
-            fps = 10.0;                     // Will cycle through 10 walk frames per second
+            fps = 6.0;                     // Will cycle through 10 walk frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
         }
         public void logic(Player target,List<Hitbox> square)
@@ -257,7 +257,7 @@ namespace Dungeon_Crawlers
                 frame += 1;                     // Adjust the frame to the next image
 
                 if (frame > WalkFrameCount)     // Check the bounds - have we reached the end of walk cycle?
-                    frame = 1;                  // Back to 1 (since 0 is the "standing" frame)
+                    frame = 0;
 
                 timeCounter -= timePerFrame;    // Remove the time we "used" - don't reset to 0
                                                 // This keeps the time passed 

@@ -32,8 +32,8 @@ namespace Dungeon_Crawlers
         private PlayerState playerState;
         private bool canJump;
         private bool hitCeiling;
-        private bool jumping = false;
-        private int jumpHeight = 0;
+        private bool jumping;
+        private bool falling;
         private double timer = 0;
         private double velocity = -900;
         private double acceleration = 1200;
@@ -50,11 +50,12 @@ namespace Dungeon_Crawlers
         double timePerFrame;    // The amount of time (in fractional seconds) per frame
 
         // Constants for rectangle in the spritesheet
-        const int WalkFrameCount = 3;       // The number of frames in the animation
-        const int PlayerRectOffsetWalk = 48;   // How far down in the image are the frames? FOR THE RUN
-        const int PlayerRectHeight = 45;     // The height of a single frame
-        const int PlayerRectWidth = 88;     // The width of a single frame
-        const int OffsetX = 50;
+        const int LongFrameCount = 7;             // The number of frames in the longer animations
+        const int ShortFrameCount = 3;            // The number of frames in the shorter animations
+        const int PlayerSpriteSheetHeight = 241;  // How far down the first animation for the golbin is (IDLE)
+        const int PlayerRectHeight = 46;          // The height of a single frame
+        const int PlayerRectWidth = 88;           // The width of a single frame
+        const int Displacement = 37;              // How many pixels the sprite needs to move left to allign with its box
 
         // Properties
         public int Health
@@ -94,8 +95,10 @@ namespace Dungeon_Crawlers
             this.numEnemies = numEnemies;
             playerState = PlayerState.FacingRight;
             canJump = false;
+            jumping = false;
+            falling = false;
             // Initialize
-            fps = 5.0;                     // Will cycle through 5 frames per second
+            fps = 9.0;                     // Will cycle through 5 frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
             manager = TileManager.Instance;
             hitboxes = manager.HitBoxes;
@@ -109,16 +112,17 @@ namespace Dungeon_Crawlers
             // Get Keyboard state for user input
             KeyboardState kbState = Keyboard.GetState();
             position.WorldPositionY += 2;
-            /*if (jumping && jumpHeight > 0)
+            if (!falling && !jumping)
             {
-                position.BoxY -= 10;
-                jumpHeight -= 10;
+                height = position.WorldPositionY;
+                timer = 0;
             }
-            else
+            if (!jumping && !canJump)
             {
-                jumping = false;
+                falling = true;
+                position.WorldPositionY = (int)(acceleration * Math.Pow(timer, 2) + height);
+                timer += gametime.ElapsedGameTime.TotalSeconds;
             }
-            */
             // Logic for switching player states and player movement
             switch (playerState)
             {
@@ -136,11 +140,9 @@ namespace Dungeon_Crawlers
                         if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingRight;
-                            height = position.WorldPositionY;
-                            timer = 0;
                             canJump = false;
                             velocity = -900;
-                            //jumpHeight = 100;
+                            jumping = true;
                         }
                     }
                     if (kbState.IsKeyDown(Keys.Space))
@@ -163,11 +165,9 @@ namespace Dungeon_Crawlers
                         if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingLeft;
-                            height = position.WorldPositionY;
-                            timer = 0;
                             canJump = false;
                             velocity = -900;
-                            //jumpHeight = 100;
+                            jumping = true;
                         }
                     }
                     if (kbState.IsKeyDown(Keys.Space))
@@ -183,11 +183,9 @@ namespace Dungeon_Crawlers
                         if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingRight;
-                            height = position.WorldPositionY;
-                            timer = 0;
                             canJump = false;
                             velocity = -900;
-                            //jumpHeight = 100;
+                            jumping = true;
                         }
                     }
                     if (kbState.IsKeyUp(Keys.D) && playerState == PlayerState.WalkingRight)
@@ -203,11 +201,9 @@ namespace Dungeon_Crawlers
                         if (canJump) // Jumps if on the ground
                         {
                             playerState = PlayerState.JumpingLeft;
-                            height = position.WorldPositionY;
-                            timer = 0;
                             canJump = false;
                             velocity = -900;
-                            //jumpHeight = 100;
+                            jumping = true;
                         }
                     }
                     if (kbState.IsKeyUp(Keys.A) && playerState == PlayerState.WalkingLeft)
@@ -320,8 +316,8 @@ namespace Dungeon_Crawlers
             {
                 frame += 1;                     // Adjust the frame to the next image
 
-                if (frame > WalkFrameCount)     // Check the bounds - have we reached the end of walk cycle?
-                    frame = 1;                  // Back to 1 (since 0 is the "standing" frame)
+                if (frame > LongFrameCount)     // Check the bounds - have we reached the end of walk cycle?
+                    frame = 0;
 
                 timeCounter -= timePerFrame;    // Remove the time we "used" - don't reset to 0
                                                 // This keeps the time passed 
@@ -330,12 +326,16 @@ namespace Dungeon_Crawlers
         // Method for Drawing the Player Idle Animation
         private void DrawStanding(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
+            if (frame > ShortFrameCount)
+            {
+                frame = 0;
+            }
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
-                    PlayerRectOffsetWalk * 5,           //	   where "inside" the texture
+                    PlayerSpriteSheetHeight,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.Yellow,                    // - The color
@@ -351,10 +351,10 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
-                    PlayerRectOffsetWalk * 6,           //	   where "inside" the texture
+                    PlayerRectHeight + PlayerSpriteSheetHeight,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.Yellow,                    // - The color
@@ -370,10 +370,10 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * PlayerRectWidth,     //   - This rectangle specifies
-                    PlayerRectOffsetWalk * 7,           //	   where "inside" the texture
+                    PlayerRectHeight * 2 + PlayerSpriteSheetHeight,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.Yellow,                    // - The color
@@ -389,10 +389,10 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     3 * PlayerRectWidth,     //   - This rectangle specifies
-                    PlayerRectOffsetWalk * 6,           //	   where "inside" the texture
+                    PlayerRectHeight + PlayerSpriteSheetHeight,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.Yellow,                    // - The color
@@ -421,12 +421,15 @@ namespace Dungeon_Crawlers
                             if (playerState == PlayerState.JumpingRight && timer >= JumpDelay)
                             {
                                 playerState = PlayerState.FacingRight;
+                                jumping = false;
                             }
                             else if (playerState == PlayerState.JumpingLeft && timer >= JumpDelay)
                             {
                                 playerState = PlayerState.FacingLeft;
+                                jumping = false;
                             }
                             canJump = true; // If player is on top of a block let them be able to jump
+                            falling = false;
                             floorCollide += 1;
                         }
                         else //if not colliding with ALL block
@@ -467,11 +470,7 @@ namespace Dungeon_Crawlers
                         {
                             position.WorldPositionX = objects[i].WorldPositionX + objects[i].Box.Width;
                         }
-                    }                    
-                }
-
-                if (objects[i] != null)
-                {
+                    }
                     if (objects[i].BoxType == BoxType.Hurtbox) // Anything that could damage the player
                     {
                         if (position.Box.Intersects(objects[i].Box))
