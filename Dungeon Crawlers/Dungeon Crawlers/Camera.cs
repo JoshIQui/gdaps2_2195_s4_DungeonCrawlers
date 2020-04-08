@@ -21,6 +21,7 @@ namespace Dungeon_Crawlers
         public static int WorldPositionX
         {
             get { return position.X; }
+            set { position.X = value; }
         }
 
         // Private Constructor
@@ -40,5 +41,6 @@ namespace Dungeon_Crawlers
                 position.X = (int)(center.X - position.Width / 2);
             }
         }
+
     }
 }

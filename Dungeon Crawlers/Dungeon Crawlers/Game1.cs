@@ -176,6 +176,7 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
                     {
                         //Start the game
+                        ResetGame(player, hero, enemy, pickUp);
                         StateManager.Instance.ChangeState(GameState.Game);
                     }
                     //If M is pressed
@@ -278,6 +279,12 @@ namespace Dungeon_Crawlers
 
                 //Win updates
                 case GameState.Win:
+                    //If enter is pressed
+                    if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
+                    {
+                        //Return to the title screen
+                        StateManager.Instance.ChangeState(GameState.Title);
+                    }
                     break;
             }
 
@@ -377,6 +384,29 @@ namespace Dungeon_Crawlers
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        // Helper method that resets the game
+        private void ResetGame(Player player, Hero hero, Enemy enemy, EnemyPickUp enemyPickUp)
+        {
+            // Reset Positions and health
+            player.Position.WorldPositionX = 700;
+            player.Position.WorldPositionY = 200;
+            player.Health = 100;
+
+            hero.Position.WorldPositionX = 0;
+            hero.Position.WorldPositionY = 0;
+            hero.Health = 100;
+
+            enemy.Position.WorldPositionX = 800;
+            enemy.Position.WorldPositionY = 200;
+            enemy.Health = 100;
+
+            enemyPickUp.Position.WorldPositionX = 1000;
+            enemyPickUp.Position.WorldPositionY = 200;
+            enemyPickUp.PickedUp = false;
+
+            Camera.WorldPositionX = 0;
         }
     }
 }

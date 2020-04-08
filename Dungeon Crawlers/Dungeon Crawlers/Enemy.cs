@@ -52,6 +52,7 @@ namespace Dungeon_Crawlers
         public int Health
         {
             get { return health; }
+            set { health = value; }
         }
 
         public Enemy(Texture2D asset, Hitbox position, int screenWidth, int screenHeight, int health = 100)

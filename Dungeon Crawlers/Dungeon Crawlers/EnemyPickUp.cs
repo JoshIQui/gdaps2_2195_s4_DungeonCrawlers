@@ -24,6 +24,7 @@ namespace Dungeon_Crawlers
         public bool PickedUp
         {
             get { return pickedUp; }
+            set { pickedUp = value; }
         }
 
         // Constructor
