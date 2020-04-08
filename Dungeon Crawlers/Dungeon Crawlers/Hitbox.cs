@@ -31,16 +31,21 @@ namespace Dungeon_Crawlers
             set { this.box = value; }
         }
 
-        public int BoxX
+        public int WorldPositionX
         {
             get { return box.X; }
             set { box.X = value; }
         }
 
-        public int BoxY
+        public int WorldPositionY
         {
             get { return box.Y; }
             set { box.Y = value; }
+        }
+
+        public int ScreenPositionX
+        {
+            get { return box.X - Camera.WorldPositionX; }
         }
 
         public BoxType BoxType

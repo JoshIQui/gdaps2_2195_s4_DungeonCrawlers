@@ -237,9 +237,11 @@ namespace Dungeon_Crawlers
                             position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, 15, 15), BoxType.Collision);
                         }
 
-                        hitBoxes.Add(position);
-                        tiles.Add(new Tile(asset, position, type, rotation, flipSprite, spriteNumWidth, spriteNumHeight));
-
+                        if (position != null)
+                        {
+                            hitBoxes.Add(position);
+                            tiles.Add(new Tile(asset, position, type, rotation, flipSprite, spriteNumWidth, spriteNumHeight));
+                        }
                     }
                 }
             }

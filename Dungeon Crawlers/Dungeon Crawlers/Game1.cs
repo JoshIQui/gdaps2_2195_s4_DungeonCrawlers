@@ -37,6 +37,7 @@ namespace Dungeon_Crawlers
         List<EnemyPickUp> pickups = new List<EnemyPickUp>();
         List<Enemy> enemies = new List<Enemy>();
         TileManager manager;
+        Camera camera;
 
         List<Item> squareCollection = new List<Item>();
         
@@ -66,7 +67,7 @@ namespace Dungeon_Crawlers
             IsMouseVisible = true;
 
             // Initializes collection of hitboxes
-            hitBoxes = new List<Hitbox>();
+            hitBoxes = manager.HitBoxes;
 
             base.Initialize();
         }
@@ -86,11 +87,12 @@ namespace Dungeon_Crawlers
 
             //Loads the hero and his textures
             charTextures = Content.Load<Texture2D>("Character-Spritesheet");
-            Hitbox heroBox = new Hitbox(new Rectangle(0,0,96,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
+            Hitbox heroBox = new Hitbox(new Rectangle(0,0,90,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
             Hitbox playerBox = new Hitbox(new Rectangle(700, 200, 36*2, 45*2), BoxType.Hitbox);
             player = new Player(charTextures, playerBox, screenWidth, screenHeight);
+            camera = new Camera(player.Position, screenWidth, screenHeight);
 
             squareObject = Content.Load<Texture2D>("Square");
 
@@ -99,6 +101,8 @@ namespace Dungeon_Crawlers
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
             manager.LoadLevel(tileTextures);
+
+            
             /*
             Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
             tile1 = new Tile(tileTextures, tileBox1, TileType.Floor);
@@ -136,16 +140,9 @@ namespace Dungeon_Crawlers
                 Exit();
 
             // TODO: Add your update logic here'
-            hero.UpdateAnimation(gameTime);
-            //player.UpdateAnimation(gameTime);
-            //player.CheckCollision(hitBoxes);
-            enemy.UpdateAnimation(gameTime);
-            enemy.CheckCollision(hitBoxes);
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
-            hero.logic(player, hitBoxes);
-
             if (mState.LeftButton == ButtonState.Pressed && prevmsState.LeftButton == ButtonState.Released)
             {
                 Rectangle mousLoc = new Rectangle(mState.X, mState.Y, 40, 40);
@@ -168,12 +165,6 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
                     {
                         //Start the game
-                        StateManager.Instance.ChangeState(GameState.Game);
-                    }
-                    //If I is pressed
-                    if (kbState.IsKeyDown(Keys.I) && kbState != prevKbState)
-                    {
-                        //Show the instructions
                         StateManager.Instance.ChangeState(GameState.Instructions);
                     }
                     
@@ -203,8 +194,14 @@ namespace Dungeon_Crawlers
                         //Pause the game
                         StateManager.Instance.ChangeState(GameState.Pause);
                     }
+                    hero.UpdateAnimation(gameTime);
+                    enemy.UpdateAnimation(gameTime);
+                    enemy.CheckCollision(hitBoxes);
+                    player.CheckCollision(hitBoxes);                    
+                    hero.logic(player, hitBoxes);
                     player.Update(gameTime);
                     hero.UpdateAnimation(gameTime);
+                    camera.Update();
 
                     foreach(EnemyPickUp p in pickups)
                     {
@@ -216,7 +213,7 @@ namespace Dungeon_Crawlers
                     {
                         if(player.NumEnemies > 0)
                         {
-                            Hitbox enemyBox = new Hitbox(new Rectangle(player.Position.BoxX, player.Position.BoxY, 36 * 2, 45 * 2), BoxType.Hitbox);
+                            Hitbox enemyBox = new Hitbox(new Rectangle(player.Position.WorldPositionX, player.Position.WorldPositionY, 36 * 2, 45 * 2), BoxType.Hitbox);
                             enemy = new Enemy(charTextures, enemyBox, screenWidth, screenHeight);
                             enemies.Add(enemy);
                             player.NumEnemies--;

@@ -15,17 +15,26 @@ namespace Dungeon_Crawlers
         FaceRight,
         WalkRight,
         Attack,
-        Jumping
+        JumpRight,
+        JumpLeft
         // Add state(s) to support crouching
     }
     class Hero : GameObject, IHaveAI
     {
-        // Fields     
-        private int speed;
+        // Fields  
+        private int xDistace;
+        private int yDistace;
+        private int step;
         private int health;
         private int width;
         private int height;
-       
+        private bool jumping = false;
+        private int jumpHeight = 300;
+        private bool onGround = false;
+        private double jumpSpd = 12;
+        private double fallSpd = 1;
+        const double gravityAccel = 0.5;
+
         // Animation
         int frame;              // The current animation frame
         double timeCounter;     // The amount of time that has passed
@@ -37,13 +46,12 @@ namespace Dungeon_Crawlers
         const int HeroRectOffset = 48;   // How far down in the image are the frames?
         const int HeroRectHeight = 48;     // The height of a single frame
         const int HeroRectWidth = 48;
-        Rectangle debug;
 
         HeroState currentState = HeroState.WalkRight;
-        int moveSpd = 5;
-        int gravity = 9;
+        //int gravity = 9;
         bool[,] obstacle;
 
+        List<Hitbox> hitboxes;
         public int Health
         {
             get { return health; }
@@ -55,7 +63,7 @@ namespace Dungeon_Crawlers
         {
             this.health = health;
             this.width = screenWidth;
-            this.height = screenHeight;
+            this.height = screenHeight;                       
 
             obstacle = new bool[height+1, width+1];
             // Initialize
@@ -64,57 +72,91 @@ namespace Dungeon_Crawlers
         }
         public void logic(Player target,List<Hitbox> square)
         {
+            
             //debug.X = target.Position.BoxX;
             //debug.Y = target.Position.BoxY;
             //debug.Width = 1;
             //debug.Height = 1;
 
-
-            while (speed > 0)
+            if (jumping == false)
             {
-                if (position.Box.Intersects(target.Position.Box))
-                {
-                    currentState = HeroState.Attack;
-                    speed--;
-                    //break;
-                }
-                
-                if (position.BoxY < target.Position.BoxY) //going down
-                {
-                    position.BoxY += 1;
-                    speed -= 1;
-                    for (int a = 0; a < square.Count; a++)
-                    {
-                        if (square[a].Box.Intersects(position.Box))
-                        {
-                            position.BoxY = square[a].BoxY - HeroRectHeight * 2;// *2 because i use 200% scaling
-                        }
-                    }
-                }
-                if (position.BoxY > target.Position.BoxY) //going up
-                {
-                    position.BoxY -= 1;
-                    speed -= 1;
-                    currentState = HeroState.Jumping;
-                    for (int a = 0; a < square.Count; a++)
-                    {
-                        if (square[a].Box.Intersects(position.Box))
-                        {
-                            position.BoxY = square[a].BoxY + square[a].Box.Height;// *2 because i use 200% scaling
-                        }
-                    }
-                }
-                if (position.BoxX < target.Position.BoxX) //GO RIGHT 
-                {
-                    position.BoxX += 1;
-                    speed -= 1;
-                    currentState = HeroState.WalkRight;                   
-                    for (int a = 0; a < square.Count; a++)
-                    {
+                fallSpd = fallSpd + gravityAccel;
+                position.WorldPositionY += (int)fallSpd; //gravity
 
+                for (int a = 0; a < square.Count; a++)
+                {
+                    if (square[a] != null)
+                    {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
+                            position.WorldPositionY = square[a].WorldPositionY - position.Box.Height;//
+                            onGround = true;
+                            fallSpd = 1;
+                            break; //whan its on at least 1 ground, break it.
+                        }
+                        else
+                        {
+                            onGround = false;
+                        }
+                    }
+                }
+            }
+
+            if (jumping)
+            {
+                onGround = false;
+                jumpSpd = jumpSpd - gravityAccel;
+                position.WorldPositionY -= (int)jumpSpd;
+                
+                for (int a = 0; a < square.Count; a++)
+                {
+                    if (square[a] != null)
+                    {
+                        if (square[a].Box.Intersects(position.Box))
+                        {
+                            position.WorldPositionY = square[a].WorldPositionY + square[a].Box.Height;// *2 because i use 200% scaling
+
+                        }
+                    }
+                }
+                //jumpHeight -= 10;
+            }
+            if(jumpSpd <=0)
+            {
+                jumping = false;
+                jumpSpd = 12;
+            }
+           
+            if (position.WorldPositionY < target.Position.WorldPositionY) //going down
+            {
+                
+            }
+            if (position.WorldPositionY > target.Position.WorldPositionY && onGround == true) //going up (jumping)
+            {
+                if(jumping == false)
+                {
+                    jumping = true;
+                }
+               
+            }
+            if (position.WorldPositionX < target.Position.WorldPositionX) //GO RIGHT 
+            {
+                position.WorldPositionX += 5;
+                if (onGround == true)
+                {
+                    currentState = HeroState.WalkRight;
+                }
+                else
+                {
+                    currentState = HeroState.JumpRight;
+                }
+                for (int a = 0; a < square.Count; a++)
+                {
+                    if (square[a] != null)
+                    {
+                        if (square[a].Box.Intersects(position.Box))
+                        {
+                            position.WorldPositionX = square[a].WorldPositionX - position.Box.Width;// 
                             /*  //Extra features that allow hero to "jump" for small obstacle
                              *  
                             if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
@@ -126,24 +168,33 @@ namespace Dungeon_Crawlers
                                 position.BoxX = square[a].BoxX - HeroRectWidth * 2;// *2 because i use 200% scaling
                             }
                             */
-                            
+
                         }
                     }
                 }
+            }
 
-                if (position.BoxX > target.Position.BoxX) //GO LEFT
+            if (position.WorldPositionX > target.Position.WorldPositionX) //GO LEFT
+            {
+                position.WorldPositionX -= 5;
+                if (onGround == true)
                 {
-                    position.BoxX -= 1;
-                    speed -= 1;
                     currentState = HeroState.WalkLeft;
-                    for (int a = 0; a < square.Count; a++)
+                }
+                else
+                {
+                    currentState = HeroState.JumpLeft;
+                }
+                for (int a = 0; a < square.Count; a++)
+                {
+                    if (square[a] != null)
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
+                            position.WorldPositionX = square[a].WorldPositionX + square[a].Box.Width;// *2 because i use 200% scaling
 
                             /* //Extra features that allow hero to "jump" for small obstacle
-                             
+
                             if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
                             {
                                 position.BoxY = square[a].BoxY - HeroRectHeight * 2;
@@ -153,12 +204,23 @@ namespace Dungeon_Crawlers
                                 position.BoxX = square[a].BoxX + square[a].Box.Width;// *2 because i use 200% scaling
                             }
                             */
-                            
+
                         }
                     }
-                }  
+                }
             }
-            speed = 5;
+            if (position.Box.Intersects(target.Position.Box))// attack condition
+            {
+                xDistace = position.Box.Location.X - target.Position.Box.Location.X;
+                yDistace = position.Box.Location.Y - target.Position.Box.Location.Y;
+
+                if (xDistace * xDistace + yDistace * yDistace <= 100) 
+                //pythagorem theory that indicatses if the location of the points is less than 10 pixel away form evey direction)
+                {
+                    currentState = HeroState.Attack;
+                }
+                //break;
+            }
             if(health <= 0)
             {
                 StateManager.Instance.ChangeState(GameState.Win);
@@ -193,7 +255,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset * 0,           //	   where "inside" the texture
@@ -210,7 +272,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset*1,           //	   where "inside" the texture
@@ -227,7 +289,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset*2,           //	   where "inside" the texture
@@ -244,7 +306,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     frame * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset * 3,           //	   where "inside" the texture
@@ -261,7 +323,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     5 * HeroRectWidth,     //   - This rectangle specifies
                     HeroRectOffset * 4,           //	   where "inside" the texture
@@ -295,11 +357,18 @@ namespace Dungeon_Crawlers
                        DrawAttack(SpriteEffects.None, sb);
                        break;
                 }
-                case HeroState.Jumping:
+                case HeroState.JumpLeft:
                 {
-                        DrawJumping(SpriteEffects.None, sb);
+                       DrawJumping(SpriteEffects.None, sb);
                        break;
                 }
+                case HeroState.JumpRight:
+                {
+                       DrawJumping(SpriteEffects.FlipHorizontally, sb);
+                       break;
+                }
+
+
 
             }
             //DrawIdle(SpriteEffects.None, sb);

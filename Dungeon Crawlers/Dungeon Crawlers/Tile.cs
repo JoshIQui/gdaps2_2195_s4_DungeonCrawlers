@@ -74,7 +74,7 @@ namespace Dungeon_Crawlers
             }
             sb.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     spriteNumWidth * offset,     //   - This rectangle specifies
                     offset * spriteNumHeight,           //	   where "inside" the texture
@@ -153,7 +153,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     0 * width,     //   - This rectangle specifies
                     offset * 0,           //	   where "inside" the texture
@@ -171,7 +171,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     5 * width,     //   - This rectangle specifies
                     offset * 1,           //	   where "inside" the texture
@@ -188,7 +188,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     0 * width,     //   - This rectangle specifies
                     offset * 1,           //	   where "inside" the texture
@@ -205,7 +205,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     1 * width + 15,     //   - This rectangle specifies
                     offset * 0,           //	   where "inside" the texture
@@ -222,7 +222,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     2 * width + 30,     //   - This rectangle specifies
                     offset * 0,           //	   where "inside" the texture
@@ -239,7 +239,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     3 * width + 45,     //   - This rectangle specifies
                     offset * 0,           //	   where "inside" the texture
@@ -256,7 +256,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     4 * width + 60,     //   - This rectangle specifies
                     offset * 0,           //	   where "inside" the texture
@@ -273,7 +273,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     5 * width + 75,     //   - This rectangle specifies
                     offset * 0,           //	   where "inside" the texture
@@ -290,7 +290,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     1 * width + 15,     //   - This rectangle specifies
                     offset * 1,           //	   where "inside" the texture
@@ -307,7 +307,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     2 * width + 30,     //   - This rectangle specifies
                     offset * 1,           //	   where "inside" the texture
@@ -324,7 +324,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     3 * width + 45,     //   - This rectangle specifies
                     offset * 1,           //	   where "inside" the texture

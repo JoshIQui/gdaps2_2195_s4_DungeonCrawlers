@@ -54,7 +54,7 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.BoxX - OffsetX, position.BoxY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     0 * EnemyRectWidth,     //   - This rectangle specifies
                     EnemyRectOffsetWalk * 5,           //	   where "inside" the texture
