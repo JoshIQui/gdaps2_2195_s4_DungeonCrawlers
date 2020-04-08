@@ -141,7 +141,7 @@ namespace Dungeon_Crawlers
             }
             if (position.WorldPositionX < target.Position.WorldPositionX) //GO RIGHT 
             {
-                position.WorldPositionX += 5;
+                position.WorldPositionX += 4;
                 if (onGround == true)
                 {
                     currentState = HeroState.WalkRight;
@@ -176,7 +176,7 @@ namespace Dungeon_Crawlers
 
             if (position.WorldPositionX > target.Position.WorldPositionX) //GO LEFT
             {
-                position.WorldPositionX -= 5;
+                position.WorldPositionX -= 4;
                 if (onGround == true)
                 {
                     currentState = HeroState.WalkLeft;
@@ -218,6 +218,18 @@ namespace Dungeon_Crawlers
                 //pythagorem theory that indicatses if the location of the points is less than 10 pixel away form evey direction)
                 {
                     currentState = HeroState.Attack;
+                    if(target.Position.Box.Intersects(position.Box)) // If touching the player then attack the player and take damage if player is attacking
+                    {
+                        if(target.PlayerState == PlayerState.AttackingLeft || target.PlayerState == PlayerState.AttackingRight)
+                        {
+                            health--;
+                            target.Health--;
+                        }
+                        else
+                        {
+                            target.Health--;
+                        }
+                    }
                 }
                 //break;
             }

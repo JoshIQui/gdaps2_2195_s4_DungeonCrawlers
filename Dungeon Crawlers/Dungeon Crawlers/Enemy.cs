@@ -233,9 +233,9 @@ namespace Dungeon_Crawlers
             if(target.Position.Box.Intersects(position.Box) && health > 0)
             {
                 enemyState = EnemyState.AttackingLeft;
-                /*
+                
                 target.Health--;
-                */
+                
                 health -= 2;
                 target.Position.WorldPositionX = position.WorldPositionX; // Makes hero stop to fight the enemy
             }

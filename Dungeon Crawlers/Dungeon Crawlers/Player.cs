@@ -79,6 +79,11 @@ namespace Dungeon_Crawlers
             }
         }
 
+        public PlayerState PlayerState
+        {
+            get { return playerState; }
+        }
+
         // Constructor
         public Player(Texture2D asset, Hitbox position, int screenWidth, int screenHeight, int health = 100, int numEnemies = 0)
             : base(asset, position)
