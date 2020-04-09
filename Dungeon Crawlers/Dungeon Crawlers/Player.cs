@@ -41,6 +41,7 @@ namespace Dungeon_Crawlers
         private double JumpDelay = 0.0333334;
         private TileManager manager;
         List<Hitbox> hitboxes;
+        Texture2D uIAsset;
 
 
         // Animation Variables
@@ -85,10 +86,11 @@ namespace Dungeon_Crawlers
         }
 
         // Constructor
-        public Player(Texture2D asset, Hitbox position, int screenWidth, int screenHeight, int health = 100, int numEnemies = 0)
+        public Player(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, int health = 100, int numEnemies = 0)
             : base(asset, position)
         {
             this.asset = asset;
+            this.uIAsset = uIAsset;
             this.position = position;
             this.health = health;
             this.numEnemies = numEnemies;
@@ -302,6 +304,16 @@ namespace Dungeon_Crawlers
                 case PlayerState.JumpingLeft:
                     DrawJumping(SpriteEffects.FlipHorizontally, sb);
                     break;
+            }
+
+            //Draws the health bar above the player's head
+            if (health > 50)
+            {
+                sb.Draw(uIAsset, new Vector2(position.Box.X, position.Box.Y - 5), new Rectangle(0, 760, 50, 30), Color.White);
+            }
+            else
+            {
+                sb.Draw(uIAsset, new Vector2(position.Box.X, position.Box.Y - 5), new Rectangle(0, 760, 25, 30), Color.White);
             }
         }
 

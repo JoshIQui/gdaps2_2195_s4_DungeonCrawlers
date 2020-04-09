@@ -85,19 +85,19 @@ namespace Dungeon_Crawlers
             //Loads the title text
             titleFont = Content.Load<SpriteFont>("fonts/titleFont");
 
+            //Loads the UI elements into the game
+            uI = Content.Load<Texture2D>("UI-Spritesheet");
+
             //Loads the hero and his textures
             charTextures = Content.Load<Texture2D>("Character-Spritesheet");
             Hitbox heroBox = new Hitbox(new Rectangle(0,0,90,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
             Hitbox playerBox = new Hitbox(new Rectangle(700, 200, 36*2, 45*2), BoxType.Hitbox);
-            player = new Player(charTextures, playerBox, screenWidth, screenHeight);
+            player = new Player(charTextures, uI, playerBox, screenWidth, screenHeight);
             camera = new Camera(player.Position, screenWidth, screenHeight);
 
             squareObject = Content.Load<Texture2D>("Square");
-
-            //Loads the UI elements into the game
-            uI = Content.Load<Texture2D>("UI-Spritesheet");
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
             manager.LoadLevel(tileTextures);
