@@ -35,6 +35,7 @@ namespace Dungeon_Crawlers
         private double jumpVelocity = 12;
         private double fallVelocity = 1;
         const double gravity = 0.5;
+        Texture2D uIAsset;
 
         // Animation Variables
         int frame;              // The current animation frame
@@ -56,7 +57,7 @@ namespace Dungeon_Crawlers
             set { health = value; }
         }
 
-        public Enemy(Texture2D asset, Hitbox position, int screenWidth, int screenHeight, int health = 100)
+        public Enemy(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, int health = 100)
             : base(asset, position)
         {
             this.health = health;
@@ -64,6 +65,7 @@ namespace Dungeon_Crawlers
             this.height = screenHeight;
             enemyState = EnemyState.FacingRight;
             manager = TileManager.Instance;
+            this.uIAsset = uIAsset;
 
             // Initialize
             fps = 9.0;                     // Will cycle through 5 frames per second
@@ -106,6 +108,9 @@ namespace Dungeon_Crawlers
                     DrawJumping(SpriteEffects.FlipHorizontally, sb);
                     break;
             }
+
+            //Draws the health bar above the player's head
+            sb.Draw(uIAsset, new Vector2(position.Box.X + 50, position.Box.Y - 5), new Rectangle(0, 760, 25, 30), Color.Yellow);
         }
 
         // Method for updating Player animations

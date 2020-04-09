@@ -112,7 +112,7 @@ namespace Dungeon_Crawlers
             hitBoxes.Add(tileBox2);
             */
             Hitbox enemyBox = new Hitbox(new Rectangle(800, 200, 36 * 2, 45 * 2), BoxType.Hitbox);
-            enemy = new Enemy(charTextures, enemyBox, screenWidth, screenHeight);
+            enemy = new Enemy(charTextures, uI, enemyBox, screenWidth, screenHeight);
             enemies.Add(enemy);
 
             Hitbox pickupBox = new Hitbox(new Rectangle(1000, 200, 36 * 2, 45 * 2), BoxType.Hitbox);
@@ -215,7 +215,7 @@ namespace Dungeon_Crawlers
                         if(player.NumEnemies > 0)
                         {
                             Hitbox enemyBox = new Hitbox(new Rectangle(player.Position.WorldPositionX, player.Position.WorldPositionY, 36 * 2, 45 * 2), BoxType.Hitbox);
-                            enemy = new Enemy(charTextures, enemyBox, screenWidth, screenHeight);
+                            enemy = new Enemy(charTextures, uI, enemyBox, screenWidth, screenHeight);
                             enemies.Add(enemy);
                             player.NumEnemies--;
                         }
