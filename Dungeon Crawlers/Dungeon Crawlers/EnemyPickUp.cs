@@ -63,7 +63,7 @@ namespace Dungeon_Crawlers
                     PlayerSpriteSheetHeight,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
-                Color.Yellow,                    // - The color
+                Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 2.0f,                           // - Scale (100% - no change)
