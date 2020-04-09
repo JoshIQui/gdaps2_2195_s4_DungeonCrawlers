@@ -311,6 +311,29 @@ namespace Dungeon_Crawlers
             {
                 sb.Draw(uIAsset, new Vector2(position.Box.X, position.Box.Y - 5), new Rectangle(0, 760, 25, 30), Color.White);
             }
+
+            //Draws the enemy count UI element
+            switch (numEnemies)
+            {
+                case 0:
+                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 720, 200, 40), Color.White);
+                    break;
+                case 1:
+                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 675, 200, 40), Color.White);
+                    break;
+                case 2:
+                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 630, 200, 40), Color.White);
+                    break;
+                case 3:
+                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 585, 200, 40), Color.White);
+                    break;
+                case 4:
+                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 540, 200, 40), Color.White);
+                    break;
+                case 5:
+                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 495, 200, 40), Color.White);
+                    break;
+            }
         }
 
         // Method for updating Player animations
