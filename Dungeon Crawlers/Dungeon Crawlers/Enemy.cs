@@ -110,7 +110,7 @@ namespace Dungeon_Crawlers
             }
 
             //Draws the health bar above the enemy's head
-            sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 50, position.Box.Y - 5), new Rectangle(0, 760, 25, 30), Color.Yellow);
+            sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 50, position.Box.Y - 5), new Rectangle(0, 760, 25, 30), Color.Gray);
         }
 
         // Method for updating Player animations
