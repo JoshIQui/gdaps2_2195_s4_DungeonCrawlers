@@ -393,6 +393,7 @@ namespace Dungeon_Crawlers
             player.Position.WorldPositionX = 700;
             player.Position.WorldPositionY = 200;
             player.Health = 100;
+            player.NumEnemies = 0;
 
             hero.Position.WorldPositionX = 0;
             hero.Position.WorldPositionY = 0;

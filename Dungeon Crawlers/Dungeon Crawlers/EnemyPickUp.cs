@@ -15,10 +15,12 @@ namespace Dungeon_Crawlers
         private bool pickedUp;
 
         // Constants for rectangle in the spritesheet
-        const int EnemyRectOffsetWalk = 48;   // How far down in the image are the frames? FOR THE RUN
-        const int EnemyRectHeight = 45;     // The height of a single frame
-        const int EnemyRectWidth = 88;     // The width of a single frame
-        const int OffsetX = 50;
+        const int LongFrameCount = 7;             // The number of frames in the longer animations
+        const int ShortFrameCount = 3;            // The number of frames in the shorter animations
+        const int PlayerSpriteSheetHeight = 241;  // How far down the first animation for the golbin is (IDLE)
+        const int PlayerRectHeight = 46;          // The height of a single frame
+        const int PlayerRectWidth = 88;           // The width of a single frame
+        const int Displacement = 37;              // How many pixels the sprite needs to move left to allign with its box
 
         // Property for pick-up activeness
         public bool PickedUp
@@ -55,13 +57,13 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - OffsetX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    0 * EnemyRectWidth,     //   - This rectangle specifies
-                    EnemyRectOffsetWalk * 5,           //	   where "inside" the texture
-                    EnemyRectWidth,             //     to get pixels (We don't want to
-                    EnemyRectHeight),           //     draw the whole thing)
-                Color.White,                    // - The color
+                    0 * PlayerRectWidth,     //   - This rectangle specifies
+                    PlayerSpriteSheetHeight,           //	   where "inside" the texture
+                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    PlayerRectHeight),           //     draw the whole thing)
+                Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
                 Vector2.Zero,                   // - Origin inside the image (top left)
                 2.0f,                           // - Scale (100% - no change)
