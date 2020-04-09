@@ -405,11 +405,11 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - Displacement-15, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    15 + (frame * 88),     //   - This rectangle specifies
+                    (frame * 88),     //   - This rectangle specifies
                     PlayerRectHeight * 2 + PlayerSpriteSheetHeight,           //	   where "inside" the texture
-                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    88,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
