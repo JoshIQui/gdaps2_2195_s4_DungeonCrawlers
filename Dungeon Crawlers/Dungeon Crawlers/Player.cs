@@ -55,7 +55,7 @@ namespace Dungeon_Crawlers
         const int ShortFrameCount = 3;            // The number of frames in the shorter animations
         const int PlayerSpriteSheetHeight = 241;  // How far down the first animation for the golbin is (IDLE)
         const int PlayerRectHeight = 46;          // The height of a single frame
-        const int PlayerRectWidth = 88;           // The width of a single frame
+        const int PlayerRectWidth = 40;           // The width of a single frame
         const int Displacement = 37;              // How many pixels the sprite needs to move left to allign with its box
 
         // Properties
@@ -305,11 +305,11 @@ namespace Dungeon_Crawlers
             //Draws the health bar above the player's head
             if (health > 50)
             {
-                sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 15, position.Box.Y - 5), new Rectangle(0, 760, 50, 30), Color.White);
+                sb.Draw(uIAsset, new Vector2(position.ScreenPositionX +11 , position.Box.Y), new Rectangle(0, 760, 50, 30), Color.White);
             }
             else
             {
-                sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 15, position.Box.Y - 5), new Rectangle(0, 760, 25, 30), Color.White);
+                sb.Draw(uIAsset, new Vector2(position.ScreenPositionX +11, position.Box.Y), new Rectangle(0, 760, 25, 30), Color.White);
             }
 
             //Draws the enemy count UI element
@@ -367,9 +367,9 @@ namespace Dungeon_Crawlers
             }
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * PlayerRectWidth,     //   - This rectangle specifies
+                    15+(frame * 88),     //   - This rectangle specifies
                     PlayerSpriteSheetHeight,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
@@ -386,9 +386,9 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * PlayerRectWidth,     //   - This rectangle specifies
+                    15+(frame * 88),     //   - This rectangle specifies
                     PlayerRectHeight + PlayerSpriteSheetHeight,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
@@ -405,9 +405,9 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * PlayerRectWidth,     //   - This rectangle specifies
+                    15 + (frame * 88),     //   - This rectangle specifies
                     PlayerRectHeight * 2 + PlayerSpriteSheetHeight,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
@@ -424,9 +424,9 @@ namespace Dungeon_Crawlers
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - Displacement, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    3 * PlayerRectWidth,     //   - This rectangle specifies
+                    15+(3 * 88),     //   - This rectangle specifies
                     PlayerRectHeight + PlayerSpriteSheetHeight,           //	   where "inside" the texture
                     PlayerRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)

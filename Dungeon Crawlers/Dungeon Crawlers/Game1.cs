@@ -93,7 +93,7 @@ namespace Dungeon_Crawlers
             Hitbox heroBox = new Hitbox(new Rectangle(0,0,90,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, heroBox, screenWidth, screenHeight);
 
-            Hitbox playerBox = new Hitbox(new Rectangle(700, 200, 36*2, 45*2), BoxType.Hitbox);
+            Hitbox playerBox = new Hitbox(new Rectangle(700, 200, 80, 45*2), BoxType.Hitbox);
             player = new Player(charTextures, uI, playerBox, screenWidth, screenHeight);
             camera = new Camera(player.Position, screenWidth, screenHeight);
 
