@@ -55,8 +55,9 @@ namespace Dungeon_Crawlers
         const int ShortFrameCount = 3;            // The number of frames in the shorter animations
         const int PlayerSpriteSheetHeight = 241;  // How far down the first animation for the golbin is (IDLE)
         const int PlayerRectHeight = 46;          // The height of a single frame
-        const int PlayerRectWidth = 40;           // The width of a single frame
-        const int Displacement = 37;              // How many pixels the sprite needs to move left to allign with its box
+        const int PlayerNormRectWidth = 40;       // The width of a single sprite when idle, walking, or jumping
+        const int PlayerAttackRectWidth = 88;     // The actual width of a single frame which is the same as the width of the sprite when attacking
+        const int Displacement = 15;              // How many pixels the actual sprite is away from the left edge of the frame
 
         // Properties
         public int Health
@@ -289,10 +290,10 @@ namespace Dungeon_Crawlers
                     DrawWalking(SpriteEffects.FlipHorizontally, sb);
                     break;
                 case PlayerState.AttackingRight:
-                    DrawAttacking(SpriteEffects.None, sb);
+                    DrawAttacking(SpriteEffects.None, 35, sb);
                     break;
                 case PlayerState.AttackingLeft:
-                    DrawAttacking(SpriteEffects.FlipHorizontally, sb);
+                    DrawAttacking(SpriteEffects.FlipHorizontally, 60, sb);
                     break;
                 case PlayerState.JumpingRight:
                     DrawJumping(SpriteEffects.None, sb);
@@ -305,11 +306,11 @@ namespace Dungeon_Crawlers
             //Draws the health bar above the player's head
             if (health > 50)
             {
-                sb.Draw(uIAsset, new Vector2(position.ScreenPositionX +11 , position.Box.Y), new Rectangle(0, 760, 50, 30), Color.White);
+                sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 11, position.Box.Y), new Rectangle(0, 760, 50, 30), Color.White);
             }
             else
             {
-                sb.Draw(uIAsset, new Vector2(position.ScreenPositionX +11, position.Box.Y), new Rectangle(0, 760, 25, 30), Color.White);
+                sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 11, position.Box.Y), new Rectangle(0, 760, 25, 30), Color.White);
             }
 
             //Draws the enemy count UI element
@@ -369,9 +370,9 @@ namespace Dungeon_Crawlers
                 asset,                    // - The texture to draw
                 new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    15+(frame * 88),     //   - This rectangle specifies
+                    Displacement + (frame * PlayerAttackRectWidth),     //   - This rectangle specifies
                     PlayerSpriteSheetHeight,           //	   where "inside" the texture
-                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    PlayerNormRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
@@ -388,9 +389,9 @@ namespace Dungeon_Crawlers
                 asset,                    // - The texture to draw
                 new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    15+(frame * 88),     //   - This rectangle specifies
+                    Displacement + (frame * PlayerAttackRectWidth),     //   - This rectangle specifies
                     PlayerRectHeight + PlayerSpriteSheetHeight,           //	   where "inside" the texture
-                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    PlayerNormRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
@@ -401,15 +402,15 @@ namespace Dungeon_Crawlers
         }
 
         // Method for Drawing the Player Attack Animation
-        private void DrawAttacking(SpriteEffects flipSprite, SpriteBatch spriteBatch)
+        private void DrawAttacking(SpriteEffects flipSprite, int positionCorrection, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - Displacement-15, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - positionCorrection, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    (frame * 88),     //   - This rectangle specifies
+                    (frame * PlayerAttackRectWidth),     //   - This rectangle specifies
                     PlayerRectHeight * 2 + PlayerSpriteSheetHeight,           //	   where "inside" the texture
-                    88,             //     to get pixels (We don't want to
+                    PlayerAttackRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
@@ -428,7 +429,7 @@ namespace Dungeon_Crawlers
                 new Rectangle(                  // - The "source" rectangle
                     15+(3 * 88),     //   - This rectangle specifies
                     PlayerRectHeight + PlayerSpriteSheetHeight,           //	   where "inside" the texture
-                    PlayerRectWidth,             //     to get pixels (We don't want to
+                    PlayerNormRectWidth,             //     to get pixels (We don't want to
                     PlayerRectHeight),           //     draw the whole thing)
                 Color.Yellow,                    // - The color
                 0,                              // - Rotation (none currently)
