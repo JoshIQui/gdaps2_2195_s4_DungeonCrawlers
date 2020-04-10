@@ -304,14 +304,7 @@ namespace Dungeon_Crawlers
             }
 
             //Draws the health bar above the player's head
-            if (health > 50)
-            {
-                sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 11, position.Box.Y), new Rectangle(0, 760, 50, 30), Color.White);
-            }
-            else
-            {
-                sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 11, position.Box.Y), new Rectangle(0, 760, 25, 30), Color.White);
-            }
+            sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 11, position.Box.Y), new Rectangle(0, 760, (health / 2), 30), Color.White);
 
             //Draws the enemy count UI element
             switch (numEnemies)
