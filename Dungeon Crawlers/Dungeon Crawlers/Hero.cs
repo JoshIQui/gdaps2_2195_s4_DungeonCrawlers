@@ -34,6 +34,7 @@ namespace Dungeon_Crawlers
         private double jumpSpd = 12;
         private double fallSpd = 1;
         const double gravityAccel = 0.5;
+        Texture2D uIAsset;
 
         // Animation
         int frame;              // The current animation frame
@@ -58,9 +59,10 @@ namespace Dungeon_Crawlers
             set { health = value; }
         }
        
-        public Hero(Texture2D asset, Hitbox position, int screenWidth, int screenHeight, int health = 100)
+        public Hero(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, int health = 100)
             :base (asset,position)
         {
+            this.uIAsset = uIAsset;
             this.health = health;
             this.width = screenWidth;
             this.height = screenHeight;                       
@@ -387,6 +389,47 @@ namespace Dungeon_Crawlers
             //DrawWalking(SpriteEffects.None, sb);
             //DrawAttack(SpriteEffects.None, sb);
             //DrawGetUp(SpriteEffects.None, sb);
+
+            if (health > 90)
+            {
+                sb.Draw(uIAsset, new Vector2(5, 10), new Rectangle(0, 0, 400, 40), Color.White);
+            }
+            else if (health > 80 && health < 90)
+            {
+                sb.Draw(uIAsset, new Vector2(5, 10), new Rectangle(0, 45, 400, 40), Color.White);
+            }
+            else if (health > 70 && health < 80)
+            {
+                sb.Draw(uIAsset, new Vector2(5, 10), new Rectangle(0, 90, 400, 40), Color.White);
+            }
+            else if (health > 60 && health < 70)
+            {
+                sb.Draw(uIAsset, new Vector2(5, 10), new Rectangle(0, 135, 400, 40), Color.White);
+            }
+            else if (health > 50 && health < 60)
+            {
+                sb.Draw(uIAsset, new Vector2(5, 10), new Rectangle(0, 180, 400, 40), Color.White);
+            }
+            else if (health > 40 && health < 50)
+            {
+                sb.Draw(uIAsset, new Vector2(5, 10), new Rectangle(0, 225, 400, 40), Color.White);
+            }
+            else if (health > 30 && health < 40)
+            {
+                sb.Draw(uIAsset, new Vector2(5, 10), new Rectangle(0, 270, 400, 40), Color.White);
+            }
+            else if (health > 20 && health < 30)
+            {
+                sb.Draw(uIAsset, new Vector2(5, 10), new Rectangle(0, 315, 400, 40), Color.White);
+            }
+            else if (health > 10 && health < 20)
+            {
+                sb.Draw(uIAsset, new Vector2(5, 10), new Rectangle(0, 360, 400, 40), Color.White);
+            }
+            else if (health < 10)
+            {
+                sb.Draw(uIAsset, new Vector2(5, 10), new Rectangle(0, 405, 400, 40), Color.White);
+            }
         }
 
         public override void CheckCollision(List<Hitbox> objects)
