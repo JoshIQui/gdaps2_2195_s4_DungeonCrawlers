@@ -38,6 +38,7 @@ namespace Dungeon_Crawlers
         List<Enemy> enemies = new List<Enemy>();
         TileManager manager;
         Camera camera;
+        Texture2D background;
 
         List<Item> squareCollection = new List<Item>();
         
@@ -90,12 +91,13 @@ namespace Dungeon_Crawlers
 
             //Loads the hero and his textures
             charTextures = Content.Load<Texture2D>("Character-Spritesheet");
-            Hitbox heroBox = new Hitbox(new Rectangle(0,0,90,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
+            Hitbox heroBox = new Hitbox(new Rectangle(0,700,90,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, uI, heroBox, screenWidth, screenHeight);
 
-            Hitbox playerBox = new Hitbox(new Rectangle(700, 200, 80, 45*2), BoxType.Hitbox);
+            Hitbox playerBox = new Hitbox(new Rectangle(700, 700, 80, 45*2), BoxType.Hitbox);
             player = new Player(charTextures, uI, playerBox, screenWidth, screenHeight);
             camera = new Camera(player.Position, screenWidth, screenHeight);
+            background = Content.Load<Texture2D>("Outside Background");
 
             squareObject = Content.Load<Texture2D>("Square");
 
@@ -111,13 +113,15 @@ namespace Dungeon_Crawlers
             tile2 = new Tile(tileTextures, tileBox2, TileType.Floor);
             hitBoxes.Add(tileBox2);
             */
-            Hitbox enemyBox = new Hitbox(new Rectangle(800, 200, 36 * 2, 45 * 2), BoxType.Hitbox);
+            Hitbox enemyBox = new Hitbox(new Rectangle(800, 700, 36 * 2, 45 * 2), BoxType.Hitbox);
             enemy = new Enemy(charTextures, uI, enemyBox, screenWidth, screenHeight);
             enemies.Add(enemy);
 
-            Hitbox pickupBox = new Hitbox(new Rectangle(1000, 200, 36 * 2, 45 * 2), BoxType.Hitbox);
-            pickUp = new EnemyPickUp(charTextures, pickupBox);
+            Hitbox pickup1Box = new Hitbox(new Rectangle(1530, 550, 36 * 2, 45 * 2), BoxType.Hitbox);
+            pickUp = new EnemyPickUp(charTextures, pickup1Box);
             pickups.Add(pickUp);
+            Hitbox pickup2Box = new Hitbox(new Rectangle(2560, 360, 36 * 2, 45 * 2), BoxType.Hitbox);
+            pickups.Add(new EnemyPickUp(charTextures, pickup2Box));
         }
 
         /// <summary>
@@ -176,7 +180,7 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
                     {
                         //Start the game
-                        ResetGame(player, hero, enemy, pickUp);
+                        ResetGame(player, hero, enemy, pickups);
                         StateManager.Instance.ChangeState(GameState.Game);
                     }
                     //If M is pressed
@@ -327,6 +331,7 @@ namespace Dungeon_Crawlers
                     break;
 
                 case GameState.Game:
+                    spriteBatch.Draw(background, new Rectangle(0, -200, 1600, 1443), Color.White);
                     hero.Draw(spriteBatch);
                     player.Draw(spriteBatch);
                     foreach(Enemy enemy in enemies)
@@ -387,25 +392,30 @@ namespace Dungeon_Crawlers
         }
 
         // Helper method that resets the game
-        private void ResetGame(Player player, Hero hero, Enemy enemy, EnemyPickUp enemyPickUp)
+        private void ResetGame(Player player, Hero hero, Enemy enemy, List<EnemyPickUp> enemyPickUps)
         {
             // Reset Positions and health
             player.Position.WorldPositionX = 700;
-            player.Position.WorldPositionY = 200;
+            player.Position.WorldPositionY = 700;
             player.Health = 100;
             player.NumEnemies = 0;
 
             hero.Position.WorldPositionX = 0;
-            hero.Position.WorldPositionY = 0;
+            hero.Position.WorldPositionY = 700;
             hero.Health = 100;
 
             enemy.Position.WorldPositionX = 800;
-            enemy.Position.WorldPositionY = 200;
+            enemy.Position.WorldPositionY = 700;
             enemy.Health = 100;
 
-            enemyPickUp.Position.WorldPositionX = 1000;
-            enemyPickUp.Position.WorldPositionY = 200;
-            enemyPickUp.PickedUp = false;
+            enemyPickUps[0].Position.WorldPositionX = 1530;
+            enemyPickUps[0].Position.WorldPositionY = 550;
+            enemyPickUps[1].Position.WorldPositionX = 2560;
+            enemyPickUps[1].Position.WorldPositionY = 360;
+            foreach(EnemyPickUp p in enemyPickUps)
+            {
+                p.PickedUp = false;
+            }
 
             Camera.WorldPositionX = 0;
         }

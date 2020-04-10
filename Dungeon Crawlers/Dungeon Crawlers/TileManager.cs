@@ -49,6 +49,22 @@ namespace Dungeon_Crawlers
             }
         }
 
+        public int LevelWidth
+        {
+            get
+            {
+                int levelWidth = 0;
+                foreach(Hitbox h in hitBoxes)
+                {
+                    if (h.WorldPositionX > levelWidth)
+                    {
+                        levelWidth = h.WorldPositionX;
+                    }
+                }
+                return levelWidth + 64;
+            }
+        }
+
         // Constructor
         private TileManager()
         {
