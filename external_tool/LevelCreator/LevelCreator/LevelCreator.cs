@@ -28,7 +28,7 @@ namespace LevelCreator
             InitializeComponent();
 
             //Sets the default click color to empty
-            clickColor = Color.Empty;
+            clickColor = Color.Transparent;
 
             //Initializes the list of buttons
             buttons = new List<Button>();
@@ -37,7 +37,7 @@ namespace LevelCreator
         private void Form1_Load(object sender, EventArgs e)
         {
             //Sets the amount of rows and columns
-            rows = 27;
+            rows = 15;
             columns = 57;
 
             //Loads a wall of buttons to interact with
@@ -47,9 +47,9 @@ namespace LevelCreator
                 {
                     //Creates a new button and gives it a location and size
                     Button b = new Button();
-                    b.Location = new Point(20 * (column + 1), (20 * (row + 1)) + 30);
-                    b.Width = 20;
-                    b.Height = 20;
+                    b.Location = new Point(25 * (column + 1), (25 * (row + 1)) + 25);
+                    b.Width = 25;
+                    b.Height = 25;
 
                     //Gives the button a name based on its coordinates
                     string buttonName = String.Format("{0},{1}", column, row);
@@ -64,13 +64,13 @@ namespace LevelCreator
                     //Subscribes to the event
                     b.Click += ButtonClicked;
 
-                    if (row == 26)
+                    if (row == (rows - 1))
                     {
                         //Creates a button for saving
                         saveButton = new Button();
-                        saveButton.Location = new Point(525, b.Location.Y + 20);
-                        saveButton.Width = 120;
-                        saveButton.Height = 30;
+                        saveButton.Location = new Point(this.Width - (this.Width / 4), b.Location.Y + 25);
+                        saveButton.Width = 180;
+                        saveButton.Height = 60;
                         saveButton.Text = "Save and Quit";
 
                         //Names the save button
@@ -116,6 +116,7 @@ namespace LevelCreator
                 string labelName = String.Format("Button {0}", column + 1);
                 label.Name = labelName;
 
+                //Creates all the templates
                 switch (column)
                 {
                     case 0:
@@ -172,7 +173,7 @@ namespace LevelCreator
                         break;
                     case 13:
                         label.Text = "Eraser";
-                        b.BackColor = Color.Empty;
+                        b.BackColor = Color.Transparent;
                         break;
                     case 14:
                         label.Text = "Flag";
@@ -193,9 +194,9 @@ namespace LevelCreator
                 Button tempButton = (Button)sender;
 
                 //Gets rid of the color if the button is clicked with the same color as the click color or if the color is empty
-                if (tempButton.BackColor == clickColor || clickColor.Name == "Control")
+                if (tempButton.BackColor == clickColor || clickColor == Color.Transparent)
                 {
-                        tempButton.BackColor = Color.Empty;
+                        tempButton.BackColor = Color.Transparent;
                         tempButton.Text = "";
                 }
                 else
@@ -226,12 +227,12 @@ namespace LevelCreator
                             if (name.Length == 2)
                             {
                                 tempButton.Name += ",Flagged";
-                                infoBox.Text = "Changed " + name[0] + "," + name[1] + "'s status to Flagged";
+                                infoLabel.Text = "Changed " + name[0] + "," + name[1] + "'s status to Flagged";
                             }
                             else
                             {
                                 tempButton.Name = name[0] + "," + name[1];
-                                infoBox.Text = "Changed " + name[0] + "," + name[1] + "'s status to Unflagged";
+                                infoLabel.Text = "Changed " + name[0] + "," + name[1] + "'s status to Unflagged";
                             }
                         }
                     }
@@ -351,6 +352,7 @@ namespace LevelCreator
                     //Writes the dimensions in the file
                     writer.WriteLine(columns + "," + rows);
 
+                    //Determines the character from the nature of each button and writes them to the file in order
                     foreach (Button button in buttons)
                     {
                         string[] name = button.Name.Split(',');
@@ -530,10 +532,7 @@ namespace LevelCreator
                                         break;
                                 }
                                 break;
-                            case "0":
-                                writer.Write("~");
-                                break;
-                            case "Control":
+                            case "Transparent":
                                 writer.Write("~");
                                 break;
                         }
