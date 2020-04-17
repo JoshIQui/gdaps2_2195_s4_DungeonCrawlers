@@ -219,7 +219,7 @@ namespace Dungeon_Crawlers
         public void Logic(Hero target)
         {
             // If the enemy isn't jumping make the enemy fall
-            if(!isJumping)
+            if(!isJumping && !canJump)
             {
                 fallVelocity += gravity;
                 position.WorldPositionY += (int)fallVelocity;
@@ -258,7 +258,7 @@ namespace Dungeon_Crawlers
                 {
                     enemyState = EnemyState.WalkingLeft;
                 }
-                if (target.Position.WorldPositionY < position.WorldPositionY && canJump) // If hero is above the enemy and is able to jump then jump
+                if (target.Position.WorldPositionY < position.WorldPositionY - 100 && canJump) // If hero is above the enemy and is able to jump then jump
                 {
                     isJumping = true;
                     enemyState = EnemyState.JumpingLeft;
@@ -271,7 +271,7 @@ namespace Dungeon_Crawlers
                     enemyState = EnemyState.WalkingRight;
                 }
                 position.WorldPositionX += 4;
-                if (target.Position.WorldPositionY < position.WorldPositionY) // If hero is above the enemy and is able to jump then jump
+                if (target.Position.WorldPositionY < position.WorldPositionY - 100 && canJump) // If hero is above the enemy and is able to jump then jump
                 {
                     isJumping = true;
                     enemyState = EnemyState.JumpingRight;
