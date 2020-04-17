@@ -28,22 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.infoBox = new System.Windows.Forms.TextBox();
+            this.infoLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // infoBox
+            // infoLabel
             // 
-            this.infoBox.Location = new System.Drawing.Point(21, 591);
-            this.infoBox.Name = "infoBox";
-            this.infoBox.Size = new System.Drawing.Size(240, 20);
-            this.infoBox.TabIndex = 0;
+            this.infoLabel.AutoSize = true;
+            this.infoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.infoLabel.Location = new System.Drawing.Point(12, 527);
+            this.infoLabel.Name = "infoLabel";
+            this.infoLabel.Size = new System.Drawing.Size(0, 25);
+            this.infoLabel.TabIndex = 0;
             // 
             // LevelCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1181, 623);
-            this.Controls.Add(this.infoBox);
+            this.ClientSize = new System.Drawing.Size(1474, 561);
+            this.Controls.Add(this.infoLabel);
             this.Name = "LevelCreator";
             this.Text = "Level Creator";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -54,7 +56,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox infoBox;
+        private System.Windows.Forms.Label infoLabel;
     }
 }
 
