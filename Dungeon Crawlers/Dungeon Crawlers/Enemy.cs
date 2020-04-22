@@ -322,6 +322,11 @@ namespace Dungeon_Crawlers
                             health--;
                         }
                     }
+                    if(objects[i].BoxType == BoxType.Flag && canJump)
+                    {
+                        isJumping = true;
+                        Console.WriteLine("Enemy Jumped!");
+                    }
                 }
             }
         }

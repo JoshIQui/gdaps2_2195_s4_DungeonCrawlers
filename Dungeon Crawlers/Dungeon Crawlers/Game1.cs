@@ -102,7 +102,8 @@ namespace Dungeon_Crawlers
             manager.LoadLevel(tileTextures, "testLevel.txt", 0);
             // Initializes collection of hitboxes
             hitBoxes = manager.HitBoxes;
-
+            Hitbox flagBox = new Hitbox(new Rectangle(750, 700, 68, 92), BoxType.Flag);
+            Flag flag1 = new Flag(flagBox);
 
             /*
             Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
