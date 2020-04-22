@@ -46,7 +46,9 @@ namespace Dungeon_Crawlers
         const int WalkFrameCount = 7;       // The number of frames in the animation
         const int HeroRectOffset = 49;   // How far down in the image are the frames?
         const int HeroRectHeight = 48;     // The height of a single frame
-        const int HeroRectWidth = 48;
+        const int HeroNormRectWidth = 31;
+        const int HeroAttackRectWidth = 48;
+        const int Displacement = 14;
 
         HeroState currentState = HeroState.WalkRight;
         //int gravity = 9;
@@ -267,13 +269,15 @@ namespace Dungeon_Crawlers
         }
         private void DrawIdle(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
+            position.Box = new Rectangle(position.WorldPositionX, position.WorldPositionY, 62, 96);
+
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
                 new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * HeroRectWidth,     //   - This rectangle specifies
+                    Displacement + (frame * HeroAttackRectWidth),     //   - This rectangle specifies
                     HeroRectOffset * 0,           //	   where "inside" the texture
-                    HeroRectWidth,             //     to get pixels (We don't want to
+                    HeroNormRectWidth,             //     to get pixels (We don't want to
                     HeroRectHeight),           //     draw the whole thing)
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
@@ -284,13 +288,15 @@ namespace Dungeon_Crawlers
         }
         private void DrawWalking(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
+            position.Box = new Rectangle(position.WorldPositionX, position.WorldPositionY, 62, 96);
+
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
                 new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * HeroRectWidth,     //   - This rectangle specifies
+                    Displacement + (frame * HeroAttackRectWidth),     //   - This rectangle specifies
                     HeroRectOffset*1,           //	   where "inside" the texture
-                    HeroRectWidth,             //     to get pixels (We don't want to
+                    HeroNormRectWidth,             //     to get pixels (We don't want to
                     HeroRectHeight),           //     draw the whole thing)
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
@@ -301,13 +307,22 @@ namespace Dungeon_Crawlers
         }
         private void DrawAttack(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
+            if (frame == 4 || frame == 5)
+            {
+                position.Box = new Rectangle(position.WorldPositionX, position.WorldPositionY, 96, 96);
+            }
+            else
+            {
+                position.Box = new Rectangle(position.WorldPositionX, position.WorldPositionY, 62, 96);
+            }
+
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX - 14, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * HeroRectWidth,     //   - This rectangle specifies
+                    frame * HeroAttackRectWidth,     //   - This rectangle specifies
                     HeroRectOffset*2,           //	   where "inside" the texture
-                    HeroRectWidth,             //     to get pixels (We don't want to
+                    HeroAttackRectWidth,             //     to get pixels (We don't want to
                     HeroRectHeight),           //     draw the whole thing)
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
@@ -318,13 +333,15 @@ namespace Dungeon_Crawlers
         }
         private void DrawGetUp(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
+            position.Box = new Rectangle(position.WorldPositionX, position.WorldPositionY, 62, 96);
+
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
                 new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    frame * HeroRectWidth,     //   - This rectangle specifies
+                    Displacement + (frame * HeroAttackRectWidth),     //   - This rectangle specifies
                     HeroRectOffset * 3,           //	   where "inside" the texture
-                    HeroRectWidth,             //     to get pixels (We don't want to
+                    HeroNormRectWidth,             //     to get pixels (We don't want to
                     HeroRectHeight),           //     draw the whole thing)
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)
@@ -335,13 +352,15 @@ namespace Dungeon_Crawlers
         }
         private void DrawJumping(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
+            position.Box = new Rectangle(position.WorldPositionX, position.WorldPositionY, 62, 96);
+
             spriteBatch.Draw(
                 asset,                    // - The texture to draw
                 new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
-                    5 * HeroRectWidth,     //   - This rectangle specifies
+                    Displacement + (5 * HeroAttackRectWidth),     //   - This rectangle specifies
                     HeroRectOffset * 4,           //	   where "inside" the texture
-                    HeroRectWidth,             //     to get pixels (We don't want to
+                    HeroNormRectWidth,             //     to get pixels (We don't want to
                     HeroRectHeight),           //     draw the whole thing)
                 Color.White,                    // - The color
                 0,                              // - Rotation (none currently)

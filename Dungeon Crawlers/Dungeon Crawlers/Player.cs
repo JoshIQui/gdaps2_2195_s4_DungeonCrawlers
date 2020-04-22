@@ -443,8 +443,12 @@ namespace Dungeon_Crawlers
                 {
                     if (objects[i].BoxType == BoxType.Collision && position.Box.Intersects(objects[i].Box)) // Immobile Tiles
                     {
-                        if (position.WorldPositionY * 2 + position.Box.Height < objects[i].WorldPositionY * 2 + objects[i].Box.Height
-                            && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10) // Top of Tile
+                        //if (position.WorldPositionY * 2 + position.Box.Height < objects[i].WorldPositionY * 2 + objects[i].Box.Height
+                           // && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10) // Top of Tile
+                        if (position.WorldPositionX + position.Box.Width > objects[i].WorldPositionX + 5
+                            && position.WorldPositionX < objects[i].WorldPositionX + objects[i].Box.Width - 5
+                            && position.WorldPositionY + position.Box.Height > objects[i].WorldPositionY
+                            && position.WorldPositionY < objects[i].WorldPositionY)
                         {
                             position.WorldPositionY = objects[i].WorldPositionY - position.Box.Height;
                             if (playerState == PlayerState.JumpingRight && timer >= JumpDelay)
@@ -468,8 +472,12 @@ namespace Dungeon_Crawlers
                                 canJump = false;
                             }
                         }
-                        if (position.WorldPositionY * 2 + position.Box.Height > objects[i].WorldPositionY * 2 + objects[i].Box.Height
-                            && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
+                        //if (position.WorldPositionY * 2 + position.Box.Height > objects[i].WorldPositionY * 2 + objects[i].Box.Height
+                           // && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
+                        if (position.WorldPositionX + position.Box.Width > objects[i].WorldPositionX + 5
+                            && position.WorldPositionX < objects[i].WorldPositionX + objects[i].Box.Width - 5
+                            && position.WorldPositionY < objects[i].WorldPositionY + objects[i].Box.Height
+                            && position.WorldPositionY + position.Box.Height > objects[i].WorldPositionY + objects[i].Box.Height)
                         {
                             position.WorldPositionY = objects[i].WorldPositionY + objects[i].Box.Height;
                             // Only changes values the first time the player collides with a ceiling, within one interaction
@@ -489,13 +497,21 @@ namespace Dungeon_Crawlers
                                 hitCeiling = false;
                             }
                         }
-                        if (position.WorldPositionX * 2 + position.Box.Width < objects[i].WorldPositionX * 2 + objects[i].Box.Width
-                            && position.WorldPositionY > objects[i].WorldPositionY - position.Box.Height + 10 && position.WorldPositionY + position.Box.Height < objects[i].WorldPositionY + objects[i].Box.Height + position.Box.Height - 10) // Left of Tile
+                        //if (position.WorldPositionX * 2 + position.Box.Width < objects[i].WorldPositionX * 2 + objects[i].Box.Width
+                           // && position.WorldPositionY > objects[i].WorldPositionY - position.Box.Height + 10 && position.WorldPositionY + position.Box.Height < objects[i].WorldPositionY + objects[i].Box.Height + position.Box.Height - 10) // Left of Tile
+                        if (position.WorldPositionX + position.Box.Width > objects[i].WorldPositionX
+                            && position.WorldPositionX < objects[i].WorldPositionX
+                            && position.WorldPositionY + position.Box.Height > objects[i].WorldPositionY
+                            && position.WorldPositionY < objects[i].WorldPositionY + objects[i].Box.Height)
                         {
                             position.WorldPositionX = objects[i].WorldPositionX - position.Box.Width;
                         }
-                        if (position.WorldPositionX * 2 + position.Box.Width > objects[i].WorldPositionX * 2 + objects[i].Box.Width
-                            && position.WorldPositionY > objects[i].WorldPositionY - position.Box.Height + 10 && position.WorldPositionY + position.Box.Height < objects[i].WorldPositionY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
+                        //if (position.WorldPositionX * 2 + position.Box.Width > objects[i].WorldPositionX * 2 + objects[i].Box.Width
+                            //&& position.WorldPositionY > objects[i].WorldPositionY - position.Box.Height + 10 && position.WorldPositionY + position.Box.Height < objects[i].WorldPositionY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
+                        if (position.WorldPositionX < objects[i].WorldPositionX + objects[i].Box.Width
+                            && position.WorldPositionX + position.Box.Width > objects[i].WorldPositionX + objects[i].Box.Width
+                            && position.WorldPositionY + position.Box.Height > objects[i].WorldPositionY + 5
+                            && position.WorldPositionY < objects[i].WorldPositionY + objects[i].Box.Height)
                         {
                             position.WorldPositionX = objects[i].WorldPositionX + objects[i].Box.Width;
                         }

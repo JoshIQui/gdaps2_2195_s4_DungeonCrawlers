@@ -24,9 +24,10 @@ namespace Dungeon_Crawlers
         private TileType type = TileType.None;
         private int spriteNumWidth;
         private int spriteNumHeight;
-        private Single rotation = 0;
+        private float rotation = 0;
         private SpriteEffects flipSprite = SpriteEffects.None;
         private List<Hitbox> hitBoxes;
+        private const int MaxLevelSize = 3648;
 
         // Properties
         public static TileManager Instance
@@ -76,13 +77,13 @@ namespace Dungeon_Crawlers
         public static TileManager mgrInstance;
 
         // Methods
-        public void LoadLevel(Texture2D asset)
+        public void LoadLevel(Texture2D asset, string filename, int sequenceNum)
         {
             StreamReader reader = null;
 
             try
             {
-                reader = new StreamReader("testLevel.txt");
+                reader = new StreamReader(filename);
 
                 string line;
                 if ((line = reader.ReadLine()) != null)
@@ -190,17 +191,17 @@ namespace Dungeon_Crawlers
                         //~~~~~~~~~~ Rotation 90 Degrees ~~~~~~~~~~~
                         if (characters[j] == 'Q' || characters[j] == 'W' || characters[j] == 'E' || characters[j] == 'R' || characters[j] == 'T')
                         {
-                            rotation = (Single)Math.PI / 2;
+                            rotation = (float)Math.PI / 2;
                         }
                         //~~~~~~~~~~ Rotation 180 Degrees ~~~~~~~~~~
                         else if (characters[j] == 'A' || characters[j] == 'S' || characters[j] == 'F' || characters[j] == 'G')
                         {
-                            rotation = (Single)Math.PI;
+                            rotation = (float)Math.PI;
                         }
                         //~~~~~~~~~~ Rotation 270 Degrees ~~~~~~~~~~
                         else if (characters[j] == 'Z' || characters[j] == 'X' || characters[j] == 'V' || characters[j] == 'B')
                         {
-                            rotation = (Single)(3 * Math.PI / 2);
+                            rotation = (float)(3 * Math.PI / 2);
                         }
                         //~~~~~~~~~~~~~ No Rotation ~~~~~~~~~~~~~~
                         else
@@ -231,26 +232,26 @@ namespace Dungeon_Crawlers
                         if (type == TileType.Floor || type == TileType.Divider || type == TileType.SlantCorner || type == TileType.FullCorner
                             || type == TileType.BlackBlock || type == TileType.Stairs)
                         {
-                            position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, tileWidth, tileHeight), BoxType.Collision);
+                            position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, tileWidth, tileHeight), BoxType.Collision);
                         }
                         // Tiles that are 64x32
                         else if (type == TileType.HalfTile || type == TileType.Platform)
                         {
-                            position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, tileWidth, shortTileHeight), BoxType.Collision);
+                            position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, tileWidth, shortTileHeight), BoxType.Collision);
                         }
                         // Tiles that are 48x32
                         else if (type == TileType.PlatformEdge)
                         {
-                            position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, shortTileWidth, shortTileHeight), BoxType.Collision);
+                            position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, shortTileWidth, shortTileHeight), BoxType.Collision);
                         }
                         // Tiles that are 64x26
                         else if (type == TileType.Spikes)
                         {
-                            position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, tileWidth, spikesHeight), BoxType.Hurtbox);
+                            position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, tileWidth, spikesHeight), BoxType.Hurtbox);
                         }
                         else if (type == TileType.StairTriangle)
                         {
-                            position = new Hitbox(new Rectangle(j * tileWidth, i * tileHeight, 15, 15), BoxType.Collision);
+                            position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, 15, 15), BoxType.Collision);
                         }
 
                         if (position != null)

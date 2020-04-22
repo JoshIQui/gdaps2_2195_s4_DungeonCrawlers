@@ -37,7 +37,7 @@ namespace Dungeon_Crawlers
         public void Update()
         {
             levelWidth = TileManager.mgrInstance.LevelWidth;
-            center.X = playerPosition.WorldPositionX + playerPosition.Box.Width / 2;
+            center.X = playerPosition.WorldPositionX;// + playerPosition.Box.Width / 2;
             if ((center.X - position.Width / 2) > 0 && (center.X + position.Width / 2) < levelWidth)
             {
                 position.X = (int)(center.X - position.Width / 2);
