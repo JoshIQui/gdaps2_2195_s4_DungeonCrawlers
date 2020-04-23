@@ -73,7 +73,7 @@ namespace Dungeon_Crawlers
         }
         public override void Update(GameTime gametime)
         {
-            List<Hitbox> hitboxes = manager.HitBoxes;
+            List<Hitbox> hitboxes = manager.TileHitBoxes;
             position.WorldPositionY += 2;
             UpdateAnimation(gametime);
             CheckCollision(hitboxes);

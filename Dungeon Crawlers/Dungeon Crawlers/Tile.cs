@@ -72,9 +72,22 @@ namespace Dungeon_Crawlers
             {
                 return;
             }
+            int adjustmentX = 32;
+            int adjustmentY = 32;
+            if (type == TileType.HalfTile)
+            {
+                if (rotation == (float)Math.PI / 2)
+                {
+                    adjustmentX = 0;
+                }
+                else if (rotation == (float)Math.PI)
+                {
+                    adjustmentY = 0;
+                }
+            }
                 sb.Draw(
                 asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX + 32, position.WorldPositionY + 32),                       // - The location to draw on the screen
+                new Vector2(position.ScreenPositionX + adjustmentX, position.WorldPositionY + adjustmentY),                       // - The location to draw on the screen
                 new Rectangle(                  // - The "source" rectangle
                     spriteNumWidth * offset,     //   - This rectangle specifies
                     offset * spriteNumHeight,           //	   where "inside" the texture
@@ -87,6 +100,7 @@ namespace Dungeon_Crawlers
                 1.0f,                           // - Scale (100% - no change)
                 flipSprite,                     // - Can be used to flip the image
                 0);                             // - Layer depth (unused)
+
         }
 
         // ---------------------------

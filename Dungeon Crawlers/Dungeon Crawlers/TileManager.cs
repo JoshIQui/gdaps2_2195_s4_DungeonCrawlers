@@ -20,13 +20,17 @@ namespace Dungeon_Crawlers
         private const int shortTileHeight = 32;
         private const int spikesHeight = 26;
         private const int shortTileWidth = 48;
+        private const int enemyWidth = 72;
+        private const int enemyHeight = 90;
         private List<Tile> tiles;
         private TileType type = TileType.None;
         private int spriteNumWidth;
         private int spriteNumHeight;
         private float rotation = 0;
         private SpriteEffects flipSprite = SpriteEffects.None;
-        private List<Hitbox> hitBoxes;
+        private List<Hitbox> tileHitboxes;
+        private List<Hitbox> enemyHitboxes;
+        private List<EnemyPickUp> enemyPickUps;
         private const int MaxLevelSize = 3648;
 
         // Properties
@@ -42,12 +46,15 @@ namespace Dungeon_Crawlers
             }
         }
 
-        public List<Hitbox> HitBoxes
+        public List<Hitbox> TileHitBoxes
         {
             get
-            {
-                return hitBoxes;
-            }
+            { return tileHitboxes; }
+        }
+
+        public List<EnemyPickUp> EnemyPickUps
+        {
+            get { return enemyPickUps; }
         }
 
         public int LevelWidth
@@ -55,7 +62,7 @@ namespace Dungeon_Crawlers
             get
             {
                 int levelWidth = 0;
-                foreach(Hitbox h in hitBoxes)
+                foreach(Hitbox h in tileHitboxes)
                 {
                     if (h.WorldPositionX > levelWidth)
                     {
@@ -70,14 +77,16 @@ namespace Dungeon_Crawlers
         private TileManager()
         {
             tiles = new List<Tile>();
-            hitBoxes = new List<Hitbox>();
+            tileHitboxes = new List<Hitbox>();
+            enemyPickUps = new List<EnemyPickUp>();
+            enemyHitboxes = new List<Hitbox>();
         }
 
         // Static Instance
         public static TileManager mgrInstance;
 
         // Methods
-        public void LoadLevel(Texture2D asset, string filename, int sequenceNum)
+        public void LoadLevel(Texture2D tileTextures, Texture2D charTextures, string filename, int sequenceNum)
         {
             StreamReader reader = null;
 
@@ -236,8 +245,21 @@ namespace Dungeon_Crawlers
                         }
                         // Tiles that are 64x32
                         else if (type == TileType.HalfTile || type == TileType.Platform)
-                        {
+                        {                            
                             position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, tileWidth, shortTileHeight), BoxType.Collision);
+                            
+                            if (rotation == (float)Math.PI / 2)
+                            {
+                                position.Box = new Rectangle(position.WorldPositionX + shortTileHeight, position.WorldPositionY, shortTileHeight, tileWidth);
+                            }
+                            else if (rotation == (float)Math.PI)
+                            {
+                                position.Box = new Rectangle(position.WorldPositionX, position.WorldPositionY + shortTileHeight, tileWidth, shortTileWidth);
+                            }
+                            else if (rotation == (float)(3 * Math.PI / 2))
+                            {
+                                position.Box = new Rectangle(position.WorldPositionX, position.WorldPositionY, shortTileHeight, tileWidth);
+                            }
                         }
                         // Tiles that are 48x32
                         else if (type == TileType.PlatformEdge)
@@ -253,11 +275,20 @@ namespace Dungeon_Crawlers
                         {
                             position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, 15, 15), BoxType.Collision);
                         }
-
-                        if (position != null)
+                        else if (type == TileType.Enemy)
                         {
-                            hitBoxes.Add(position);
-                            tiles.Add(new Tile(asset, position, type, rotation, flipSprite, spriteNumWidth, spriteNumHeight));
+                            position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight - 26, enemyWidth, enemyHeight), BoxType.Hitbox);
+                        }
+
+                        if (position != null && type != TileType.Enemy)
+                        {
+                            tileHitboxes.Add(position);
+                            tiles.Add(new Tile(tileTextures, position, type, rotation, flipSprite, spriteNumWidth, spriteNumHeight));
+                        }
+                        else if (type == TileType.Enemy)
+                        {
+                            enemyHitboxes.Add(position);
+                            enemyPickUps.Add(new EnemyPickUp(charTextures, position));
                         }
                     }
                 }
@@ -279,6 +310,13 @@ namespace Dungeon_Crawlers
             {
                 tile.Draw(sb);
             }
+                foreach (EnemyPickUp e in enemyPickUps)
+                {
+                    if (e.PickedUp == false)
+                    {
+                        e.Draw(sb);
+                    }
+                }
         }
     }
 }

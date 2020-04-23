@@ -33,8 +33,7 @@ namespace Dungeon_Crawlers
         List<Hitbox> hitBoxes;
         Tile tile1;
         Tile tile2;
-        EnemyPickUp pickUp;
-        List<EnemyPickUp> pickups = new List<EnemyPickUp>();
+        List<EnemyPickUp> pickups;
         List<Enemy> enemies = new List<Enemy>();
         TileManager manager;
         Camera camera;
@@ -99,9 +98,10 @@ namespace Dungeon_Crawlers
             squareObject = Content.Load<Texture2D>("Square");
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
-            manager.LoadLevel(tileTextures, "testLevel.txt", 0);
+            manager.LoadLevel(tileTextures, charTextures, "testLevel.txt", 0);
             // Initializes collection of hitboxes
-            hitBoxes = manager.HitBoxes;
+            hitBoxes = manager.TileHitBoxes;
+            pickups = manager.EnemyPickUps;
             Hitbox flagBox = new Hitbox(new Rectangle(750, 700, 68, 92), BoxType.Flag);
             Flag flag1 = new Flag(flagBox);
 
@@ -117,11 +117,12 @@ namespace Dungeon_Crawlers
             enemy = new Enemy(charTextures, uI, enemyBox, screenWidth, screenHeight);
             enemies.Add(enemy);
 
-            Hitbox pickup1Box = new Hitbox(new Rectangle(1530, 550, 36 * 2, 45 * 2), BoxType.Hitbox);
+            /*Hitbox pickup1Box = new Hitbox(new Rectangle(1536, 550, 36 * 2, 45 * 2), BoxType.Hitbox);
             pickUp = new EnemyPickUp(charTextures, pickup1Box);
             pickups.Add(pickUp);
-            Hitbox pickup2Box = new Hitbox(new Rectangle(2560, 360, 36 * 2, 45 * 2), BoxType.Hitbox);
+            Hitbox pickup2Box = new Hitbox(new Rectangle(2560, 358, 36 * 2, 90), BoxType.Hitbox);
             pickups.Add(new EnemyPickUp(charTextures, pickup2Box));
+            */
         }
 
         /// <summary>
@@ -207,10 +208,10 @@ namespace Dungeon_Crawlers
                     player.Update(gameTime);
                     camera.Update();
 
-                    foreach(EnemyPickUp p in pickups)
-                    {
-                        p.Logic(player);
-                    }
+                        foreach (EnemyPickUp p in pickups)
+                        {
+                            p.Logic(player);
+                        }
 
                     // If E is pressed then if possible spawn an Enemy
                     if(kbState.IsKeyUp(Keys.E) && prevKbState.IsKeyDown(Keys.E))
@@ -350,7 +351,7 @@ namespace Dungeon_Crawlers
                         spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
                     }
                     manager.DrawLevel(spriteBatch);
-
+                    /*
                     foreach(EnemyPickUp p in pickups)
                     {
                         if(p.PickedUp == false)
@@ -358,6 +359,7 @@ namespace Dungeon_Crawlers
                             p.Draw(spriteBatch);
                         }
                     }
+                    */
                     break;
 
                 case GameState.Pause:
