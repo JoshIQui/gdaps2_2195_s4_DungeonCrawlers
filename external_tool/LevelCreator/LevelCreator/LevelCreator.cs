@@ -532,6 +532,9 @@ namespace LevelCreator
                                         break;
                                 }
                                 break;
+                            case "Control":
+                                writer.Write("~");
+                                break;
                             case "Transparent":
                                 writer.Write("~");
                                 break;
@@ -556,6 +559,9 @@ namespace LevelCreator
 
             //Closes the writer when done
             writer.Close();
+
+            //Closes the form
+            this.Close();
         }
     }
 }
