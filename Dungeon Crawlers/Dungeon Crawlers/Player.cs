@@ -104,7 +104,7 @@ namespace Dungeon_Crawlers
             fps = 9.0;                     // Will cycle through 5 frames per second
             timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
             manager = TileManager.Instance;
-            hitboxes = manager.HitBoxes;
+            hitboxes = manager.TileHitBoxes;
         }
 
         // Methods

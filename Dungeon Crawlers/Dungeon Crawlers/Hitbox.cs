@@ -6,7 +6,8 @@ namespace Dungeon_Crawlers
     {
         Hitbox,
         Hurtbox,
-        Collision
+        Collision,
+        Flag
     }
 
     class Hitbox
