@@ -19,6 +19,7 @@ namespace LevelCreator
 
         List<Button> buttons;
         Button saveButton;
+        Button loadButton;
         Color clickColor;
         int rows;
         int columns;
@@ -64,6 +65,7 @@ namespace LevelCreator
                     //Subscribes to the event
                     b.Click += ButtonClicked;
 
+                    //Sets up the save and load buttons
                     if (row == (rows - 1))
                     {
                         //Creates a button for saving
@@ -81,6 +83,22 @@ namespace LevelCreator
 
                         //Subscribes to the event
                         saveButton.Click += SaveButtonClicked;
+
+                        //Creates a button for loading
+                        loadButton = new Button();
+                        loadButton.Location = new Point(this.Width / 4, b.Location.Y + 25);
+                        loadButton.Width = 180;
+                        loadButton.Height = 60;
+                        loadButton.Text = "Load a File";
+
+                        //Names the load button
+                        loadButton.Name = "LoadButton";
+
+                        //Adds the button to the controls
+                        base.Controls.Add(loadButton);
+
+                        //Subscribes to the event
+                        loadButton.Click += LoadButtonClicked;
                     }
                 }
             }
@@ -331,6 +349,7 @@ namespace LevelCreator
             }
         }
 
+        //Saves the created level to a file
         private void SaveButtonClicked(object sender, EventArgs e)
         {
             //Sets the streamwriter to null first
@@ -562,6 +581,229 @@ namespace LevelCreator
 
             //Closes the form
             this.Close();
+        }
+
+        //Loads an existing level from a file
+        private void LoadButtonClicked(object sender, EventArgs e)
+        {
+            //Sets the streamreader to null first
+            StreamReader reader = null;
+
+            try
+            {
+                infoLabel.Text = "Loading";
+
+                //Has the user choose the file they want to load
+                OpenFileDialog fileDialog = new OpenFileDialog();
+                fileDialog.ShowDialog();
+                string fileName = fileDialog.FileName;
+
+                //Only works if the file exists
+                if (fileName != null)
+                {
+                    //Opens the file in the reader
+                    reader = new StreamReader(fileName);
+
+                    //Sets up a variable to keep track of the current line
+                    string line;
+
+                    //Checks to see if the file is not empty and skips the first line
+                    if ((line = reader.ReadLine()) != null)
+                    {
+                        //Loops through every line and fills out boxes in the wall accordingly
+                        for (int row = 0; row < 15; row++)
+                        {
+                            //Updates the line
+                            line = reader.ReadLine();
+
+                            //Gets an array of all the characters in a line
+                            char[] data = line.ToCharArray();
+
+                            for (int column = 0; column < 57; column++)
+                            {
+                                int index = column + (row * 57);
+
+                                //Resets the name of the button (in case it was flagged)
+                                buttons[index].Name = String.Format("{0},{1}", column, row);
+
+                                //Checks each character
+                                switch (data[column])
+                                {
+                                    //Reds
+                                    case '1':
+                                        buttons[index].BackColor = Color.Red;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    case '!':
+                                        buttons[index].BackColor = Color.Red;
+                                        buttons[index].Text = "1";
+                                        buttons[index].Name += ",Flagged";
+                                        break;
+                                    case 'Q':
+                                        buttons[index].BackColor = Color.Red;
+                                        buttons[index].Text = "2";
+                                        break;
+                                    case 'A':
+                                        buttons[index].BackColor = Color.Red;
+                                        buttons[index].Text = "3";
+                                        break;
+                                    case 'D':
+                                        buttons[index].BackColor = Color.Red;
+                                        buttons[index].Text = "4";
+                                        break;
+                                    //Blues
+                                    case '2':
+                                        buttons[index].BackColor = Color.Blue;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    case 'W':
+                                        buttons[index].BackColor = Color.Blue;
+                                        buttons[index].Text = "2";
+                                        break;
+                                    case 'S':
+                                        buttons[index].BackColor = Color.Blue;
+                                        buttons[index].Text = "3";
+                                        break;
+                                    case 'X':
+                                        buttons[index].BackColor = Color.Blue;
+                                        buttons[index].Text = "4";
+                                        break;
+                                    //Greens
+                                    case '3':
+                                        buttons[index].BackColor = Color.Green;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    case 'E':
+                                        buttons[index].BackColor = Color.Green;
+                                        buttons[index].Text = "2";
+                                        break;
+                                    //Yellows
+                                    case '4':
+                                        buttons[index].BackColor = Color.Yellow;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    case 'R':
+                                        buttons[index].BackColor = Color.Yellow;
+                                        buttons[index].Text = "2";
+                                        break;
+                                    case 'F':
+                                        buttons[index].BackColor = Color.Yellow;
+                                        buttons[index].Text = "3";
+                                        break;
+                                    case 'V':
+                                        buttons[index].BackColor = Color.Yellow;
+                                        buttons[index].Text = "4";
+                                        break;
+                                    //Oranges
+                                    case '5':
+                                        buttons[index].BackColor = Color.Orange;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    case 'T':
+                                        buttons[index].BackColor = Color.Orange;
+                                        buttons[index].Text = "2";
+                                        break;
+                                    case 'G':
+                                        buttons[index].BackColor = Color.Orange;
+                                        buttons[index].Text = "3";
+                                        break;
+                                    case 'B':
+                                        buttons[index].BackColor = Color.Orange;
+                                        buttons[index].Text = "4";
+                                        break;
+                                    //Purple
+                                    case '6':
+                                        buttons[index].BackColor = Color.Purple;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    //Teals
+                                    case '7':
+                                        buttons[index].BackColor = Color.Teal;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    case 'U':
+                                        buttons[index].BackColor = Color.Teal;
+                                        buttons[index].Text = "H";
+                                        break;
+                                    //Crimsons
+                                    case '8':
+                                        buttons[index].BackColor = Color.Crimson;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    case 'I':
+                                        buttons[index].BackColor = Color.Crimson;
+                                        buttons[index].Text = "H";
+                                        break;
+                                    //Browns
+                                    case '9':
+                                        buttons[index].BackColor = Color.Brown;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    case 'O':
+                                        buttons[index].BackColor = Color.Brown;
+                                        buttons[index].Text = "H";
+                                        break;
+                                    //Salmons
+                                    case '0':
+                                        buttons[index].BackColor = Color.Salmon;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    case ')':
+                                        buttons[index].BackColor = Color.Salmon;
+                                        buttons[index].Text = "1";
+                                        buttons[index].Name += ",Flagged";
+                                        break;
+                                    case 'P':
+                                        buttons[index].BackColor = Color.Salmon;
+                                        buttons[index].Text = "H";
+                                        break;
+                                    case 'p':
+                                        buttons[index].BackColor = Color.Salmon;
+                                        buttons[index].Text = "H";
+                                        buttons[index].Name += ",Flagged";
+                                        break;
+                                    //Cadet Blues
+                                    case '-':
+                                        buttons[index].BackColor = Color.CadetBlue;
+                                        buttons[index].Text = "1";
+                                        break;
+                                    case '[':
+                                        buttons[index].BackColor = Color.CadetBlue;
+                                        buttons[index].Text = "V";
+                                        break;
+                                    //Dark Purples
+                                    case '=':
+                                        buttons[index].BackColor = Color.DarkViolet;
+                                        buttons[index].Text = "G";
+                                        break;
+                                    case '+':
+                                        buttons[index].BackColor = Color.DarkViolet;
+                                        buttons[index].Text = "S";
+                                        break;
+                                    case ']':
+                                        buttons[index].BackColor = Color.DarkViolet;
+                                        buttons[index].Text = "W";
+                                        break;
+                                    //Empty Spaces
+                                    case '~':
+                                        buttons[index].BackColor = Color.Transparent;
+                                        buttons[index].Text = "";
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //Closes the reader and prints a success message
+                reader.Close();
+                infoLabel.Text = "Load Successful";
+            }
+            catch (Exception exception)
+            {
+                infoLabel.Text = "Load Failed";
+                Console.WriteLine(exception.Message);
+            }
         }
     }
 }
