@@ -129,10 +129,10 @@ namespace Dungeon_Crawlers
                             spriteNumWidth = 2;
                             spriteNumHeight = 0;
                         }
-                        // ~~~~~~~~~~~ Slant Corner ~~~~~~~~~~~~
+                        // ~~~~~~~~~~~ Double Side ~~~~~~~~~~~~
                         else if (characters[j] == '4' || characters[j] == 'R' || characters[j] == 'F' || characters[j] == 'V')
                         {
-                            type = TileType.SlantCorner;
+                            type = TileType.DoubleSide;
                             spriteNumWidth = 3;
                             spriteNumHeight = 0;
                         }
@@ -238,7 +238,7 @@ namespace Dungeon_Crawlers
 
                         Hitbox position = null;
                         // Tiles that are 64x64
-                        if (type == TileType.Floor || type == TileType.Divider || type == TileType.SlantCorner || type == TileType.FullCorner
+                        if (type == TileType.Floor || type == TileType.Divider || type == TileType.DoubleSide || type == TileType.FullCorner
                             || type == TileType.BlackBlock || type == TileType.Stairs)
                         {
                             position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, tileWidth, tileHeight), BoxType.Collision);
