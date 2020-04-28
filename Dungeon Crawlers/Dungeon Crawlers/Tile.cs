@@ -19,7 +19,7 @@ namespace Dungeon_Crawlers
         Platform,
         Divider,
         HalfTile,
-        SlantCorner,
+        DoubleSide,
         FullCorner,
         StairTriangle,
         BlackBlock,

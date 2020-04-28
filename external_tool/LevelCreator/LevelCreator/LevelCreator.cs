@@ -132,7 +132,7 @@ namespace LevelCreator
                         b.BackColor = Color.Green;
                         break;
                     case 3:
-                        label.Text = "Slant Corner";
+                        label.Text = "Two Sided";
                         b.BackColor = Color.Yellow;
                         break;
                     case 4:
@@ -156,7 +156,7 @@ namespace LevelCreator
                         b.BackColor = Color.Brown;
                         break;
                     case 9:
-                        label.Text = "Platform End";
+                        label.Text = "PlatfrmEnd";
                         b.BackColor = Color.Salmon;
                         break;
                     case 10:
