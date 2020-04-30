@@ -98,9 +98,17 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            position.WorldPositionY = square[a].WorldPositionY - position.Box.Height;//
-                            onGround = true;
-                            fallSpd = 1;
+                            if (square[a].BoxType == BoxType.Collision)
+                            {
+                                position.WorldPositionY = square[a].WorldPositionY - position.Box.Height;//
+                                onGround = true;
+                                fallSpd = 1;
+                            }
+                            if (square[a].BoxType == BoxType.Hurtbox)
+                            {
+                                health--;
+                            }
+                            
                             break; //whan its on at least 1 ground, break it.
                         }
                         else
@@ -123,7 +131,15 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            position.WorldPositionY = square[a].WorldPositionY + square[a].Box.Height;// *2 because i use 200% scaling
+                            if (square[a].BoxType == BoxType.Collision)
+                            {
+                                position.WorldPositionY = square[a].WorldPositionY + square[a].Box.Height;
+                            }
+                            if (square[a].BoxType == BoxType.Hurtbox)
+                            {
+                                health--;
+                            }
+                            // *2 because i use 200% scaling
 
                         }
                     }
@@ -136,15 +152,28 @@ namespace Dungeon_Crawlers
                 jumpSpd = 12;
             }
            
-            if (position.WorldPositionY < target.Position.WorldPositionY) //going down
+            if (position.WorldPositionY < target.Position.WorldPositionY) //going down (not needed)
             {
                 
             }
-            if (position.WorldPositionY > target.Position.WorldPositionY && onGround == true) //going up (jumping)
+            if (onGround == true) //going up (jumping)
             {
-                if(jumping == false)
+                for (int a = 0; a < square.Count; a++)
                 {
-                    jumping = true;
+                    if (square[a] != null)
+                    {
+                        if (square[a].Box.Intersects(position.Box))
+                        {
+                            if (square[a].BoxType == BoxType.Flag)
+                            {
+                                if (jumping == false)
+                                {
+                                    jumping = true;
+                                    onGround = false;
+                                }
+                            }
+                        }
+                    }
                 }
                
             }
@@ -165,7 +194,14 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            position.WorldPositionX = square[a].WorldPositionX - position.Box.Width;// 
+                            if (square[a].BoxType == BoxType.Collision)
+                            {
+                                position.WorldPositionX = square[a].WorldPositionX; //- position.Box.Width;
+                            }
+                            if (square[a].BoxType == BoxType.Hurtbox)
+                            {
+                                health--;
+                            }
                             /*  //Extra features that allow hero to "jump" for small obstacle
                              *  
                             if ((position.BoxY + HeroRectHeight * 2) - square[a].BoxY < square[a].Box.Height)
@@ -200,7 +236,15 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            position.WorldPositionX = square[a].WorldPositionX + square[a].Box.Width;// *2 because i use 200% scaling
+                            if (square[a].BoxType == BoxType.Collision)
+                            {
+                                position.WorldPositionX = square[a].WorldPositionX;// + square[a].Box.Width;
+                            }
+                            if (square[a].BoxType == BoxType.Hurtbox)
+                            {
+                                health--;
+                            }
+                            // *2 because i use 200% scaling
 
                             /* //Extra features that allow hero to "jump" for small obstacle
 

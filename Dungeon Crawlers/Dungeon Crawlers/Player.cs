@@ -114,6 +114,12 @@ namespace Dungeon_Crawlers
         {
             // Get Keyboard state for user input
             KeyboardState kbState = Keyboard.GetState();
+            // Condition for when the Player falls through a gap
+            if(position.WorldPositionY > 900)
+            {
+                StateManager.Instance.ChangeState(GameState.GameOver);
+            }
+
             position.WorldPositionY += 2;
             if (!falling && !jumping)
             {
