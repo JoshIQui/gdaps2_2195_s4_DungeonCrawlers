@@ -54,7 +54,7 @@ namespace Dungeon_Crawlers
         //int gravity = 9;
         bool[,] obstacle;
 
-        List<Hitbox> hitboxes;
+        //List<Hitbox> hitboxes;
         public int Health
         {
             get { return health; }
@@ -87,28 +87,21 @@ namespace Dungeon_Crawlers
             //debug.Width = 1;
             //debug.Height = 1;
 
-            if (jumping == false)
+            if (jumping == false) //its on ground
             {
                 fallSpd = fallSpd + gravityAccel;
                 position.WorldPositionY += (int)fallSpd; //gravity
 
                 for (int a = 0; a < square.Count; a++)
                 {
-                    if (square[a] != null)
+                    if (square[a] != null && square[a].BoxType == BoxType.Collision)
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            if (square[a].BoxType == BoxType.Collision)
-                            {
-                                position.WorldPositionY = square[a].WorldPositionY - position.Box.Height;//
-                                onGround = true;
-                                fallSpd = 1;
-                            }
-                            if (square[a].BoxType == BoxType.Hurtbox)
-                            {
-                                health--;
-                            }
-                            
+                            position.WorldPositionY = square[a].WorldPositionY - position.Box.Height;//
+                            onGround = true;
+                            fallSpd = 1;
+
                             break; //whan its on at least 1 ground, break it.
                         }
                         else
@@ -116,9 +109,16 @@ namespace Dungeon_Crawlers
                             onGround = false;
                         }
                     }
+                    else if (square[a].BoxType == BoxType.Collision)
+                    {
+                        if (square[a].Box.Intersects(position.Box))
+                        {
+                            health--;
+                        }
+                    }
                 }
             }
-
+            
             if (jumping)
             {
                 onGround = false;
@@ -164,6 +164,7 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
+                            
                             if (square[a].BoxType == BoxType.Flag)
                             {
                                 if (jumping == false)
@@ -172,6 +173,7 @@ namespace Dungeon_Crawlers
                                     onGround = false;
                                 }
                             }
+                            
                         }
                     }
                 }
@@ -188,6 +190,7 @@ namespace Dungeon_Crawlers
                 {
                     currentState = HeroState.JumpRight;
                 }
+                
                 for (int a = 0; a < square.Count; a++)
                 {
                     if (square[a] != null)
@@ -196,7 +199,7 @@ namespace Dungeon_Crawlers
                         {
                             if (square[a].BoxType == BoxType.Collision)
                             {
-                                position.WorldPositionX = square[a].WorldPositionX; //- position.Box.Width;
+                                position.WorldPositionX = square[a].WorldPositionX - position.Box.Width;
                             }
                             if (square[a].BoxType == BoxType.Hurtbox)
                             {
@@ -217,6 +220,7 @@ namespace Dungeon_Crawlers
                         }
                     }
                 }
+                
             }
 
             if (position.WorldPositionX > target.Position.WorldPositionX) //GO LEFT
@@ -232,13 +236,14 @@ namespace Dungeon_Crawlers
                 }
                 for (int a = 0; a < square.Count; a++)
                 {
-                    if (square[a] != null)
+                    if (square[a] != null && square[a].BoxType == BoxType.Collision)
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
+                           
                             if (square[a].BoxType == BoxType.Collision)
                             {
-                                position.WorldPositionX = square[a].WorldPositionX;// + square[a].Box.Width;
+                                position.WorldPositionX = square[a].WorldPositionX + square[a].Box.Width;
                             }
                             if (square[a].BoxType == BoxType.Hurtbox)
                             {

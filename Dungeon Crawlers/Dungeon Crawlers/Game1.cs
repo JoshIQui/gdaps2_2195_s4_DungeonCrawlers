@@ -148,6 +148,7 @@ namespace Dungeon_Crawlers
             // TODO: Add your update logic here'
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
+            /*
             mState = Mouse.GetState();
             if (mState.LeftButton == ButtonState.Pressed && prevmsState.LeftButton == ButtonState.Released)
             {
@@ -160,6 +161,7 @@ namespace Dungeon_Crawlers
                 
             }
             prevmsState = mState;
+            */
 
             
             //Checks the state and updates accordingly
