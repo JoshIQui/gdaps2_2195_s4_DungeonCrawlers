@@ -269,7 +269,7 @@ namespace Dungeon_Crawlers
                         // Tiles that are 64x26
                         else if (type == TileType.Spikes)
                         {
-                            position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, tileWidth, spikesHeight), BoxType.Flag);
+                            position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, tileWidth, spikesHeight), BoxType.Hurtbox);
                         }
                         else if (type == TileType.StairTriangle)
                         {
