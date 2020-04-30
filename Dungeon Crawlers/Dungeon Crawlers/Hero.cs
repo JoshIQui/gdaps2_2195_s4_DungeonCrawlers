@@ -94,7 +94,21 @@ namespace Dungeon_Crawlers
 
                 for (int a = 0; a < square.Count; a++)
                 {
-                    if (square[a] != null && square[a].BoxType == BoxType.Collision)
+                    if (square[a].BoxType == BoxType.Flag)
+                    {
+                        if (square[a].Box.Intersects(position.Box))
+                        {
+                            if (jumping == false)
+                            {
+                                jumping = true;
+                                onGround = false;
+                            }
+                        }
+                    }
+                }
+                for (int a = 0; a < square.Count; a++)
+                {                    
+                    if (square[a].BoxType == BoxType.Collision)
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
@@ -109,16 +123,16 @@ namespace Dungeon_Crawlers
                             onGround = false;
                         }
                     }
-                    else if (square[a].BoxType == BoxType.Collision)
+                    if (square[a].BoxType == BoxType.Hurtbox)
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
                             health--;
                         }
                     }
+                    
                 }
-            }
-            
+            }          
             if (jumping)
             {
                 onGround = false;
@@ -156,6 +170,7 @@ namespace Dungeon_Crawlers
             {
                 
             }
+            /*
             if (onGround == true) //going up (jumping)
             {
                 for (int a = 0; a < square.Count; a++)
@@ -179,6 +194,7 @@ namespace Dungeon_Crawlers
                 }
                
             }
+            */
             if (position.WorldPositionX < target.Position.WorldPositionX) //GO RIGHT 
             {
                 position.WorldPositionX += 4;
