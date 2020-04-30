@@ -248,7 +248,10 @@ namespace Dungeon_Crawlers
                 target.Health--;
                 
                 health -= 2;
-                target.Position.WorldPositionX = position.WorldPositionX; // Makes hero stop to fight the enemy
+                if(target.IsJumping) // Hero won't stop to fight enemies mid-air
+                {
+                    target.Position.WorldPositionX = position.WorldPositionX; // Makes hero stop to fight the enemy
+                }
             }
 
             if(target.Position.WorldPositionX < position.WorldPositionX) // Hero is to the left of the enemy
@@ -325,7 +328,6 @@ namespace Dungeon_Crawlers
                     if(objects[i].BoxType == BoxType.Flag && canJump)
                     {
                         isJumping = true;
-                        Console.WriteLine("Enemy Jumped!");
                     }
                 }
             }

@@ -60,6 +60,11 @@ namespace Dungeon_Crawlers
             get { return health; }
             set { health = value; }
         }
+
+        public bool IsJumping
+        {
+            get { return jumping; }
+        }
        
         public Hero(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, int health = 100)
             :base (asset,position)
