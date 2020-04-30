@@ -540,13 +540,13 @@ namespace LevelCreator
                             case "DarkViolet":
                                 switch (button.Text)
                                 {
-                                    case "1":
+                                    case "G":
                                         writer.Write("=");
                                         break;
-                                    case "2":
+                                    case "S":
                                         writer.Write("+");
                                         break;
-                                    case "3":
+                                    case "W":
                                         writer.Write("]");
                                         break;
                                 }
@@ -647,7 +647,7 @@ namespace LevelCreator
                                         buttons[index].BackColor = Color.Red;
                                         buttons[index].Text = "3";
                                         break;
-                                    case 'D':
+                                    case 'Z':
                                         buttons[index].BackColor = Color.Red;
                                         buttons[index].Text = "4";
                                         break;

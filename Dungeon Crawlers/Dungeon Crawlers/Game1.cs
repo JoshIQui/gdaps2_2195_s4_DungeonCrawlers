@@ -87,7 +87,7 @@ namespace Dungeon_Crawlers
 
             //Loads the hero and his textures
             charTextures = Content.Load<Texture2D>("Character-Spritesheet");
-            Hitbox heroBox = new Hitbox(new Rectangle(0,700,62,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
+            Hitbox heroBox = new Hitbox(new Rectangle(300,700,62,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, uI, heroBox, screenWidth, screenHeight);
 
             Hitbox playerBox = new Hitbox(new Rectangle(700, 700, 68, 92), BoxType.Hitbox);
@@ -98,7 +98,7 @@ namespace Dungeon_Crawlers
             squareObject = Content.Load<Texture2D>("Square");
 
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
-            manager.LoadLevel(tileTextures, charTextures, "testLevel.txt", 0);
+            manager.LoadLevel(tileTextures, charTextures, "level01.txt", 0);
             // Initializes collection of hitboxes
             hitBoxes = manager.TileHitBoxes;
             pickups = manager.EnemyPickUps;
@@ -332,7 +332,7 @@ namespace Dungeon_Crawlers
 
                 case GameState.Game:
                     spriteBatch.Draw(background, new Rectangle(0, -200, 1600, 1443), Color.White);
-                    hero.Draw(spriteBatch);
+                    manager.DrawLevel(spriteBatch);hero.Draw(spriteBatch);
                     player.Draw(spriteBatch);
                     foreach(Enemy enemy in enemies)
                     {
@@ -341,7 +341,7 @@ namespace Dungeon_Crawlers
                             enemy.Draw(spriteBatch);
                         }
                     }
-                    manager.DrawLevel(spriteBatch);
+
                     /*
                     tile1.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
                     tile2.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
@@ -350,7 +350,6 @@ namespace Dungeon_Crawlers
                     {
                         spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
                     }
-                    manager.DrawLevel(spriteBatch);
                     /*
                     foreach(EnemyPickUp p in pickups)
                     {
@@ -396,12 +395,12 @@ namespace Dungeon_Crawlers
         private void ResetGame(Player player, Hero hero, Enemy enemy, List<EnemyPickUp> enemyPickUps)
         {
             // Reset Positions and health
-            player.Position.WorldPositionX = 700;
+            player.Position.WorldPositionX = 900;
             player.Position.WorldPositionY = 700;
             player.Health = 100;
             player.NumEnemies = 0;
 
-            hero.Position.WorldPositionX = 0;
+            hero.Position.WorldPositionX = 300;
             hero.Position.WorldPositionY = 700;
             hero.Health = 100;
 
@@ -409,10 +408,6 @@ namespace Dungeon_Crawlers
             enemy.Position.WorldPositionY = 700;
             enemy.Health = 100;
 
-            enemyPickUps[0].Position.WorldPositionX = 1530;
-            enemyPickUps[0].Position.WorldPositionY = 550;
-            enemyPickUps[1].Position.WorldPositionX = 2560;
-            enemyPickUps[1].Position.WorldPositionY = 360;
             foreach(EnemyPickUp p in enemyPickUps)
             {
                 p.PickedUp = false;
