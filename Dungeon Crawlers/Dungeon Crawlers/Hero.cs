@@ -152,15 +152,28 @@ namespace Dungeon_Crawlers
                 jumpSpd = 12;
             }
            
-            if (position.WorldPositionY < target.Position.WorldPositionY) //going down
+            if (position.WorldPositionY < target.Position.WorldPositionY) //going down (not needed)
             {
                 
             }
-            if (position.WorldPositionY > target.Position.WorldPositionY && onGround == true) //going up (jumping)
+            if (onGround == true) //going up (jumping)
             {
-                if(jumping == false)
+                for (int a = 0; a < square.Count; a++)
                 {
-                    jumping = true;
+                    if (square[a] != null)
+                    {
+                        if (square[a].Box.Intersects(position.Box))
+                        {
+                            if (square[a].BoxType == BoxType.Flag)
+                            {
+                                if (jumping == false)
+                                {
+                                    jumping = true;
+                                    onGround = false;
+                                }
+                            }
+                        }
+                    }
                 }
                
             }
@@ -183,7 +196,7 @@ namespace Dungeon_Crawlers
                         {
                             if (square[a].BoxType == BoxType.Collision)
                             {
-                                position.WorldPositionX = square[a].WorldPositionX - position.Box.Width;
+                                position.WorldPositionX = square[a].WorldPositionX; //- position.Box.Width;
                             }
                             if (square[a].BoxType == BoxType.Hurtbox)
                             {
@@ -225,7 +238,7 @@ namespace Dungeon_Crawlers
                         {
                             if (square[a].BoxType == BoxType.Collision)
                             {
-                                position.WorldPositionX = square[a].WorldPositionX + square[a].Box.Width;
+                                position.WorldPositionX = square[a].WorldPositionX;// + square[a].Box.Width;
                             }
                             if (square[a].BoxType == BoxType.Hurtbox)
                             {
