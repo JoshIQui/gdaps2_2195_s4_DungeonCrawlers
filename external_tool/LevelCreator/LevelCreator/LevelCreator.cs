@@ -407,7 +407,14 @@ namespace LevelCreator
                                 switch (button.Text)
                                 {
                                     case "1":
-                                        writer.Write("2");
+                                        if (name.Length == 2)
+                                        {
+                                            writer.Write("2");
+                                        }
+                                        else
+                                        {
+                                            writer.Write("@");
+                                        }
                                         break;
                                     case "2":
                                         writer.Write("W");
@@ -494,7 +501,14 @@ namespace LevelCreator
                                 switch (button.Text)
                                 {
                                     case "1":
-                                        writer.Write("9");
+                                        if (name.Length == 2)
+                                        {
+                                            writer.Write("9");
+                                        }
+                                        else
+                                        {
+                                            writer.Write("(");
+                                        }
                                         break;
                                     case "H":
                                         writer.Write("O");
@@ -656,6 +670,11 @@ namespace LevelCreator
                                         buttons[index].BackColor = Color.Blue;
                                         buttons[index].Text = "1";
                                         break;
+                                    case '@':
+                                        buttons[index].BackColor = Color.Blue;
+                                        buttons[index].Text = "1";
+                                        buttons[index].Name += ",Flagged";
+                                        break;
                                     case 'W':
                                         buttons[index].BackColor = Color.Blue;
                                         buttons[index].Text = "2";
@@ -738,6 +757,11 @@ namespace LevelCreator
                                     case '9':
                                         buttons[index].BackColor = Color.Brown;
                                         buttons[index].Text = "1";
+                                        break;
+                                    case '(':
+                                        buttons[index].BackColor = Color.Brown;
+                                        buttons[index].Text = "1";
+                                        buttons[index].Name += ",Flagged";
                                         break;
                                     case 'O':
                                         buttons[index].BackColor = Color.Brown;

@@ -32,6 +32,7 @@ namespace Dungeon_Crawlers
         private List<Hitbox> enemyHitboxes;
         private List<EnemyPickUp> enemyPickUps;
         private const int MaxLevelSize = 3648;
+        private bool flagged = false;
 
         // Properties
         public static TileManager Instance
@@ -109,14 +110,14 @@ namespace Dungeon_Crawlers
                     {
 
                         // ~~~~~~~~~~~~~ Floors ~~~~~~~~~~~~~~
-                        if (characters[j] == '1' || characters[j] == 'Q' || characters[j] == 'A' || characters[j] == 'Z')
+                        if (characters[j] == '1' || characters[j] == '!' || characters[j] == 'Q' || characters[j] == 'A' || characters[j] == 'Z')
                         {
                             type = TileType.Floor;
                             spriteNumWidth = 0;
                             spriteNumHeight = 0;
                         }
                         // ~~~~~~~~~~~~Half Tiles ~~~~~~~~~~~~
-                        else if (characters[j] == '2' || characters[j] == 'W' || characters[j] == 'S' || characters[j] == 'X')
+                        else if (characters[j] == '2' || characters[j] == '@' || characters[j] == 'W' || characters[j] == 'S' || characters[j] == 'X')
                         {
                             type = TileType.HalfTile;
                             spriteNumWidth = 1;
@@ -165,14 +166,14 @@ namespace Dungeon_Crawlers
                             spriteNumHeight = 1;
                         }
                         //~~~~~~~~~~~~~ Platform ~~~~~~~~~~~~~~
-                        else if (characters[j] == '9' || characters[j] == 'O')
+                        else if (characters[j] == '9' || characters[j] == '(' || characters[j] == 'O')
                         {
                             type = TileType.Platform;
                             spriteNumWidth = 2;
                             spriteNumHeight = 1;
                         }
                         //~~~~~~~~~~ Platform Edge ~~~~~~~~~~~~~
-                        else if (characters[j] == '0' || characters[j] == 'P')
+                        else if (characters[j] == '0' || characters[j] == ')' || characters[j] == 'P' || characters[j] == 'p')
                         {
                             type = TileType.PlatformEdge;
                             spriteNumWidth = 3;
@@ -220,7 +221,7 @@ namespace Dungeon_Crawlers
 
 
                         //~~~~~~~~~~~~ Flip Horizontally ~~~~~~~~~~~~
-                        if (characters[j] == 'U' || characters[j] == 'I' || characters[j] == 'O' || characters[j] == 'P')
+                        if (characters[j] == 'U' || characters[j] == 'I' || characters[j] == 'O' || characters[j] == 'P' || characters[j] == 'p')
                         {
                             flipSprite = SpriteEffects.FlipHorizontally;
                         }
@@ -236,12 +237,28 @@ namespace Dungeon_Crawlers
                         }
 
 
+                        //~~~~~~~~~~~~~~~~~ Flagged ~~~~~~~~~~~~~~~~~~~~~
+                        if (characters[j] == '!' || characters[j] == ')' || characters[j] == 'p' || characters[j] == '@' || characters[j] == '(')
+                        {
+                            flagged = true;
+                        }
+                        else
+                        {
+                            flagged = false;
+                        }
+
                         Hitbox position = null;
+                        Hitbox flagBox = null;
                         // Tiles that are 64x64
                         if (type == TileType.Floor || type == TileType.Divider || type == TileType.DoubleSide || type == TileType.FullCorner
                             || type == TileType.BlackBlock || type == TileType.Stairs)
                         {
                             position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, tileWidth, tileHeight), BoxType.Collision);
+
+                            if (flagged)
+                            {
+                                flagBox = new Hitbox(position.Box, BoxType.Flag);
+                            }
                         }
                         // Tiles that are 64x32
                         else if (type == TileType.HalfTile || type == TileType.Platform)
@@ -260,11 +277,21 @@ namespace Dungeon_Crawlers
                             {
                                 position.Box = new Rectangle(position.WorldPositionX, position.WorldPositionY, shortTileHeight, tileWidth);
                             }
+
+                            if (flagged)
+                            {
+                                flagBox = new Hitbox(position.Box, BoxType.Flag);
+                            }
                         }
                         // Tiles that are 48x32
                         else if (type == TileType.PlatformEdge)
                         {
                             position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, shortTileWidth, shortTileHeight), BoxType.Collision);
+
+                            if (flagged)
+                            {
+                                flagBox = new Hitbox(position.Box, BoxType.Flag);
+                            }
                         }
                         // Tiles that are 64x26
                         else if (type == TileType.Spikes)
@@ -283,6 +310,10 @@ namespace Dungeon_Crawlers
                         if (position != null && type != TileType.Enemy)
                         {
                             tileHitboxes.Add(position);
+                            if (flagBox != null)
+                            {
+                                tileHitboxes.Add(flagBox);
+                            }
                             tiles.Add(new Tile(tileTextures, position, type, rotation, flipSprite, spriteNumWidth, spriteNumHeight));
                         }
                         else if (type == TileType.Enemy)
