@@ -90,7 +90,7 @@ namespace Dungeon_Crawlers
             Hitbox heroBox = new Hitbox(new Rectangle(300,700,62,96),BoxType.Hurtbox); //96x96 size because 2x scaleing, will change to 1 time (48x48) after debug
             hero = new Hero(charTextures, uI, heroBox, screenWidth, screenHeight);
 
-            Hitbox playerBox = new Hitbox(new Rectangle(700, 700, 68, 92), BoxType.Hitbox);
+            Hitbox playerBox = new Hitbox(new Rectangle(800, 700, 68, 92), BoxType.Hitbox);
             player = new Player(charTextures, uI, playerBox, screenWidth, screenHeight);
             camera = new Camera(player.Position, screenWidth, screenHeight);
             background = Content.Load<Texture2D>("Outside Background");
@@ -398,7 +398,7 @@ namespace Dungeon_Crawlers
         private void ResetGame(Player player, Hero hero, Enemy enemy, List<EnemyPickUp> enemyPickUps)
         {
             // Reset Positions and health
-            player.Position.WorldPositionX = 900;
+            player.Position.WorldPositionX = 800;
             player.Position.WorldPositionY = 700;
             player.Health = 100;
             player.NumEnemies = 0;

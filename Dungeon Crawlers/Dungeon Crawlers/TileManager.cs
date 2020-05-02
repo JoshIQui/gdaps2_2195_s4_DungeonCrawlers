@@ -63,7 +63,7 @@ namespace Dungeon_Crawlers
             get
             {
                 int levelWidth = 0;
-                foreach(Hitbox h in tileHitboxes)
+                foreach (Hitbox h in tileHitboxes)
                 {
                     if (h.WorldPositionX > levelWidth)
                     {
@@ -131,7 +131,7 @@ namespace Dungeon_Crawlers
                             spriteNumHeight = 0;
                         }
                         // ~~~~~~~~~~~ Double Side ~~~~~~~~~~~~
-                        else if (characters[j] == '4' || characters[j] == 'R' || characters[j] == 'F' || characters[j] == 'V')
+                        else if (characters[j] == '4' || characters[j] == '$' ||  characters[j] == 'R' || characters[j] == 'F' || characters[j] == 'V')
                         {
                             type = TileType.DoubleSide;
                             spriteNumWidth = 3;
@@ -238,7 +238,8 @@ namespace Dungeon_Crawlers
 
 
                         //~~~~~~~~~~~~~~~~~ Flagged ~~~~~~~~~~~~~~~~~~~~~
-                        if (characters[j] == '!' || characters[j] == ')' || characters[j] == 'p' || characters[j] == '@' || characters[j] == '(')
+                        if (characters[j] == '!' || characters[j] == ')' || characters[j] == 'p' 
+                            || characters[j] == '@' || characters[j] == '(' || characters[j] == '$')
                         {
                             flagged = true;
                         }
@@ -262,9 +263,9 @@ namespace Dungeon_Crawlers
                         }
                         // Tiles that are 64x32
                         else if (type == TileType.HalfTile || type == TileType.Platform)
-                        {                            
+                        {
                             position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight, tileWidth, shortTileHeight), BoxType.Collision);
-                            
+
                             if (rotation == (float)Math.PI / 2)
                             {
                                 position.Box = new Rectangle(position.WorldPositionX + shortTileHeight, position.WorldPositionY, shortTileHeight, tileWidth);
@@ -341,13 +342,13 @@ namespace Dungeon_Crawlers
             {
                 tile.Draw(sb);
             }
-                foreach (EnemyPickUp e in enemyPickUps)
+            foreach (EnemyPickUp e in enemyPickUps)
+            {
+                if (e.PickedUp == false)
                 {
-                    if (e.PickedUp == false)
-                    {
-                        e.Draw(sb);
-                    }
+                    e.Draw(sb);
                 }
+            }
         }
     }
 }

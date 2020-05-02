@@ -238,7 +238,9 @@ namespace LevelCreator
                     //Names the button as flagged if the flag template is used on it
                     else if (clickColor == Color.HotPink)
                     {
-                        if (tempButton.BackColor == Color.Red || tempButton.BackColor == Color.Salmon)
+                        if (tempButton.BackColor == Color.Red || tempButton.BackColor == Color.Salmon 
+                            || tempButton.BackColor == Color.Brown || tempButton.BackColor == Color.Blue
+                            || tempButton.BackColor == Color.Yellow)
                         {
                             string[] name = tempButton.Name.Split(',');
 
@@ -442,7 +444,14 @@ namespace LevelCreator
                                 switch (button.Text)
                                 {
                                     case "1":
-                                        writer.Write("4");
+                                        if (name.Length == 2)
+                                        {
+                                            writer.Write("4");
+                                        }
+                                        else
+                                        {
+                                            writer.Write("$");
+                                        }
                                         break;
                                     case "2":
                                         writer.Write("R");
@@ -700,6 +709,11 @@ namespace LevelCreator
                                     case '4':
                                         buttons[index].BackColor = Color.Yellow;
                                         buttons[index].Text = "1";
+                                        break;
+                                    case '$':
+                                        buttons[index].BackColor = Color.Yellow;
+                                        buttons[index].Text = "1";
+                                        buttons[index].Name += ",Flagged";
                                         break;
                                     case 'R':
                                         buttons[index].BackColor = Color.Yellow;
