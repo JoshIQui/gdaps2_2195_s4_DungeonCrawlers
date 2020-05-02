@@ -244,13 +244,14 @@ namespace Dungeon_Crawlers
             if(target.Position.Box.Intersects(position.Box) && health > 0)
             {
                 enemyState = EnemyState.AttackingLeft;
-                
-                target.Health--;
+
+                target.Health -= 0.25;
                 
                 health -= 2;
-                if(target.IsJumping) // Hero won't stop to fight enemies mid-air
+                if(!target.IsJumping) // Hero won't stop to fight enemies mid-air
                 {
                     target.Position.WorldPositionX = position.WorldPositionX; // Makes hero stop to fight the enemy
+                    target.State = HeroState.Attack;
                 }
             }
 
@@ -269,7 +270,7 @@ namespace Dungeon_Crawlers
             }
             if(target.Position.WorldPositionX > position.WorldPositionX) // Hero is to the left of the enemy
             {
-                if(canJump) // If on te ground move right
+                if(canJump) // If on the ground move right
                 {
                     enemyState = EnemyState.WalkingRight;
                 }
@@ -325,10 +326,10 @@ namespace Dungeon_Crawlers
                             health--;
                         }
                     }
-                    if(objects[i].BoxType == BoxType.Flag && canJump)
+                    /*if(objects[i].BoxType == BoxType.Flag && canJump)
                     {
                         isJumping = true;
-                    }
+                    }*/
                 }
             }
         }

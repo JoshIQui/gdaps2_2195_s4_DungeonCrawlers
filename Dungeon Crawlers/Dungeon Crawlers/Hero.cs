@@ -25,7 +25,7 @@ namespace Dungeon_Crawlers
         private int xDistace;
         private int yDistace;
         private int step;
-        private int health;
+        private double health;
         private int width;
         private int height;
         private bool jumping = false;
@@ -55,7 +55,7 @@ namespace Dungeon_Crawlers
         bool[,] obstacle;
 
         //List<Hitbox> hitboxes;
-        public int Health
+        public double Health
         {
             get { return health; }
             set { health = value; }
@@ -65,8 +65,14 @@ namespace Dungeon_Crawlers
         {
             get { return jumping; }
         }
+
+        public HeroState State
+        {
+            get { return currentState; }
+            set { currentState = value; }
+        }
        
-        public Hero(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, int health = 100)
+        public Hero(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, double health = 100.0)
             :base (asset,position)
         {
             this.uIAsset = uIAsset;
@@ -296,7 +302,7 @@ namespace Dungeon_Crawlers
                     {
                         if(target.PlayerState == PlayerState.AttackingLeft || target.PlayerState == PlayerState.AttackingRight)
                         {
-                            health--;
+                            health -= 0.25;
                             target.Health--;
                         }
                         else
