@@ -25,7 +25,7 @@ namespace Dungeon_Crawlers
     class Player : GameObject
     {
         // Fields
-        private int health;
+        private double health;
         private int numEnemies;
         private KeyboardState kbState;
         private KeyboardState prevKbState;
@@ -60,7 +60,7 @@ namespace Dungeon_Crawlers
         const int Displacement = 15;              // How many pixels the actual sprite is away from the left edge of the frame
 
         // Properties
-        public int Health
+        public double Health
         {
             get { return health; }
             set { health = value; }
@@ -88,7 +88,7 @@ namespace Dungeon_Crawlers
         }
 
         // Constructor
-        public Player(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, int health = 100, int numEnemies = 0)
+        public Player(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, double health = 100.0, int numEnemies = 0)
             : base(asset, position)
         {
             this.asset = asset;
@@ -310,7 +310,7 @@ namespace Dungeon_Crawlers
             }
 
             //Draws the health bar above the player's head
-            sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 11, position.Box.Y), new Rectangle(0, 760, (health / 2), 30), Color.White);
+            sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 11, position.Box.Y), new Rectangle(0, 760, ((int)health / 2), 30), Color.White);
 
             //Draws the enemy count UI element
             switch (numEnemies)
@@ -526,7 +526,7 @@ namespace Dungeon_Crawlers
                     {
                         if (position.Box.Intersects(objects[i].Box))
                         {
-                            health--;
+                            health-= 0.1;
                         }
                     }
                 }

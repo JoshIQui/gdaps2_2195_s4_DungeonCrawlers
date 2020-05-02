@@ -24,7 +24,7 @@ namespace Dungeon_Crawlers
     class Enemy : GameObject, IHaveAI
     {
         private int speed;
-        private int health;
+        private double health;
         private int width;
         private int height;
         private EnemyState enemyState;
@@ -51,13 +51,13 @@ namespace Dungeon_Crawlers
         const int PlayerRectWidth = 88;           // The width of a single frame
         const int Displacement = 37;              // How many pixels the sprite needs to move left to allign with its box
 
-        public int Health
+        public double Health
         {
             get { return health; }
             set { health = value; }
         }
 
-        public Enemy(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, int health = 100)
+        public Enemy(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, double health = 100.0)
             : base(asset, position)
         {
             this.health = health;
@@ -110,7 +110,7 @@ namespace Dungeon_Crawlers
             }
 
             //Draws the health bar above the enemy's head
-            sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 50, position.Box.Y - 5), new Rectangle(0, 760, (health / 4), 30), Color.Gray);
+            sb.Draw(uIAsset, new Vector2(position.ScreenPositionX + 50, position.Box.Y - 5), new Rectangle(0, 760, ((int)health / 4), 30), Color.Gray);
         }
 
         // Method for updating Player animations
@@ -323,7 +323,7 @@ namespace Dungeon_Crawlers
                     {
                         if (position.Box.Intersects(objects[i].Box))
                         {
-                            health--;
+                            health -= 0.1;
                         }
                     }
                     /*if(objects[i].BoxType == BoxType.Flag && canJump)

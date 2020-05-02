@@ -133,7 +133,7 @@ namespace Dungeon_Crawlers
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
-                            health--;
+                            health-=0.1;
                         }
                     }
                     
@@ -157,7 +157,7 @@ namespace Dungeon_Crawlers
                             }
                             if (square[a].BoxType == BoxType.Hurtbox)
                             {
-                                health--;
+                                health-=0.1;
                             }
                             // *2 because i use 200% scaling
 
@@ -225,7 +225,7 @@ namespace Dungeon_Crawlers
                             }
                             if (square[a].BoxType == BoxType.Hurtbox)
                             {
-                                health--;
+                                health-= 0.1;
                             }
                             /*  //Extra features that allow hero to "jump" for small obstacle
                              *  
@@ -269,7 +269,7 @@ namespace Dungeon_Crawlers
                             }
                             if (square[a].BoxType == BoxType.Hurtbox)
                             {
-                                health--;
+                                health -= 0.10;
                             }
                             // *2 because i use 200% scaling
 
