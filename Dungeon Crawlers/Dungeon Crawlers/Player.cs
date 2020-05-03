@@ -71,7 +71,7 @@ namespace Dungeon_Crawlers
             get { return numEnemies; }
             set 
             { 
-                if(numEnemies != 5) // Sets maximum amount of enemies a player can use at once
+                if(numEnemies < 6) // Sets maximum amount of enemies a player can use at once
                 {
                     numEnemies = value;
                 }
@@ -84,7 +84,7 @@ namespace Dungeon_Crawlers
         }
 
         // Constructor
-        public Player(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, double health = 100.0, int numEnemies = 0)
+        public Player(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, double health = 100.0, int numEnemies = 5)
             : base(asset, position)
         {
             this.asset = asset;
