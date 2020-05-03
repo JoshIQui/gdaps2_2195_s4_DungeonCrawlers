@@ -100,6 +100,8 @@ namespace Dungeon_Crawlers
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
             manager.LoadLevel(tileTextures, charTextures, "level01.txt", 0);
             manager.LoadLevel(tileTextures, charTextures, "level02.txt", 1);
+            manager.LoadLevel(tileTextures, charTextures, "level03.txt", 2);
+            //manager.LoadLevel(tileTextures, charTextures, "level04.txt", 3);
             // Initializes collection of hitboxes
             hitBoxes = manager.TileHitBoxes;
             pickups = manager.EnemyPickUps;

@@ -140,7 +140,7 @@ namespace Dungeon_Crawlers
                     {
                         playerState = PlayerState.WalkingRight;
                     }
-                    if (kbState.IsKeyDown(Keys.A))
+                    if (kbState.IsKeyDown(Keys.A) && kbState.IsKeyUp(Keys.D))
                     {
                         playerState = PlayerState.FacingLeft;
                     }
@@ -165,7 +165,7 @@ namespace Dungeon_Crawlers
                     {
                         playerState = PlayerState.WalkingLeft;
                     }
-                    if (kbState.IsKeyDown(Keys.D))
+                    if (kbState.IsKeyDown(Keys.D) && kbState.IsKeyUp(Keys.A))
                     {
                         playerState = PlayerState.FacingRight;
                     }
@@ -238,11 +238,11 @@ namespace Dungeon_Crawlers
                         position.WorldPositionY = (int)(velocity * timer + acceleration * Math.Pow(timer, 2) + height);
                         timer += gametime.ElapsedGameTime.TotalSeconds;
 
-                    if (kbState.IsKeyDown(Keys.D))
+                    if (kbState.IsKeyDown(Keys.D) && kbState.IsKeyUp(Keys.A))
                     {
                         position.WorldPositionX += 5;
                     }
-                    if (kbState.IsKeyDown(Keys.A))
+                    if (kbState.IsKeyDown(Keys.A) && kbState.IsKeyUp(Keys.D))
                     {
                         position.WorldPositionX -= 5;
                         playerState = PlayerState.JumpingLeft;
@@ -253,12 +253,12 @@ namespace Dungeon_Crawlers
                     position.WorldPositionY = (int)(velocity * timer + acceleration * Math.Pow(timer, 2) + height);
                     timer += gametime.ElapsedGameTime.TotalSeconds;
 
-                    if (kbState.IsKeyDown(Keys.D))
+                    if (kbState.IsKeyDown(Keys.D) && kbState.IsKeyUp(Keys.A))
                     {
                         position.WorldPositionX += 5;
                         playerState = PlayerState.JumpingRight;
                     }
-                    if (kbState.IsKeyDown(Keys.A))
+                    if (kbState.IsKeyDown(Keys.A) && kbState.IsKeyUp(Keys.D))
                     {
                         position.WorldPositionX -= 5;
                     }

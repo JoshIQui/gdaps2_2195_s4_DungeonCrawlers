@@ -76,6 +76,12 @@
     <Content Include="level02.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="level03.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="level04.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="testLevel.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -454,7 +454,14 @@ namespace LevelCreator
                                         }
                                         break;
                                     case "2":
-                                        writer.Write("R");
+                                        if (name.Length == 2)
+                                        {
+                                            writer.Write("R");
+                                        }
+                                        else
+                                        {
+                                            writer.Write("r");
+                                        }
                                         break;
                                     case "3":
                                         writer.Write("F");
@@ -718,6 +725,11 @@ namespace LevelCreator
                                     case 'R':
                                         buttons[index].BackColor = Color.Yellow;
                                         buttons[index].Text = "2";
+                                        break;
+                                    case 'r':
+                                        buttons[index].BackColor = Color.Yellow;
+                                        buttons[index].Text = "2";
+                                        buttons[index].Name += ",Flagged";
                                         break;
                                     case 'F':
                                         buttons[index].BackColor = Color.Yellow;

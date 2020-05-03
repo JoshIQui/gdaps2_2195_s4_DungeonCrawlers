@@ -131,7 +131,7 @@ namespace Dungeon_Crawlers
                             spriteNumHeight = 0;
                         }
                         // ~~~~~~~~~~~ Double Side ~~~~~~~~~~~~
-                        else if (characters[j] == '4' || characters[j] == '$' ||  characters[j] == 'R' || characters[j] == 'F' || characters[j] == 'V')
+                        else if (characters[j] == '4' || characters[j] == '$' ||  characters[j] == 'R' || characters[j] == 'r' || characters[j] == 'F' || characters[j] == 'V')
                         {
                             type = TileType.DoubleSide;
                             spriteNumWidth = 3;
@@ -199,7 +199,7 @@ namespace Dungeon_Crawlers
 
 
                         //~~~~~~~~~~ Rotation 90 Degrees ~~~~~~~~~~~
-                        if (characters[j] == 'Q' || characters[j] == 'W' || characters[j] == 'E' || characters[j] == 'R' || characters[j] == 'T')
+                        if (characters[j] == 'Q' || characters[j] == 'W' || characters[j] == 'E' || characters[j] == 'R' || characters[j] == 'r' || characters[j] == 'T')
                         {
                             rotation = (float)Math.PI / 2;
                         }
@@ -239,7 +239,8 @@ namespace Dungeon_Crawlers
 
                         //~~~~~~~~~~~~~~~~~ Flagged ~~~~~~~~~~~~~~~~~~~~~
                         if (characters[j] == '!' || characters[j] == ')' || characters[j] == 'p' 
-                            || characters[j] == 's' || characters[j] == '(' || characters[j] == '$')
+                            || characters[j] == 's' || characters[j] == '(' || characters[j] == '$'
+                            || characters[j] == 'r')
                         {
                             flagged = true;
                         }
@@ -258,7 +259,7 @@ namespace Dungeon_Crawlers
 
                             if (flagged)
                             {
-                                flagBox = new Hitbox(position.Box, BoxType.Flag);
+                                flagBox = new Hitbox(new Rectangle(position.WorldPositionX + (2 * position.Box.Width / 3), position.WorldPositionY, position.Box.Width / 16, position.Box.Height), BoxType.Flag);
                             }
                         }
                         // Tiles that are 64x32
@@ -281,7 +282,7 @@ namespace Dungeon_Crawlers
 
                             if (flagged)
                             {
-                                flagBox = new Hitbox(new Rectangle(position.WorldPositionX + position.Box.Width, position.WorldPositionY, position.Box.Width / 3, position.Box.Height), BoxType.Flag);
+                                flagBox = new Hitbox(new Rectangle(position.WorldPositionX + position.Box.Width, position.WorldPositionY, position.Box.Width / 32, position.Box.Height), BoxType.Flag);
                             }
                         }
                         // Tiles that are 48x32
@@ -291,7 +292,7 @@ namespace Dungeon_Crawlers
 
                             if (flagged)
                             {
-                                flagBox = new Hitbox(new Rectangle(position.WorldPositionX + position.Box.Width, position.WorldPositionY, position.Box.Width / 3, position.Box.Height), BoxType.Flag);
+                                flagBox = new Hitbox(new Rectangle(position.WorldPositionX + position.Box.Width, position.WorldPositionY, position.Box.Width / 32, position.Box.Height), BoxType.Flag);
                             }
                         }
                         // Tiles that are 64x26
