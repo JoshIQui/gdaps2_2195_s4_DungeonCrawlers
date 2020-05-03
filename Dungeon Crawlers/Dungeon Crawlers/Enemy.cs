@@ -226,7 +226,7 @@ namespace Dungeon_Crawlers
             }
 
             // If enemy is jumping make enemy go up
-            if(isJumping)
+            if (isJumping)
             {
                 canJump = false;
                 jumpVelocity -= gravity;
@@ -298,6 +298,10 @@ namespace Dungeon_Crawlers
                         {
                             position.WorldPositionY = objects[i].WorldPositionY - position.Box.Height;
                             canJump = true;
+                        }
+                        else
+                        {
+                            canJump = false;
                         }
                         if (position.WorldPositionY * 2 + position.Box.Height > objects[i].WorldPositionY * 2 + objects[i].Box.Height
                             && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
