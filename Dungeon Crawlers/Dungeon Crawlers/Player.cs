@@ -71,7 +71,7 @@ namespace Dungeon_Crawlers
             get { return numEnemies; }
             set 
             { 
-                if(numEnemies < 6) // Sets maximum amount of enemies a player can use at once
+                if(numEnemies < 5 || value < numEnemies) // Sets maximum amount of enemies a player can use at once
                 {
                     numEnemies = value;
                 }
