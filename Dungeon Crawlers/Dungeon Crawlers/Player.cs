@@ -84,7 +84,7 @@ namespace Dungeon_Crawlers
         }
 
         // Constructor
-        public Player(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, double health = 100.0, int numEnemies = 5)
+        public Player(Texture2D asset, Texture2D uIAsset, Hitbox position, int screenWidth, int screenHeight, double health = 100.0, int numEnemies = 0)
             : base(asset, position)
         {
             this.asset = asset;
