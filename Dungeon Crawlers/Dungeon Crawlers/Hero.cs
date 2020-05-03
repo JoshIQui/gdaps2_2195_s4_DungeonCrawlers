@@ -100,7 +100,7 @@ namespace Dungeon_Crawlers
 
                 for (int a = 0; a < square.Count; a++)
                 {
-                    if (square[a].BoxType == BoxType.Flag)
+                    if (square[a].BoxType == BoxType.Flag && !target.Position.Box.Intersects(Position.Box))
                     {
                         if (square[a].Box.Intersects(position.Box))
                         {
