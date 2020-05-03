@@ -31,7 +31,7 @@ namespace Dungeon_Crawlers
         private bool jumping = false;
         private int jumpHeight = 300;
         private bool onGround = false;
-        private double jumpSpd = 12;
+        private double jumpSpd = 13;
         private double fallSpd = 1;
         const double gravityAccel = 0.5;
         Texture2D uIAsset;
@@ -169,7 +169,7 @@ namespace Dungeon_Crawlers
             if(jumpSpd <=0)
             {
                 jumping = false;
-                jumpSpd = 12;
+                jumpSpd = 13;
             }
            
             if (position.WorldPositionY < target.Position.WorldPositionY) //going down (not needed)
