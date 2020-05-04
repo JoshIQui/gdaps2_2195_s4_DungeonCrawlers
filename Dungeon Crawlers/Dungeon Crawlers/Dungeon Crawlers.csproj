@@ -49,8 +49,6 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="Hitbox.cs" />
-    <Compile Include="IHaveAI.cs" />
-    <Compile Include="Item.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

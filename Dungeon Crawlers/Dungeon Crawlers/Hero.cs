@@ -19,7 +19,7 @@ namespace Dungeon_Crawlers
         JumpLeft
         // Add state(s) to support crouching
     }
-    class Hero : GameObject, IHaveAI
+    class Hero : GameObject
     {
         // Fields  
         private int xDistace;

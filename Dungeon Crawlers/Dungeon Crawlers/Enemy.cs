@@ -21,7 +21,7 @@ namespace Dungeon_Crawlers
         AttackingRight,
         AttackingLeft
     }
-    class Enemy : GameObject, IHaveAI
+    class Enemy : GameObject
     {
         private int speed;
         private double health;

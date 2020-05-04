@@ -19,7 +19,6 @@ namespace Dungeon_Crawlers
         Player player;                  // The player object for the main character
         Hero hero;                      // The hero object for the enemy of the game
         Texture2D charTextures;         // The textures for the hero
-        Texture2D squareObject;         // use only for debug
         Enemy enemy;                    // The ally object for the other monsters who help you
         Texture2D goblinTextures;       // The textures for the goblin
         Texture2D slimeTextures;        // The textures for the slime
@@ -28,8 +27,8 @@ namespace Dungeon_Crawlers
         Texture2D uI;                   // The textures for the game's UI
         KeyboardState kbState;          // Tracks the current state of the keyboard
         KeyboardState prevKbState;      // Tracks the state of the keyboard from the last frame
-        MouseState mState;              // use only for debug
-        MouseState prevmsState;         // use only for debug
+        MouseState mState;              
+        MouseState prevmsState;         
         List<Hitbox> hitBoxes;
         Tile tile1;
         Tile tile2;
@@ -43,7 +42,6 @@ namespace Dungeon_Crawlers
         Texture2D indoorBackground4;
         Texture2D outsideBackground;
         List<Hitbox> scrollingBackgrounds;
-        Texture2D background;
         Texture2D titleScreen;
         Texture2D instructionScreen;
         Texture2D pauseScreen;
@@ -51,7 +49,6 @@ namespace Dungeon_Crawlers
         Texture2D loseScreen;
         Texture2D winScreen;
 
-        List<Item> squareCollection = new List<Item>();
         
         public Game1()
         {
@@ -124,37 +121,20 @@ namespace Dungeon_Crawlers
                 scrollingBackgrounds.Add(new Hitbox(new Rectangle(i * 3648, 0, 3648, 900), BoxType.Hitbox));
             }
 
-            squareObject = Content.Load<Texture2D>("Square");
-
+            // Load the level
             tileTextures = Content.Load<Texture2D>("Tile_Spritesheet");
             manager.LoadLevel(tileTextures, charTextures, "level01.txt", 0);
             manager.LoadLevel(tileTextures, charTextures, "level02.txt", 1);
             manager.LoadLevel(tileTextures, charTextures, "level03.txt", 2);
             manager.LoadLevel(tileTextures, charTextures, "level04.txt", 3);
+
             // Initializes collection of hitboxes
             hitBoxes = manager.TileHitBoxes;
             pickups = manager.EnemyPickUps;
             Hitbox flagBox = new Hitbox(new Rectangle(750, 700, 68, 92), BoxType.Flag);
-            Flag flag1 = new Flag(flagBox);
-
-            /*
-            Hitbox tileBox1 = new Hitbox(new Rectangle (700, 400, 64, 64), BoxType.Collision);
-            tile1 = new Tile(tileTextures, tileBox1, TileType.Floor);
-            hitBoxes.Add(tileBox1);
-            Hitbox tileBox2 = new Hitbox(new Rectangle(700, 336, 64, 64), BoxType.Collision);
-            tile2 = new Tile(tileTextures, tileBox2, TileType.Floor);
-            hitBoxes.Add(tileBox2);
-            */
             Hitbox enemyBox = new Hitbox(new Rectangle(800, 700, 36 * 2, 45 * 2), BoxType.Hitbox);
             enemy = new Enemy(charTextures, uI, enemyBox, screenWidth, screenHeight);
             enemies.Add(enemy);
-
-            /*Hitbox pickup1Box = new Hitbox(new Rectangle(1536, 550, 36 * 2, 45 * 2), BoxType.Hitbox);
-            pickUp = new EnemyPickUp(charTextures, pickup1Box);
-            pickups.Add(pickUp);
-            Hitbox pickup2Box = new Hitbox(new Rectangle(2560, 358, 36 * 2, 90), BoxType.Hitbox);
-            pickups.Add(new EnemyPickUp(charTextures, pickup2Box));
-            */
         }
 
         /// <summary>
@@ -179,21 +159,6 @@ namespace Dungeon_Crawlers
             // TODO: Add your update logic here'
             //Gets the current keyboard state
             kbState = Keyboard.GetState();
-            /*
-            mState = Mouse.GetState();
-            if (mState.LeftButton == ButtonState.Pressed && prevmsState.LeftButton == ButtonState.Released)
-            {
-                Rectangle mousLoc = new Rectangle(mState.X, mState.Y, 40, 40);
-                Hitbox squareBox = new Hitbox(mousLoc, BoxType.Collision);
-                Item square = new Item(squareObject, squareBox, screenWidth, screenHeight);
-
-                squareCollection.Add(square);
-                hitBoxes.Add(squareBox);
-                
-            }
-            prevmsState = mState;
-            */
-
             
             //Checks the state and updates accordingly
             switch (StateManager.Instance.CurrentState)
@@ -373,24 +338,6 @@ namespace Dungeon_Crawlers
                             enemy.Draw(spriteBatch);
                         }
                     }
-
-                    /*
-                    tile1.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
-                    tile2.Draw(spriteBatch, 0, 0, SpriteEffects.None, 0);
-                    */
-                    for (int a = 0; a < squareCollection.Count; a++)
-                    {
-                        spriteBatch.Draw(squareObject, squareCollection[a].Position.Box, Color.White);
-                    }
-                    /*
-                    foreach(EnemyPickUp p in pickups)
-                    {
-                        if(p.PickedUp == false)
-                        {
-                            p.Draw(spriteBatch);
-                        }
-                    }
-                    */
                     break;
 
                 case GameState.Pause:

@@ -97,8 +97,8 @@ namespace Dungeon_Crawlers
             jumping = false;
             falling = false;
             // Initialize
-            fps = 9.0;                     // Will cycle through 5 frames per second
-            timePerFrame = 1.0 / fps;       // Time per frame = amount of time in a single walk image
+            fps = 9.0;                      // Will cycle through 9 frames per second
+            timePerFrame = 1.0 / fps;       // Time per frame = amount of time for a single image in an animation
             manager = TileManager.Instance;
             hitboxes = manager.TileHitBoxes;
         }
@@ -116,12 +116,15 @@ namespace Dungeon_Crawlers
                 StateManager.Instance.ChangeState(GameState.GameOver);
             }
 
+            // Constanly push the player down so that it will constantly collide with the floor
             position.WorldPositionY += 2;
+            // Keep track of the player's height so that it can have a realistic arc when it jumps or fallse
             if (!falling && !jumping)
             {
                 height = position.WorldPositionY;
                 timer = 0;
             }
+            // Condition for when the player walks off of a platform
             if (!jumping && !canJump)
             {
                 falling = true;
@@ -362,76 +365,80 @@ namespace Dungeon_Crawlers
                 frame = 0;
             }
             spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    Displacement + (frame * PlayerAttackRectWidth),     //   - This rectangle specifies
-                    PlayerSpriteSheetHeight,           //	   where "inside" the texture
-                    PlayerNormRectWidth,             //     to get pixels (We don't want to
-                    PlayerRectHeight),           //     draw the whole thing)
-                Color.Yellow,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
+                asset,                                                  // - The texture to draw
+                new Vector2(position.ScreenPositionX,
+                    position.WorldPositionY),                           // - The location to draw on the screen
+                new Rectangle(                                          // - The "source" rectangle
+                    Displacement + (frame * PlayerAttackRectWidth),     // - This rectangle specifies
+                    PlayerSpriteSheetHeight,                            //	 where "inside" the texture
+                    PlayerNormRectWidth,                                //   to get pixels (We don't want to
+                    PlayerRectHeight),                                  //   draw the whole thing)
+                Color.Yellow,                                           // - The color
+                0,                                                      // - Rotation
+                Vector2.Zero,                                           // - Origin inside the image (top left)
+                2.0f,                                                   // - Scale
+                flipSprite,                                             // - Can be used to flip the image
+                0);                                                     // - Layer depth (unused)
         }
 
         // Method for Drawing the Player Walk Animation
         private void DrawWalking(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    Displacement + (frame * PlayerAttackRectWidth),     //   - This rectangle specifies
-                    PlayerRectHeight + PlayerSpriteSheetHeight,           //	   where "inside" the texture
-                    PlayerNormRectWidth,             //     to get pixels (We don't want to
-                    PlayerRectHeight),           //     draw the whole thing)
-                Color.Yellow,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
+                asset,                                                  // - The texture to draw
+                new Vector2(position.ScreenPositionX,
+                    position.WorldPositionY),                           // - The location to draw on the screen
+                new Rectangle(                                          // - The "source" rectangle
+                    Displacement + (frame * PlayerAttackRectWidth),     // - This rectangle specifies
+                    PlayerRectHeight + PlayerSpriteSheetHeight,         //	 where "inside" the texture
+                    PlayerNormRectWidth,                                //   to get pixels (We don't want to
+                    PlayerRectHeight),                                  //   draw the whole thing)
+                Color.Yellow,                                           // - The color
+                0,                                                      // - Rotation
+                Vector2.Zero,                                           // - Origin inside the image (top left)
+                2.0f,                                                   // - Scale
+                flipSprite,                                             // - Can be used to flip the image
+                0);                                                     // - Layer depth (unused)
         }
 
         // Method for Drawing the Player Attack Animation
         private void DrawAttacking(SpriteEffects flipSprite, int positionCorrection, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX - positionCorrection, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    (frame * PlayerAttackRectWidth),     //   - This rectangle specifies
-                    PlayerRectHeight * 2 + PlayerSpriteSheetHeight,           //	   where "inside" the texture
-                    PlayerAttackRectWidth,             //     to get pixels (We don't want to
-                    PlayerRectHeight),           //     draw the whole thing)
-                Color.Yellow,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
+                asset,                                                      // - The texture to draw
+                new Vector2(position.ScreenPositionX - positionCorrection,
+                    position.WorldPositionY),                               // - The location to draw on the screen
+                new Rectangle(                                              // - The "source" rectangle
+                    (frame * PlayerAttackRectWidth),                        // - This rectangle specifies
+                    PlayerRectHeight * 2 + PlayerSpriteSheetHeight,         //	 where "inside" the texture
+                    PlayerAttackRectWidth,                                  //   to get pixels (We don't want to
+                    PlayerRectHeight),                                      //   draw the whole thing)
+                Color.Yellow,                                               // - The color
+                0,                                                          // - Rotation
+                Vector2.Zero,                                               // - Origin inside the image (top left)
+                2.0f,                                                       // - Scale
+                flipSprite,                                                 // - Can be used to flip the image
+                0);                                                         // - Layer depth (unused)
         }
 
         // Method for Drawing the Player Jump Animation
         private void DrawJumping(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    15+(3 * 88),     //   - This rectangle specifies
-                    PlayerRectHeight + PlayerSpriteSheetHeight,           //	   where "inside" the texture
-                    PlayerNormRectWidth,             //     to get pixels (We don't want to
-                    PlayerRectHeight),           //     draw the whole thing)
-                Color.Yellow,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                2.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
+                asset,                                              // - The texture to draw
+                new Vector2(position.ScreenPositionX,
+                    position.WorldPositionY),                       // - The location to draw on the screen
+                new Rectangle(                                      // - The "source" rectangle
+                    15+(3 * 88),                                    // - This rectangle specifies
+                    PlayerRectHeight + PlayerSpriteSheetHeight,     //	 where "inside" the texture
+                    PlayerNormRectWidth,                            //   to get pixels (We don't want to
+                    PlayerRectHeight),                              //   draw the whole thing)
+                Color.Yellow,                                       // - The color
+                0,                                                  // - Rotation
+                Vector2.Zero,                                       // - Origin inside the image (top left)
+                2.0f,                                               // - Scale
+                flipSprite,                                         // - Can be used to flip the image
+                0);                                                 // - Layer depth (unused)
         }
 
         // Method for Collision Checks for player
@@ -445,8 +452,7 @@ namespace Dungeon_Crawlers
                 {
                     if (objects[i].BoxType == BoxType.Collision && position.Box.Intersects(objects[i].Box)) // Immobile Tiles
                     {
-                        //if (position.WorldPositionY * 2 + position.Box.Height < objects[i].WorldPositionY * 2 + objects[i].Box.Height
-                           // && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10) // Top of Tile
+                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Top of Tile ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                         if (position.WorldPositionX + position.Box.Width > objects[i].WorldPositionX + 5
                             && position.WorldPositionX < objects[i].WorldPositionX + objects[i].Box.Width - 5
                             && position.WorldPositionY + position.Box.Height > objects[i].WorldPositionY
@@ -474,8 +480,7 @@ namespace Dungeon_Crawlers
                                 canJump = false;
                             }
                         }
-                        //if (position.WorldPositionY * 2 + position.Box.Height > objects[i].WorldPositionY * 2 + objects[i].Box.Height
-                           // && position.WorldPositionX > objects[i].WorldPositionX - position.Box.Width + 10 && position.WorldPositionX + position.Box.Width < objects[i].WorldPositionX + objects[i].Box.Width + position.Box.Width - 10)// Bottom of Tile
+                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Bottom of Tile ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                         if (position.WorldPositionX + position.Box.Width > objects[i].WorldPositionX + 5
                             && position.WorldPositionX < objects[i].WorldPositionX + objects[i].Box.Width - 5
                             && position.WorldPositionY < objects[i].WorldPositionY + objects[i].Box.Height
@@ -499,8 +504,7 @@ namespace Dungeon_Crawlers
                                 hitCeiling = false;
                             }
                         }
-                        //if (position.WorldPositionX * 2 + position.Box.Width < objects[i].WorldPositionX * 2 + objects[i].Box.Width
-                           // && position.WorldPositionY > objects[i].WorldPositionY - position.Box.Height + 10 && position.WorldPositionY + position.Box.Height < objects[i].WorldPositionY + objects[i].Box.Height + position.Box.Height - 10) // Left of Tile
+                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Left of Tile ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                         if (position.WorldPositionX + position.Box.Width > objects[i].WorldPositionX
                             && position.WorldPositionX < objects[i].WorldPositionX
                             && position.WorldPositionY + position.Box.Height > objects[i].WorldPositionY
@@ -508,8 +512,7 @@ namespace Dungeon_Crawlers
                         {
                             position.WorldPositionX = objects[i].WorldPositionX - position.Box.Width;
                         }
-                        //if (position.WorldPositionX * 2 + position.Box.Width > objects[i].WorldPositionX * 2 + objects[i].Box.Width
-                            //&& position.WorldPositionY > objects[i].WorldPositionY - position.Box.Height + 10 && position.WorldPositionY + position.Box.Height < objects[i].WorldPositionY + objects[i].Box.Height + position.Box.Height - 10) // Right of Tile
+                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Right of Tile ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                         if (position.WorldPositionX < objects[i].WorldPositionX + objects[i].Box.Width
                             && position.WorldPositionX + position.Box.Width > objects[i].WorldPositionX + objects[i].Box.Width
                             && position.WorldPositionY + position.Box.Height > objects[i].WorldPositionY + 5

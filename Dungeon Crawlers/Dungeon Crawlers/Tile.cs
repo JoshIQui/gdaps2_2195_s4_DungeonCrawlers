@@ -29,7 +29,7 @@ namespace Dungeon_Crawlers
     class Tile
     {
         // Fields
-        private bool isDamageable;
+        //private bool isDamageable;
         private Texture2D asset;
         private Hitbox position;
         private TileType type;
@@ -72,6 +72,7 @@ namespace Dungeon_Crawlers
             {
                 return;
             }
+            // Rotated Tiles that are not 64x64 must be accomodated
             int adjustmentX = 32;
             int adjustmentY = 32;
             if (type == TileType.HalfTile)
@@ -86,213 +87,22 @@ namespace Dungeon_Crawlers
                 }
             }
                 sb.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.ScreenPositionX + adjustmentX, position.WorldPositionY + adjustmentY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    spriteNumWidth * offset,     //   - This rectangle specifies
-                    offset * spriteNumHeight,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                rotation,                              // - Rotation
+                asset,                                                      // - The texture to draw
+                new Vector2(position.ScreenPositionX + adjustmentX,
+                            position.WorldPositionY + adjustmentY),         // - The location to draw on the screen
+                new Rectangle(                                              // - The "source" rectangle
+                    spriteNumWidth * offset,                                // - This rectangle specifies where "inside" the texture
+                    offset * spriteNumHeight,
+                    width,                                                  // to get pixels (We don't want to draw the whole thing)
+                    height),  
+                Color.White,                                                // - The color
+                rotation,                                                   // - Rotation
                 //Vector2.Zero,
-                new Vector2(width / 2, height / 2),                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
+                new Vector2(width / 2, height / 2),                         // - Origin inside the image (center of tile)
+                1.0f,                                                       // - Scale (100% - no change)
+                flipSprite,                                                 // - Can be used to flip the image
+                0);                                                         // - Layer depth (unused)
 
-        }
-
-        // ---------------------------
-        // Methods for Drawing Tiles
-        // ---------------------------
-        private void DrawFloor(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    0 * width,     //   - This rectangle specifies
-                    offset * 0,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
-
-        private void DrawSpikes(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    5 * width,     //   - This rectangle specifies
-                    offset * 1,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
-        private void DrawStairs(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    0 * width,     //   - This rectangle specifies
-                    offset * 1,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
-        private void DrawHalfBlock(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    1 * width + 15,     //   - This rectangle specifies
-                    offset * 0,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
-        private void DrawDivider(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    2 * width + 30,     //   - This rectangle specifies
-                    offset * 0,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
-        private void DrawSlantCorner(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    3 * width + 45,     //   - This rectangle specifies
-                    offset * 0,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
-        private void DrawFullCorner(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    4 * width + 60,     //   - This rectangle specifies
-                    offset * 0,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
-        private void DrawBlackBlock(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    5 * width + 75,     //   - This rectangle specifies
-                    offset * 0,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
-        private void DrawTriangle(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    1 * width + 15,     //   - This rectangle specifies
-                    offset * 1,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
-        private void DrawPlatform(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    2 * width + 30,     //   - This rectangle specifies
-                    offset * 1,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
-        private void DrawLedge(SpriteEffects flipSprite, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                asset,                    // - The texture to draw
-                new Vector2(position.WorldPositionX, position.WorldPositionY),                       // - The location to draw on the screen
-                new Rectangle(                  // - The "source" rectangle
-                    3 * width + 45,     //   - This rectangle specifies
-                    offset * 1,           //	   where "inside" the texture
-                    width,             //     to get pixels (We don't want to
-                    height),           //     draw the whole thing)
-                Color.White,                    // - The color
-                0,                              // - Rotation (none currently)
-                Vector2.Zero,                   // - Origin inside the image (top left)
-                1.0f,                           // - Scale (100% - no change)
-                flipSprite,                     // - Can be used to flip the image
-                0);                             // - Layer depth (unused)
-        }
+        }        
     }
 }

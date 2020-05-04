@@ -35,6 +35,7 @@ namespace Dungeon_Crawlers
         private bool flagged = false;
 
         // Properties
+        // Tile manager is a singleton and so only 1 object is allowed to be instantiated
         public static TileManager Instance
         {
             get
@@ -46,7 +47,7 @@ namespace Dungeon_Crawlers
                 return mgrInstance;
             }
         }
-
+        // Let other classes access the interactable hitboxes created when the level is loaded 
         public List<Hitbox> TileHitBoxes
         {
             get
@@ -58,6 +59,7 @@ namespace Dungeon_Crawlers
             get { return enemyPickUps; }
         }
 
+        // Calculate the total width of the entire level from the X postion and width of the right most tile
         public int LevelWidth
         {
             get
@@ -87,6 +89,13 @@ namespace Dungeon_Crawlers
         public static TileManager mgrInstance;
 
         // Methods
+        /// <summary>
+        /// Loads in the tiles and flags that make up each of the games levels from a file
+        /// </summary>
+        /// <param name="tileTextures">Spritesheet with all of the tile textures</param>
+        /// <param name="charTextures">Spritesheet with the player and hero textures</param>
+        /// <param name="filename">Name of the file to load level from</param>
+        /// <param name="sequenceNum">What iterative section of the level to load</param>
         public void LoadLevel(Texture2D tileTextures, Texture2D charTextures, string filename, int sequenceNum)
         {
             StreamReader reader = null;
@@ -309,6 +318,7 @@ namespace Dungeon_Crawlers
                             position = new Hitbox(new Rectangle(j * tileWidth + (sequenceNum * MaxLevelSize), i * tileHeight - 26, enemyWidth, enemyHeight), BoxType.Hitbox);
                         }
 
+                        // Compile every created tile from the file into set lists to be used by other classes
                         if (position != null && type != TileType.Enemy)
                         {
                             tileHitboxes.Add(position);
@@ -337,6 +347,10 @@ namespace Dungeon_Crawlers
             }
         }
 
+        /// <summary>
+        /// Draws the foreground of the level which includes all the tiles and enemy pick-ups
+        /// </summary>
+        /// <param name="sb"></param>
         public void DrawLevel(SpriteBatch sb)
         {
             foreach (Tile tile in tiles)

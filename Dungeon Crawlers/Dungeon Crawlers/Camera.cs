@@ -34,10 +34,13 @@ namespace Dungeon_Crawlers
         }
 
         // Methods
+        /// <summary>
+        /// When the player moves from the center of the screen, move the camera along with the player to create a scrolling effect
+        /// </summary>
         public void Update()
         {
             levelWidth = TileManager.mgrInstance.LevelWidth;
-            center.X = playerPosition.WorldPositionX;// + playerPosition.Box.Width / 2;
+            center.X = playerPosition.WorldPositionX;
             if ((center.X - position.Width / 2) > 0 && (center.X + position.Width / 2) < levelWidth)
             {
                 position.X = (int)(center.X - position.Width / 2);
