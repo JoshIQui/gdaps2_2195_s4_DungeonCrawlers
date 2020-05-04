@@ -38,6 +38,12 @@ namespace Dungeon_Crawlers
         TileManager manager;
         Camera camera;
         Texture2D background;
+        Texture2D titleScreen;
+        Texture2D instructionScreen;
+        Texture2D pauseScreen;
+        Texture2D helpScreen;
+        Texture2D loseScreen;
+        Texture2D winScreen;
 
         List<Item> squareCollection = new List<Item>();
         
@@ -81,6 +87,14 @@ namespace Dungeon_Crawlers
             // TODO: use this.Content to load your game content here
             //Loads the title text
             titleFont = Content.Load<SpriteFont>("fonts/titleFont");
+
+            //Loads all the game state screens
+            titleScreen = Content.Load<Texture2D>("TitleScreen");
+            instructionScreen = Content.Load<Texture2D>("Instructions");
+            pauseScreen = Content.Load<Texture2D>("Pause");
+            helpScreen = Content.Load<Texture2D>("Help");
+            loseScreen = Content.Load<Texture2D>("Lose");
+            winScreen = Content.Load<Texture2D>("Win");
 
             //Loads the UI elements into the game
             uI = Content.Load<Texture2D>("UI-Spritesheet");
@@ -319,20 +333,14 @@ namespace Dungeon_Crawlers
             switch (StateManager.Instance.CurrentState)
             {
                 case GameState.Title:
-                    //Draws the title text
-                    spriteBatch.DrawString(titleFont, "Dungeon Crawlers", titlePosition, Color.OrangeRed);
-
-                    //Draws the instructions for starting the game
-                    spriteBatch.DrawString(titleFont, "Press ENTER to Start", new Vector2(500, 700), Color.OrangeRed);
-
+                    //Draws the title screen
+                    spriteBatch.Draw(titleScreen, new Vector2(0, 0));
                     break;
 
 
                 case GameState.Instructions:
-                    spriteBatch.DrawString(titleFont, "Objective: Defeat the hero by gathering as many enemies as possible and", new Vector2(500, 300), Color.OrangeRed);
-                    spriteBatch.DrawString(titleFont, "then fighting the hero with those enemies. The Hero is stronger so you", new Vector2(500, 325), Color.OrangeRed);
-                    spriteBatch.DrawString(titleFont, "can't defeat him alone!", new Vector2(500, 350), Color.OrangeRed);
-                    spriteBatch.DrawString(titleFont, "Click Enter to Continue", new Vector2(500, 800), Color.OrangeRed);
+                    //Draws the instruction screen
+                    spriteBatch.Draw(instructionScreen, new Vector2(0, 0));
                     break;
 
                 case GameState.Game:
@@ -367,27 +375,23 @@ namespace Dungeon_Crawlers
                     break;
 
                 case GameState.Pause:
-                    spriteBatch.DrawString(titleFont, "Click M to Go back To Menu", new Vector2(500, 700), Color.OrangeRed);
-                    spriteBatch.DrawString(titleFont, "Click H for Help", new Vector2(500, 750), Color.OrangeRed);
-                    spriteBatch.DrawString(titleFont, "Click R to Resume", new Vector2(500, 800), Color.OrangeRed);
+                    //Draws the pause screen
+                    spriteBatch.Draw(pauseScreen, new Vector2(0, 0));
                     break;
 
                 case GameState.Help:
-                    spriteBatch.DrawString(titleFont, "Click W to Jump", new Vector2(500, 300), Color.OrangeRed);
-                    spriteBatch.DrawString(titleFont, "Click A to move left", new Vector2(500, 350), Color.OrangeRed);
-                    spriteBatch.DrawString(titleFont, "Click D to move right", new Vector2(500, 400), Color.OrangeRed);
-                    spriteBatch.DrawString(titleFont, "Click Space to attack", new Vector2(500, 450), Color.OrangeRed);
-
-                    spriteBatch.DrawString(titleFont, "Click P to Go Back", new Vector2(500, 750), Color.OrangeRed);
-                    spriteBatch.DrawString(titleFont, "Click R to Resume", new Vector2(500, 800), Color.OrangeRed);
+                    //Draws the help screen
+                    spriteBatch.Draw(helpScreen, new Vector2(0, 0));
                     break;
 
                 case GameState.GameOver:
-                    spriteBatch.DrawString(titleFont, "You have lost the game!", titlePosition, Color.OrangeRed);
+                    //Draws the game over screen
+                    spriteBatch.Draw(loseScreen, new Vector2(0, 0));
                     break;
 
                 case GameState.Win:
-                    spriteBatch.DrawString(titleFont, "You have won the game!", titlePosition, Color.OrangeRed);
+                    //Draws the win screen
+                    spriteBatch.Draw(winScreen, new Vector2(0, 0));
                     break;
             }
 
