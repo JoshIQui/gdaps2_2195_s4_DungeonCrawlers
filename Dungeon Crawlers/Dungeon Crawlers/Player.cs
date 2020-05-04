@@ -312,22 +312,22 @@ namespace Dungeon_Crawlers
             switch (numEnemies)
             {
                 case 0:
-                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 720, 200, 40), Color.White);
+                    sb.Draw(uIAsset, new Vector2(5, 60), new Rectangle(0, 720, 200, 40), Color.White, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
                     break;
                 case 1:
-                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 675, 200, 40), Color.White);
+                    sb.Draw(uIAsset, new Vector2(5, 60), new Rectangle(0, 675, 200, 40), Color.White, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
                     break;
                 case 2:
-                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 630, 200, 40), Color.White);
+                    sb.Draw(uIAsset, new Vector2(5, 60), new Rectangle(0, 630, 200, 40), Color.White, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
                     break;
                 case 3:
-                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 585, 200, 40), Color.White);
+                    sb.Draw(uIAsset, new Vector2(5, 60), new Rectangle(0, 585, 200, 40), Color.White, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
                     break;
                 case 4:
-                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 540, 200, 40), Color.White);
+                    sb.Draw(uIAsset, new Vector2(5, 60), new Rectangle(0, 540, 200, 40), Color.White, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
                     break;
                 case 5:
-                    sb.Draw(uIAsset, new Vector2(5, 40), new Rectangle(0, 495, 200, 40), Color.White);
+                    sb.Draw(uIAsset, new Vector2(5, 60), new Rectangle(0, 495, 200, 40), Color.White, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
                     break;
             }
         }
@@ -522,7 +522,7 @@ namespace Dungeon_Crawlers
                     {
                         if (position.Box.Intersects(objects[i].Box))
                         {
-                            health-= 0.1;
+                            health-= 0.5;
                         }
                     }
                 }

@@ -37,6 +37,12 @@ namespace Dungeon_Crawlers
         List<Enemy> enemies = new List<Enemy>();
         TileManager manager;
         Camera camera;
+        Texture2D indoorBackground1;
+        Texture2D indoorBackground2;
+        Texture2D indoorBackground3;
+        Texture2D indoorBackground4;
+        Texture2D outsideBackground;
+        List<Hitbox> scrollingBackgrounds;
         Texture2D background;
         Texture2D titleScreen;
         Texture2D instructionScreen;
@@ -107,7 +113,16 @@ namespace Dungeon_Crawlers
             Hitbox playerBox = new Hitbox(new Rectangle(800, 700, 68, 92), BoxType.Hitbox);
             player = new Player(charTextures, uI, playerBox, screenWidth, screenHeight);
             camera = new Camera(player.Position, screenWidth, screenHeight);
-            background = Content.Load<Texture2D>("Outside Background");
+            outsideBackground = Content.Load<Texture2D>("Outside Background");
+            indoorBackground1 = Content.Load<Texture2D>("Indoor Background 1");
+            indoorBackground2 = Content.Load<Texture2D>("Indoor Background 2");
+            indoorBackground3 = Content.Load<Texture2D>("Indoor Background 3");
+            indoorBackground4 = Content.Load<Texture2D>("Indoor Background 4");
+            scrollingBackgrounds = new List<Hitbox>();
+            for (int i = 0; i < 4; i++)
+            {
+                scrollingBackgrounds.Add(new Hitbox(new Rectangle(i * 3648, 0, 3648, 900), BoxType.Hitbox));
+            }
 
             squareObject = Content.Load<Texture2D>("Square");
 
@@ -115,7 +130,7 @@ namespace Dungeon_Crawlers
             manager.LoadLevel(tileTextures, charTextures, "level01.txt", 0);
             manager.LoadLevel(tileTextures, charTextures, "level02.txt", 1);
             manager.LoadLevel(tileTextures, charTextures, "level03.txt", 2);
-            //manager.LoadLevel(tileTextures, charTextures, "level04.txt", 3);
+            manager.LoadLevel(tileTextures, charTextures, "level04.txt", 3);
             // Initializes collection of hitboxes
             hitBoxes = manager.TileHitBoxes;
             pickups = manager.EnemyPickUps;
@@ -344,7 +359,11 @@ namespace Dungeon_Crawlers
                     break;
 
                 case GameState.Game:
-                    spriteBatch.Draw(background, new Rectangle(0, -200, 1600, 1443), Color.White);
+                    spriteBatch.Draw(outsideBackground, new Rectangle(0, -200, 1600, 1443), Color.White);
+                    spriteBatch.Draw(indoorBackground1, new Vector2(scrollingBackgrounds[0].ScreenPositionX, scrollingBackgrounds[0].WorldPositionY), Color.LightGray);
+                    spriteBatch.Draw(indoorBackground2, new Vector2(scrollingBackgrounds[1].ScreenPositionX, scrollingBackgrounds[1].WorldPositionY), Color.LightGray);
+                    spriteBatch.Draw(indoorBackground3, new Vector2(scrollingBackgrounds[2].ScreenPositionX, scrollingBackgrounds[2].WorldPositionY), Color.LightGray);
+                    spriteBatch.Draw(indoorBackground4, new Vector2(scrollingBackgrounds[3].ScreenPositionX, scrollingBackgrounds[3].WorldPositionY), Color.LightGray);
                     manager.DrawLevel(spriteBatch);hero.Draw(spriteBatch);
                     player.Draw(spriteBatch);
                     foreach(Enemy enemy in enemies)
