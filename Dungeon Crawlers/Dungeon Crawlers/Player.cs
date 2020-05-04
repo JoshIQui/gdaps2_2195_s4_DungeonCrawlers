@@ -81,6 +81,7 @@ namespace Dungeon_Crawlers
         public PlayerState PlayerState
         {
             get { return playerState; }
+            set { playerState = value; }
         }
 
         // Constructor

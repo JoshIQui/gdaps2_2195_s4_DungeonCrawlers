@@ -145,9 +145,6 @@ namespace Dungeon_Crawlers
             tile2 = new Tile(tileTextures, tileBox2, TileType.Floor);
             hitBoxes.Add(tileBox2);
             */
-            Hitbox enemyBox = new Hitbox(new Rectangle(800, 700, 36 * 2, 45 * 2), BoxType.Hitbox);
-            enemy = new Enemy(charTextures, uI, enemyBox, screenWidth, screenHeight);
-            enemies.Add(enemy);
 
             /*Hitbox pickup1Box = new Hitbox(new Rectangle(1536, 550, 36 * 2, 45 * 2), BoxType.Hitbox);
             pickUp = new EnemyPickUp(charTextures, pickup1Box);
@@ -215,7 +212,7 @@ namespace Dungeon_Crawlers
                     if (kbState.IsKeyDown(Keys.Enter) && kbState != prevKbState)
                     {
                         //Start the game
-                        ResetGame(player, hero, enemy, pickups);
+                        ResetGame(player, hero, pickups);
                         StateManager.Instance.ChangeState(GameState.Game);
                     }
                     //If M is pressed
@@ -235,8 +232,6 @@ namespace Dungeon_Crawlers
                         StateManager.Instance.ChangeState(GameState.Pause);
                     }
                     hero.UpdateAnimation(gameTime);
-                    enemy.UpdateAnimation(gameTime);
-                    enemy.CheckCollision(hitBoxes);
                     player.CheckCollision(hitBoxes);                    
                     hero.logic(player, hitBoxes);
                     player.Update(gameTime);
@@ -420,21 +415,19 @@ namespace Dungeon_Crawlers
         }
 
         // Helper method that resets the game
-        private void ResetGame(Player player, Hero hero, Enemy enemy, List<EnemyPickUp> enemyPickUps)
+        private void ResetGame(Player player, Hero hero, List<EnemyPickUp> enemyPickUps)
         {
             // Reset Positions and health
             player.Position.WorldPositionX = 800;
             player.Position.WorldPositionY = 700;
             player.Health = 100;
             player.NumEnemies = 0;
+            player.PlayerState = PlayerState.FacingRight;
 
             hero.Position.WorldPositionX = 300;
             hero.Position.WorldPositionY = 700;
             hero.Health = 100;
 
-            enemy.Position.WorldPositionX = 800;
-            enemy.Position.WorldPositionY = 700;
-            enemy.Health = 100;
 
             foreach(EnemyPickUp p in enemyPickUps)
             {
