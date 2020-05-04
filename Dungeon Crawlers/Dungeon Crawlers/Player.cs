@@ -522,7 +522,7 @@ namespace Dungeon_Crawlers
                     {
                         if (position.Box.Intersects(objects[i].Box))
                         {
-                            health-= 0.1;
+                            health-= 0.5;
                         }
                     }
                 }

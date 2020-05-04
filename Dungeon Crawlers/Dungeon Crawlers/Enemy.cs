@@ -299,7 +299,7 @@ namespace Dungeon_Crawlers
                             position.WorldPositionY = objects[i].WorldPositionY - position.Box.Height;
                             canJump = true;
                         }
-                        else
+                        else // If enemy walks off tile let the enemy drop
                         {
                             canJump = false;
                         }
@@ -330,10 +330,6 @@ namespace Dungeon_Crawlers
                             health -= 0.1;
                         }
                     }
-                    /*if(objects[i].BoxType == BoxType.Flag && canJump)
-                    {
-                        isJumping = true;
-                    }*/
                 }
             }
         }
